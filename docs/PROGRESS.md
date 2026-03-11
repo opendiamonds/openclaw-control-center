@@ -1,5 +1,25 @@
 # Progress
 
+## Phase 135 (English overview health ring no longer collides in README or UI) — Completed
+- Scope:
+  - Fix the English `Health score` ring so the inner label does not crowd or visually collide with the score.
+  - Align the public English README hero image with the corrected UI treatment.
+- Changed files:
+  - `src/ui/server.ts`
+  - `test/ui-render-smoke.test.ts`
+  - `docs/assets/overview-hero-en.png`
+  - `.gitignore`
+  - `docs/PROGRESS.md`
+- Implementation:
+  - Shortened the English ring label from `Health score` to `Health` while keeping the full meaning in `aria-label`.
+  - Stabilized the inner ring layout with explicit two-row grid alignment, centered label text, and tighter bounds.
+  - Replaced the English README hero asset with a corrected version whose health ring matches the new English UI treatment.
+  - Ignored local screenshot-inspection and preview artifacts created while fixing the asset.
+- Verification:
+  - `npm run build`
+  - `npm test`
+  - `npm run smoke:ui`
+
 ## Phase 134 (GitHub README now defaults to Chinese, with English as an explicit switch) — Completed
 - Scope:
   - Make the public GitHub landing page default to Chinese instead of English.

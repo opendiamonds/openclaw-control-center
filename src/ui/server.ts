@@ -4510,7 +4510,9 @@ async function renderHtml(
           <div class="overview-focus-ring">
             <div class="overview-focus-core">
               <div class="overview-focus-score" data-counter-key="overview:focus-score" data-counter-target="${overviewFocusScore}" data-counter-format="int">${overviewFocusScore}</div>
-              <div class="overview-focus-unit">${escapeHtml(t("Health score", "健康分"))}</div>
+              <div class="overview-focus-unit" aria-label="${escapeHtml(t("Health score", "健康分"))}">${escapeHtml(
+                t("Health", "健康分"),
+              )}</div>
             </div>
           </div>
           <div class="overview-focus-copy">
@@ -5485,8 +5487,12 @@ async function renderHtml(
       background: rgba(255, 255, 255, 0.97);
       border: 1px solid rgba(16, 42, 67, 0.12);
       display: grid;
-      place-items: center;
+      grid-template-rows: auto auto;
+      justify-items: center;
       align-content: center;
+      gap: 3px;
+      padding: 8px 6px;
+      box-sizing: border-box;
     }
     .overview-focus-score {
       font-size: 28px;
@@ -5497,12 +5503,15 @@ async function renderHtml(
       font-variant-numeric: tabular-nums;
     }
     .overview-focus-unit {
-      margin-top: 2px;
-      font-size: 11px;
+      font-size: 10px;
       color: #6f7985;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       font-weight: 620;
+      line-height: 1.15;
+      text-align: center;
+      max-width: 56px;
+      text-wrap: balance;
     }
     .overview-focus-copy {
       min-width: 0;

@@ -347,6 +347,16 @@ test("heartbeat API routes are implemented in UI server", async () => {
   assert(source.includes("runTaskHeartbeat({ gate })"));
 });
 
+test("overview focus ring keeps a compact English label and stable inner layout", async () => {
+  const source = await readFile("src/ui/server.ts", "utf8");
+  assert(source.includes('aria-label="${escapeHtml(t("Health score", "健康分"))}"'));
+  assert(source.includes('t("Health", "健康分")'));
+  assert(source.includes("grid-template-rows: auto auto;"));
+  assert(source.includes("justify-items: center;"));
+  assert(source.includes("text-align: center;"));
+  assert(source.includes("max-width: 56px;"));
+});
+
 test("usage dashboard includes token type share and cron token share sections", async () => {
   const source = await readFile("src/ui/server.ts", "utf8");
   assert(source.includes("AI 用量构成（全部会话）"));

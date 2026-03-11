@@ -22,6 +22,8 @@ docs/mission.runbook.md
 docs/mission.sop.md
 init.sh
 docs/assets/*-tight.png
+docs/assets/*-preview*.png
+docs/assets/*-inspect*.png
 1440m
 180m
 720m
