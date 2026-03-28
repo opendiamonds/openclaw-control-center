@@ -214,9 +214,9 @@ const LONG_TERM_MEMORY_FILE_CANDIDATES = [
   join(OPENCLAW_HOME_DIR, "memory", "MEMORY.md"),
 ];
 const DOC_HUB_DIR_CANDIDATES = [
-  { dir: DOCS_DIR, category: "项目文档" },
-  { dir: join(process.cwd(), "runtime", "digests"), category: "日报文档" },
-  { dir: join(process.cwd(), "runtime", "evidence"), category: "证据报告" },
+  { dir: DOCS_DIR, category: "專案文件" },
+  { dir: join(process.cwd(), "runtime", "digests"), category: "日報文件" },
+  { dir: join(process.cwd(), "runtime", "evidence"), category: "證據報告" },
 ];
 const DOC_HUB_CHAT_INDEX_PATH = join(process.cwd(), "runtime", "doc-hub-chat.json");
 const HTML_HEAVY_CACHE_TTL_MS = 8_000;
@@ -1144,7 +1144,7 @@ export function startUiServer(port: number, toolClient: ToolClient, options: Sta
         ).join("");
         const docsHref = buildHomeHref({ quick: "all" }, true, "docs", language);
         const homeHref = buildHomeHref({ quick: "all" }, true, "overview", language);
-        const html = `<!doctype html><html><head><meta charset="utf-8" /><title>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 文档"))}</title></head><body><h1>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 文档"))}</h1><ul>${links}</ul><p><a href="${escapeHtml(docsHref)}">${escapeHtml(t("Open document workbench", "打开文档工作台"))}</a> · <a href="${escapeHtml(homeHref)}">${escapeHtml(t("Back to control center", "返回控制中心"))}</a></p></body></html>`;
+        const html = `<!doctype html><html><head><meta charset="utf-8" /><title>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 文件"))}</title></head><body><h1>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 文件"))}</h1><ul>${links}</ul><p><a href="${escapeHtml(docsHref)}">${escapeHtml(t("Open document workbench", "開啟文件工作臺"))}</a> · <a href="${escapeHtml(homeHref)}">${escapeHtml(t("Back to control center", "返回控制中心"))}</a></p></body></html>`;
         return writeText(res, 200, html, "text/html; charset=utf-8");
       }
 
@@ -2690,7 +2690,7 @@ export function startUiServer(port: number, toolClient: ToolClient, options: Sta
             name: catalogJob?.name ?? runtimeJob?.name ?? jobId,
             owner: catalogJob?.owner ?? formatExecutorAgentLabel("system-cron", language),
             purpose: catalogJob?.purpose ?? cronRuntimePurpose(jobId, language),
-            schedule: catalogJob?.scheduleLabel ?? pickUiText(language, "system interval", "系统间隔"),
+            schedule: catalogJob?.scheduleLabel ?? pickUiText(language, "system interval", "系統間隔"),
             status: runtimeJob ? runtimeJob.health : catalogJob?.enabled ? "enabled" : "disabled",
             nextRunAt: runtimeJob?.nextRunAt ?? "-",
             dueInSeconds: runtimeJob?.dueInSeconds,
@@ -3150,27 +3150,27 @@ function delay(ms: number): Promise<void> {
 function globalVisibilityCopy(language: UiLanguage): GlobalVisibilityCopy {
   if (language === "zh") {
     return {
-      title: "全局总览",
-      summary: "一眼看四件事：定时任务、任务心跳、当前任务、工具调用。",
-      scheduleLabel: "定时任务：",
-      heartbeatLabel: "任务心跳：",
-      currentTasksLabel: "当前任务：",
-      toolCallsLabel: "工具调用：",
-      scheduleLinkLabel: "查看定时任务",
-      heartbeatLinkLabel: "查看任务心跳",
-      currentTasksLinkLabel: "查看当前任务",
-      toolCallsLinkLabel: "查看工具调用",
+      title: "全域性總覽",
+      summary: "一眼看四件事：定時任務、任務心跳、當前任務、工具呼叫。",
+      scheduleLabel: "定時任務：",
+      heartbeatLabel: "任務心跳：",
+      currentTasksLabel: "當前任務：",
+      toolCallsLabel: "工具呼叫：",
+      scheduleLinkLabel: "檢視定時任務",
+      heartbeatLinkLabel: "檢視任務心跳",
+      currentTasksLinkLabel: "檢視當前任務",
+      toolCallsLinkLabel: "檢視工具呼叫",
       doneLabel: "已完成",
       notDoneLabel: "未完成",
-      taskTypeLabel: "类型",
-      taskNameLabel: "事项",
-      executorLabel: "智能体",
-      currentActionLabel: "正在做什么",
-      nextRunLabel: "下次检查",
-      latestResultLabel: "最近结果",
-      statusLabel: "状态",
+      taskTypeLabel: "型別",
+      taskNameLabel: "事項",
+      executorLabel: "智慧體",
+      currentActionLabel: "正在做什麼",
+      nextRunLabel: "下次檢查",
+      latestResultLabel: "最近結果",
+      statusLabel: "狀態",
       nextActionLabel: "下一步",
-      detailsLabel: "详情",
+      detailsLabel: "詳情",
       doneStatusText: "已完成",
       notDoneStatusText: "未完成",
     };
@@ -3205,9 +3205,9 @@ function globalVisibilityCopy(language: UiLanguage): GlobalVisibilityCopy {
 
 function formatExecutorAgentLabel(agentId: string, language: UiLanguage): string {
   const normalized = agentId.trim().toLowerCase();
-  if (!normalized || normalized === "system") return pickUiText(language, "System service", "系统服务");
-  if (normalized === "system-cron") return pickUiText(language, "Scheduler", "调度器");
-  if (normalized === "task-heartbeat-worker") return pickUiText(language, "Heartbeat service", "任务心跳服务");
+  if (!normalized || normalized === "system") return pickUiText(language, "System service", "系統服務");
+  if (normalized === "system-cron") return pickUiText(language, "Scheduler", "排程器");
+  if (normalized === "task-heartbeat-worker") return pickUiText(language, "Heartbeat service", "任務心跳服務");
   return humanizeOperatorLabel(agentId);
 }
 
@@ -3230,7 +3230,7 @@ function normalizeInlineText(input: string): string {
 
 function sanitizeCronPurposeText(input: string, language: UiLanguage, maxLength = 72): string {
   const normalized = normalizeInlineText(input);
-  if (!normalized) return pickUiText(language, "No purpose description.", "未提供任务目的。");
+  if (!normalized) return pickUiText(language, "No purpose description.", "未提供任務目的。");
   const lower = normalized.toLowerCase();
   if (
     lower.includes("run exactly one command via exec tool") ||
@@ -3239,18 +3239,18 @@ function sanitizeCronPurposeText(input: string, language: UiLanguage, maxLength 
     lower.includes("/opt/homebrew/") ||
     lower.includes("/users/")
   ) {
-    return pickUiText(language, "Run one automation script and update status.", "执行一次自动化脚本并更新状态。");
+    return pickUiText(language, "Run one automation script and update status.", "執行一次自動化指令碼並更新狀態。");
   }
   return safeTruncate(normalized, maxLength);
 }
 
 function summarizeCronCommandPurpose(command: string, language: UiLanguage): string {
   const normalized = command.trim().toLowerCase();
-  if (!normalized) return pickUiText(language, "Run scheduled command.", "执行定时命令。");
-  if (normalized.includes("node")) return pickUiText(language, "Run Node automation script.", "运行 Node 自动化脚本。");
-  if (normalized.includes("python")) return pickUiText(language, "Run Python automation script.", "运行 Python 自动化脚本。");
-  if (normalized.includes("curl")) return pickUiText(language, "Fetch external data and update status.", "拉取外部数据并更新状态。");
-  return pickUiText(language, "Run scheduled command.", "执行定时命令。");
+  if (!normalized) return pickUiText(language, "Run scheduled command.", "執行定時命令。");
+  if (normalized.includes("node")) return pickUiText(language, "Run Node automation script.", "執行 Node 自動化指令碼。");
+  if (normalized.includes("python")) return pickUiText(language, "Run Python automation script.", "執行 Python 自動化指令碼。");
+  if (normalized.includes("curl")) return pickUiText(language, "Fetch external data and update status.", "拉取外部資料並更新狀態。");
+  return pickUiText(language, "Run scheduled command.", "執行定時命令。");
 }
 
 function parseSessionTargetOwner(value: string | undefined): string | undefined {
@@ -3270,21 +3270,21 @@ function cronRuntimePurpose(jobId: string, language: UiLanguage): string {
     return pickUiText(
       language,
       "Scan assigned backlog and trigger heartbeat pickup.",
-      "扫描已分配待办任务，并按心跳规则推进。",
+      "掃描已分配待辦任務，並按心跳規則推進。",
     );
   }
   if (id.includes("monitor")) {
     return pickUiText(
       language,
       "Refresh runtime snapshot and keep dashboard state updated.",
-      "刷新运行时快照，保持控制中心数据更新。",
+      "重新整理執行時快照，保持控制中心資料更新。",
     );
   }
-  return pickUiText(language, "Run scheduled system checks.", "执行系统定时检查。");
+  return pickUiText(language, "Run scheduled system checks.", "執行系統定時檢查。");
 }
 
 function cronPayloadPurpose(payload: Record<string, unknown> | undefined, language: UiLanguage): string {
-  if (!payload) return pickUiText(language, "No purpose description.", "未提供任务目的。");
+  if (!payload) return pickUiText(language, "No purpose description.", "未提供任務目的。");
   const kind = typeof payload.kind === "string" ? payload.kind.trim() : "";
   if (kind === "agentTurn" && typeof payload.message === "string" && payload.message.trim()) {
     return sanitizeCronPurposeText(payload.message, language);
@@ -3298,16 +3298,16 @@ function cronPayloadPurpose(payload: Record<string, unknown> | undefined, langua
   if (typeof payload.message === "string" && payload.message.trim()) {
     return sanitizeCronPurposeText(payload.message, language);
   }
-  return pickUiText(language, "No purpose description.", "未提供任务目的。");
+  return pickUiText(language, "No purpose description.", "未提供任務目的。");
 }
 
 function cronPayloadOwner(payload: Record<string, unknown> | undefined, language: UiLanguage): string {
-  if (!payload) return pickUiText(language, "Scheduler", "调度器");
+  if (!payload) return pickUiText(language, "Scheduler", "排程器");
   const ownerAgentId = cronPayloadOwnerAgentId(payload);
   if (ownerAgentId) return humanizeOperatorLabel(ownerAgentId);
   const sessionOwner = parseSessionTargetOwner(typeof payload.sessionTarget === "string" ? payload.sessionTarget : undefined);
   if (sessionOwner) return humanizeOperatorLabel(sessionOwner);
-  return pickUiText(language, "Scheduler", "调度器");
+  return pickUiText(language, "Scheduler", "排程器");
 }
 
 function cronPayloadOwnerAgentId(payload: Record<string, unknown> | undefined): string | undefined {
@@ -3333,7 +3333,7 @@ function cronScheduleLabel(schedule: Record<string, unknown> | undefined, langua
       const seconds = Math.round(everyMs / 1000);
       return pickUiText(language, `every ${seconds}s`, `每 ${seconds} 秒`);
     }
-    return pickUiText(language, "interval", "间隔");
+    return pickUiText(language, "interval", "間隔");
   }
   if (kind === "every") {
     const everyMs = typeof schedule.everyMs === "number" && Number.isFinite(schedule.everyMs)
@@ -3351,9 +3351,9 @@ function cronScheduleLabel(schedule: Record<string, unknown> | undefined, langua
 function displayCronScheduleLabel(scheduleLabel: string, language: UiLanguage): string {
   const normalized = scheduleLabel.trim().toLowerCase();
   if (!normalized || normalized === "-") return pickUiText(language, "Not scheduled", "未排程");
-  if (normalized.startsWith("cron ")) return pickUiText(language, "Fixed schedule", "固定时间表");
+  if (normalized.startsWith("cron ")) return pickUiText(language, "Fixed schedule", "固定時間表");
   if (normalized.startsWith("every") || normalized.startsWith("每 ")) return scheduleLabel;
-  if (normalized === "system interval") return pickUiText(language, "System interval", "系统间隔");
+  if (normalized === "system interval") return pickUiText(language, "System interval", "系統間隔");
   return safeTruncate(scheduleLabel, 18);
 }
 
@@ -3366,25 +3366,25 @@ function summarizeNames(items: string[], language: UiLanguage, emptyLabel: strin
 function cronHealthLabel(health: string, language: UiLanguage): string {
   const normalized = health.trim().toLowerCase();
   if (normalized === "scheduled") return pickUiText(language, "Scheduled", "已排程");
-  if (normalized === "due") return pickUiText(language, "Due", "到点待执行");
-  if (normalized === "late") return pickUiText(language, "Late", "执行延迟");
-  if (normalized === "disabled") return pickUiText(language, "Disabled", "未启用");
-  if (normalized === "enabled") return pickUiText(language, "Enabled", "已启用");
+  if (normalized === "due") return pickUiText(language, "Due", "到點待執行");
+  if (normalized === "late") return pickUiText(language, "Late", "執行延遲");
+  if (normalized === "disabled") return pickUiText(language, "Disabled", "未啟用");
+  if (normalized === "enabled") return pickUiText(language, "Enabled", "已啟用");
   return pickUiText(language, "Unknown", "未知");
 }
 
 function heartbeatModeLabel(mode: string, language: UiLanguage): string {
   const normalized = mode.trim().toLowerCase();
-  if (normalized === "dry_run" || normalized === "dry-run") return pickUiText(language, "Dry run", "演练");
-  if (normalized === "live" || normalized === "execute") return pickUiText(language, "Live", "执行");
+  if (normalized === "dry_run" || normalized === "dry-run") return pickUiText(language, "Dry run", "演練");
+  if (normalized === "live" || normalized === "execute") return pickUiText(language, "Live", "執行");
   return mode;
 }
 
 function sessionStateLabel(state: AgentRunState): string {
-  if (state === "running") return "执行中";
-  if (state === "waiting_approval") return "待审批";
+  if (state === "running") return "執行中";
+  if (state === "waiting_approval") return "待審批";
   if (state === "blocked") return "阻塞";
-  if (state === "error") return "异常";
+  if (state === "error") return "異常";
   return "待命";
 }
 
@@ -3534,19 +3534,19 @@ async function buildGlobalVisibilityViewModel(
   const latestHeartbeatRun = (await readTaskHeartbeatRuns(1)).runs[0];
   const cronTaskName =
     enabledCronCount > 0
-      ? pickUiText(language, `${enabledCronCount} jobs enabled`, `已启用 ${enabledCronCount} 个任务`)
-      : pickUiText(language, "No timed jobs", "暂无定时任务");
+      ? pickUiText(language, `${enabledCronCount} jobs enabled`, `已啟用 ${enabledCronCount} 個任務`)
+      : pickUiText(language, "No timed jobs", "暫無定時任務");
   const cronOwner =
     enabledOpenclawCronJobs.length > 0
       ? summarizeNames(
           enabledOpenclawCronJobs.map((job) => job.owner),
           language,
-          pickUiText(language, "Scheduler", "调度器"),
+          pickUiText(language, "Scheduler", "排程器"),
         )
       : formatExecutorAgentLabel("system-cron", language);
   const cronPurpose =
     (enabledOpenclawCronJobs[0]?.purpose ? sanitizeCronPurposeText(enabledOpenclawCronJobs[0]?.purpose, language, 56) : "") ||
-    (enabledRuntimeCronJobs[0] ? cronRuntimePurpose(enabledRuntimeCronJobs[0].jobId, language) : pickUiText(language, "No timed job is running.", "当前没有定时任务在运行。"));
+    (enabledRuntimeCronJobs[0] ? cronRuntimePurpose(enabledRuntimeCronJobs[0].jobId, language) : pickUiText(language, "No timed job is running.", "當前沒有定時任務在執行。"));
   const cronNextRun =
     nonHeartbeatRuntimeCronJobs.find((job) => job.enabled)?.nextRunAt ??
     cronOverview.nextRunAt ??
@@ -3555,121 +3555,121 @@ async function buildGlobalVisibilityViewModel(
     heartbeatJobs.find((job) => job.enabled)?.nextRunAt ??
     heartbeatJobs[0]?.nextRunAt ??
     pickUiText(language, "Not scheduled", "未排程");
-  const heartbeatTaskName = pickUiText(language, "Task heartbeat service", "任务心跳服务");
+  const heartbeatTaskName = pickUiText(language, "Task heartbeat service", "任務心跳服務");
   const heartbeatLatestResult = heartbeatEnabled
     ? latestHeartbeatRun
       ? pickUiText(
           language,
           `Last heartbeat: selected ${latestHeartbeatRun.selected} tasks, started ${latestHeartbeatRun.executed}.`,
-          `最近心跳：挑出 ${latestHeartbeatRun.selected} 个任务，启动 ${latestHeartbeatRun.executed} 个。`,
+          `最近心跳：挑出 ${latestHeartbeatRun.selected} 個任務，啟動 ${latestHeartbeatRun.executed} 個。`,
         )
       : pickUiText(
           language,
           `Active heartbeat checks: ${enabledHeartbeatCount}.`,
-          `已开启任务心跳：${enabledHeartbeatCount} 个。`,
+          `已開啟任務心跳：${enabledHeartbeatCount} 個。`,
         )
-    : pickUiText(language, "No heartbeat check yet.", "还没有任务心跳记录。");
+    : pickUiText(language, "No heartbeat check yet.", "還沒有任務心跳記錄。");
   const heartbeatPurpose = pickUiText(
     language,
     "Check assigned tasks and start the picked ones.",
-    "检查已分配任务，并启动挑中的任务。",
+    "檢查已分配任務，並啟動挑中的任務。",
   );
   const scheduleReady = enabledCronCount > 0;
 
   const rows: GlobalVisibilityTaskRow[] = [
     {
       taskType: "cron",
-      taskTypeLabel: pickUiText(language, "Timed jobs", "定时任务"),
+      taskTypeLabel: pickUiText(language, "Timed jobs", "定時任務"),
       taskName: cronTaskName,
       executor: cronOwner,
       currentAction: scheduleReady
-        ? pickUiText(language, `Now running: ${cronPurpose}`, `正在执行：${cronPurpose}`)
-        : pickUiText(language, "Timed jobs are off.", "还没有设置定时任务。"),
+        ? pickUiText(language, `Now running: ${cronPurpose}`, `正在執行：${cronPurpose}`)
+        : pickUiText(language, "Timed jobs are off.", "還沒有設定定時任務。"),
       nextRun: cronNextRun,
       latestResult: scheduleReady
         ? pickUiText(
           language,
           `Active timed jobs: ${enabledCronCount}.`,
-          `已开启定时任务：${enabledCronCount} 个。`,
+          `已開啟定時任務：${enabledCronCount} 個。`,
         )
-        : pickUiText(language, "No timed job yet.", "还没有定时任务记录。"),
+        : pickUiText(language, "No timed job yet.", "還沒有定時任務記錄。"),
       status: scheduleReady ? "done" : "not_done",
       nextAction: scheduleReady
-        ? pickUiText(language, "Keep timed jobs on and keep each job goal clear.", "保持定时任务开启，并确认每个任务目标清楚。")
-        : pickUiText(language, "Turn on one timed job.", "先添加一个定时任务。"),
+        ? pickUiText(language, "Keep timed jobs on and keep each job goal clear.", "保持定時任務開啟，並確認每個任務目標清楚。")
+        : pickUiText(language, "Turn on one timed job.", "先新增一個定時任務。"),
       detailsHref: buildGlobalVisibilityDetailHref("cron", language),
-      detailsLabel: pickUiText(language, "See timed jobs", "查看定时任务"),
+      detailsLabel: pickUiText(language, "See timed jobs", "檢視定時任務"),
     },
     {
       taskType: "heartbeat",
-      taskTypeLabel: pickUiText(language, "Heartbeat", "任务心跳"),
+      taskTypeLabel: pickUiText(language, "Heartbeat", "任務心跳"),
       taskName: heartbeatTaskName,
       executor: formatExecutorAgentLabel("task-heartbeat-worker", language),
       currentAction: heartbeatEnabled
-        ? pickUiText(language, `Heartbeat is on: ${heartbeatPurpose}`, `任务心跳已开启：${heartbeatPurpose}`)
-        : pickUiText(language, "Heartbeat is off.", "还没有设置任务心跳。"),
+        ? pickUiText(language, `Heartbeat is on: ${heartbeatPurpose}`, `任務心跳已開啟：${heartbeatPurpose}`)
+        : pickUiText(language, "Heartbeat is off.", "還沒有設定任務心跳。"),
       nextRun: heartbeatNextRun,
       latestResult: heartbeatLatestResult,
       status: heartbeatEnabled ? "done" : "not_done",
       nextAction: heartbeatEnabled
-        ? pickUiText(language, "Check picked tasks and confirm the choices look right.", "查看挑出的任务，确认挑选结果是否合理。")
-        : pickUiText(language, "Turn on heartbeat.", "在定时任务里开启心跳。"),
+        ? pickUiText(language, "Check picked tasks and confirm the choices look right.", "檢視挑出的任務，確認挑選結果是否合理。")
+        : pickUiText(language, "Turn on heartbeat.", "在定時任務裡開啟心跳。"),
       detailsHref: buildGlobalVisibilityDetailHref("heartbeat", language),
-      detailsLabel: pickUiText(language, "See heartbeat checks", "查看任务心跳"),
+      detailsLabel: pickUiText(language, "See heartbeat checks", "檢視任務心跳"),
     },
     {
       taskType: "current_task",
-      taskTypeLabel: pickUiText(language, "Current tasks", "当前任务"),
-      taskName: pickUiText(language, "Current tasks", "当前任务"),
-      executor: pickUiText(language, "Task owners", "任务智能体"),
+      taskTypeLabel: pickUiText(language, "Current tasks", "當前任務"),
+      taskName: pickUiText(language, "Current tasks", "當前任務"),
+      executor: pickUiText(language, "Task owners", "任務智慧體"),
       currentAction:
         currentTasksCount > 0
           ? hasWeakEvidence
-            ? pickUiText(language, "Some current tasks still need follow-up.", "有些当前任务还需要继续跟进。")
-            : pickUiText(language, "Current tasks are visible in runtime.", "当前任务已经能在运行时里看见。")
-          : pickUiText(language, "No current task signal is visible now.", "当前还没有看见任务执行信号。"),
-      nextRun: pickUiText(language, "Live update", "实时更新"),
+            ? pickUiText(language, "Some current tasks still need follow-up.", "有些當前任務還需要繼續跟進。")
+            : pickUiText(language, "Current tasks are visible in runtime.", "當前任務已經能在執行時裡看見。")
+          : pickUiText(language, "No current task signal is visible now.", "當前還沒有看見任務執行訊號。"),
+      nextRun: pickUiText(language, "Live update", "實時更新"),
       latestResult:
         currentTasksCount > 0
           ? hasWeakEvidence
             ? pickUiText(
                 language,
                 `${strongTaskEvidenceCount} confirmed live, ${followupTaskEvidenceCount} need follow-up, ${weakTaskEvidenceCount} need inspection.`,
-                `${strongTaskEvidenceCount} 个已确认在跑，${followupTaskEvidenceCount} 个需跟进，${weakTaskEvidenceCount} 个需排查。`,
+                `${strongTaskEvidenceCount} 個已確認在跑，${followupTaskEvidenceCount} 個需跟進，${weakTaskEvidenceCount} 個需排查。`,
               )
-            : pickUiText(language, `${currentTasksCount} current tasks are backed by runtime signals.`, `${currentTasksCount} 个当前任务已有运行信号支撑。`)
-          : pickUiText(language, "No current task signal yet.", "当前还没有任务执行信号。"),
+            : pickUiText(language, `${currentTasksCount} current tasks are backed by runtime signals.`, `${currentTasksCount} 個當前任務已有執行訊號支撐。`)
+          : pickUiText(language, "No current task signal yet.", "當前還沒有任務執行訊號。"),
       status: currentTasksCount > 0 && !hasWeakEvidence ? "done" : "not_done",
       nextAction:
         currentTasksCount > 0
           ? hasWeakEvidence
-            ? pickUiText(language, "Open current tasks and inspect the follow-up items first.", "打开当前任务，先检查需要跟进的项。")
-            : pickUiText(language, "Keep following the runtime signals.", "继续盯住运行时信号即可。")
-          : pickUiText(language, "Start one task and let runtime evidence appear first.", "先启动一个任务，让运行证据出现。"),
+            ? pickUiText(language, "Open current tasks and inspect the follow-up items first.", "開啟當前任務，先檢查需要跟進的項。")
+            : pickUiText(language, "Keep following the runtime signals.", "繼續盯住執行時訊號即可。")
+          : pickUiText(language, "Start one task and let runtime evidence appear first.", "先啟動一個任務，讓執行證據出現。"),
       detailsHref: buildGlobalVisibilityDetailHref("current_task", language),
-      detailsLabel: pickUiText(language, "See current tasks", "查看当前任务"),
+      detailsLabel: pickUiText(language, "See current tasks", "檢視當前任務"),
     },
     {
       taskType: "tool_call",
-      taskTypeLabel: pickUiText(language, "Tool calls", "工具调用"),
-      taskName: pickUiText(language, "Tool calls", "工具调用"),
-      executor: pickUiText(language, "Active sessions", "活跃会话"),
+      taskTypeLabel: pickUiText(language, "Tool calls", "工具呼叫"),
+      taskName: pickUiText(language, "Tool calls", "工具呼叫"),
+      executor: pickUiText(language, "Active sessions", "活躍會話"),
       currentAction:
         toolCallsCount > 0
           ? pickUiText(language, "Tools were used recently.", "最近有工具在使用。")
-          : pickUiText(language, "No tool use yet.", "最近没有工具在使用。"),
-      nextRun: pickUiText(language, "Live update", "实时更新"),
+          : pickUiText(language, "No tool use yet.", "最近沒有工具在使用。"),
+      nextRun: pickUiText(language, "Live update", "實時更新"),
       latestResult:
         toolCallsCount > 0
-          ? pickUiText(language, `Tool calls in recent activity: ${toolCallsCount}.`, `最近工具调用：${toolCallsCount} 次。`)
-          : pickUiText(language, "No tool calls yet.", "尚无工具调用记录。"),
+          ? pickUiText(language, `Tool calls in recent activity: ${toolCallsCount}.`, `最近工具呼叫：${toolCallsCount} 次。`)
+          : pickUiText(language, "No tool calls yet.", "尚無工具呼叫記錄。"),
       status: toolCallsCount > 0 ? "done" : "not_done",
       nextAction:
         toolCallsCount > 0
-          ? pickUiText(language, "Review results and keep going.", "看下结果后继续。")
-          : pickUiText(language, "Run one small tool step.", "先跑一次小工具步骤。"),
+          ? pickUiText(language, "Review results and keep going.", "看下結果後繼續。")
+          : pickUiText(language, "Run one small tool step.", "先跑一次小工具步驟。"),
       detailsHref: buildGlobalVisibilityDetailHref("tool_call", language),
-      detailsLabel: pickUiText(language, "See tool calls", "查看工具调用"),
+      detailsLabel: pickUiText(language, "See tool calls", "檢視工具呼叫"),
     },
   ];
 
@@ -3681,7 +3681,7 @@ async function buildGlobalVisibilityViewModel(
     noTaskMessage: pickUiText(
       language,
       "No timed jobs, heartbeat, current tasks, or tool calls yet.",
-      "暂无定时任务、任务心跳、当前任务或工具调用。",
+      "暫無定時任務、任務心跳、當前任務或工具呼叫。",
     ),
     signalCounts: {
       schedule: enabledCronCount,
@@ -3697,30 +3697,30 @@ function dashboardSectionLinks(language: UiLanguage): DashboardSectionLink[] {
     if (language !== "zh") return item;
 
     if (item.key === "overview") {
-      return { ...item, label: "总览", blurb: "今天重点" };
+      return { ...item, label: "總覽", blurb: "今天重點" };
     }
     if (item.key === "team") {
-      return { ...item, label: "员工", blurb: "员工、分工与职责" };
+      return { ...item, label: "員工", blurb: "員工、分工與職責" };
     }
     if (item.key === "collaboration") {
-      return { ...item, label: "协作", blurb: "智能体交接与协同" };
+      return { ...item, label: "協作", blurb: "智慧體交接與協同" };
     }
     if (item.key === "hall-chat") {
       return { ...item, label: "群聊", blurb: "共享大厅群聊" };
     }
     if (item.key === "memory") {
-      return { ...item, label: "记忆", blurb: "每日与长期记忆" };
+      return { ...item, label: "記憶", blurb: "每日與長期記憶" };
     }
     if (item.key === "docs") {
-      return { ...item, label: "文档", blurb: "Main 与当前启用智能体核心文档" };
+      return { ...item, label: "文件", blurb: "Main 與當前啟用智慧體核心文件" };
     }
     if (item.key === "usage-cost") {
-      return { ...item, label: "用量", blurb: "预算与额度" };
+      return { ...item, label: "用量", blurb: "預算與額度" };
     }
     if (item.key === "projects-tasks") {
-      return { ...item, label: "任务", blurb: "任务、排程与活动" };
+      return { ...item, label: "任務", blurb: "任務、排程與活動" };
     }
-    return { ...item, label: "设置", blurb: "安全与数据连接" };
+    return { ...item, label: "設定", blurb: "安全與資料連線" };
   });
 }
 
@@ -3750,7 +3750,7 @@ function renderGlobalVisibilityStrip(model: GlobalVisibilityViewModel, language:
   const heartbeatHref = heartbeatRow?.detailsHref ?? buildGlobalVisibilityDetailHref("heartbeat", language);
   const currentTasksHref = currentTasksRow?.detailsHref ?? buildGlobalVisibilityDetailHref("current_task", language);
   const toolCallsHref = toolCallsRow?.detailsHref ?? buildGlobalVisibilityDetailHref("tool_call", language);
-  const noSignalText = pickUiText(language, "No update yet.", "暂无更新。");
+  const noSignalText = pickUiText(language, "No update yet.", "暫無更新。");
   const scheduleSignalText = scheduleRow?.currentAction ?? noSignalText;
   const heartbeatSignalText = heartbeatRow?.currentAction ?? noSignalText;
   const currentTasksSignalText = currentTasksRow?.currentAction ?? noSignalText;
@@ -3920,7 +3920,7 @@ function renderGlobalVisibilityStripCard(model: GlobalVisibilityViewModel, langu
 
 function insightStatusLabel(status: OpenClawInsightStatus, language: UiLanguage): string {
   if (status === "ok") return pickUiText(language, "Healthy", "正常");
-  if (status === "warn") return pickUiText(language, "Attention", "需关注");
+  if (status === "warn") return pickUiText(language, "Attention", "需關注");
   if (status === "blocked") return pickUiText(language, "Blocked", "阻塞");
   if (status === "info") return pickUiText(language, "Partial", "部分可用");
   return pickUiText(language, "Unknown", "未知");
@@ -3948,64 +3948,64 @@ function connectorInsightStatus(snapshot: UsageCostSnapshot, language: UiLanguag
   const missingCount = totalCount - connectedCount;
 
   const connectorGapLabel = (id: string): string => {
-    if (id === "subscription_usage") return pickUiText(language, "subscription / billing snapshot", "订阅 / 账单快照");
-    if (id === "cost_budget_limit") return pickUiText(language, "budget limit", "预算限额");
-    if (id === "request_counter") return pickUiText(language, "request counts", "请求计数");
-    if (id === "digest_history") return pickUiText(language, "trend history", "趋势历史");
+    if (id === "subscription_usage") return pickUiText(language, "subscription / billing snapshot", "訂閱 / 賬單快照");
+    if (id === "cost_budget_limit") return pickUiText(language, "budget limit", "預算限額");
+    if (id === "request_counter") return pickUiText(language, "request counts", "請求計數");
+    if (id === "digest_history") return pickUiText(language, "trend history", "趨勢歷史");
     if (id === "context_catalog") return pickUiText(language, "context capacity", "上下文容量");
-    if (id === "provider_mapping") return pickUiText(language, "model provider attribution", "模型供应商归因");
-    return pickUiText(language, "usage data", "用量数据");
+    if (id === "provider_mapping") return pickUiText(language, "model provider attribution", "模型供應商歸因");
+    return pickUiText(language, "usage data", "用量資料");
   };
 
   const connectorGapImpact = (id: string): string => {
     if (id === "subscription_usage") {
-      return pickUiText(language, "Quota windows will show estimated or disconnected states.", "额度窗口会显示估算或未连接。");
+      return pickUiText(language, "Quota windows will show estimated or disconnected states.", "額度視窗會顯示估算或未連線。");
     }
     if (id === "cost_budget_limit") {
-      return pickUiText(language, "Budget risk can only use spend so far, not a real limit.", "预算风险只能看已花金额，暂时还不能按上限预警。");
+      return pickUiText(language, "Budget risk can only use spend so far, not a real limit.", "預算風險只能看已花金額，暫時還不能按上限預警。");
     }
     if (id === "request_counter") {
-      return pickUiText(language, "Request counts and parts of trend history will stay incomplete.", "请求次数和部分趋势会不完整。");
+      return pickUiText(language, "Request counts and parts of trend history will stay incomplete.", "請求次數和部分趨勢會不完整。");
     }
     if (id === "digest_history") {
-      return pickUiText(language, "7d / 30d trends will stay incomplete.", "7 天 / 30 天趋势会不完整。");
+      return pickUiText(language, "7d / 30d trends will stay incomplete.", "7 天 / 30 天趨勢會不完整。");
     }
     if (id === "context_catalog") {
-      return pickUiText(language, "Context pressure will miss full capacity data.", "上下文压力会缺少完整容量信息。");
+      return pickUiText(language, "Context pressure will miss full capacity data.", "上下文壓力會缺少完整容量資訊。");
     }
     if (id === "provider_mapping") {
-      return pickUiText(language, "Some attribution will stay under “Unknown provider”.", "部分归因会落到“未知供应商”。");
+      return pickUiText(language, "Some attribution will stay under “Unknown provider”.", "部分歸因會落到“未知供應商”。");
     }
-    return pickUiText(language, "Some usage panels will stay incomplete.", "部分用量面板会不完整。");
+    return pickUiText(language, "Some usage panels will stay incomplete.", "部分用量面板會不完整。");
   };
 
   const connectorGapAction = (id: string): string => {
     if (id === "subscription_usage") {
-      return pickUiText(language, "Open Settings and connect the subscription or billing snapshot.", "去设置页补上订阅或账单快照即可。");
+      return pickUiText(language, "Open Settings and connect the subscription or billing snapshot.", "去設定頁補上訂閱或賬單快照即可。");
     }
     if (id === "cost_budget_limit") {
-      return pickUiText(language, "Open Settings and add a budget limit.", "去设置页补上预算限额即可。");
+      return pickUiText(language, "Open Settings and add a budget limit.", "去設定頁補上預算限額即可。");
     }
     if (id === "request_counter") {
-      return pickUiText(language, "Open Settings and connect the request-count source.", "去设置页按建议接通请求计数源即可。");
+      return pickUiText(language, "Open Settings and connect the request-count source.", "去設定頁按建議接通請求計數源即可。");
     }
     if (id === "digest_history") {
-      return pickUiText(language, "Keep monitoring running, or use Settings to complete trend history.", "保持监控持续运行，或按设置页建议补齐趋势历史即可。");
+      return pickUiText(language, "Keep monitoring running, or use Settings to complete trend history.", "保持監控持續執行，或按設定頁建議補齊趨勢歷史即可。");
     }
     if (id === "context_catalog") {
-      return pickUiText(language, "Open Settings and connect model context capacity data.", "去设置页补上模型上下文容量数据即可。");
+      return pickUiText(language, "Open Settings and connect model context capacity data.", "去設定頁補上模型上下文容量資料即可。");
     }
     if (id === "provider_mapping") {
-      return pickUiText(language, "Open Settings and complete the model-to-provider mapping.", "去设置页补上模型到供应商的映射即可。");
+      return pickUiText(language, "Open Settings and complete the model-to-provider mapping.", "去設定頁補上模型到供應商的對映即可。");
     }
-    return pickUiText(language, "Open Settings and follow the remaining data-connection suggestions.", "去设置页按建议补齐即可。");
+    return pickUiText(language, "Open Settings and follow the remaining data-connection suggestions.", "去設定頁按建議補齊即可。");
   };
 
   const firstGap = snapshot.connectors.todos[0];
   let detail = pickUiText(
     language,
     "All six key usage sources are connected, so usage, quota, and attribution can be trusted.",
-    "6 项关键用量数据都已接通，用量、额度和归因都可以直接看。",
+    "6 項關鍵用量資料都已接通，用量、額度和歸因都可以直接看。",
   );
   let value = pickUiText(language, "Complete", "完整");
 
@@ -4017,7 +4017,7 @@ function connectorInsightStatus(snapshot: UsageCostSnapshot, language: UiLanguag
     detail = pickUiText(
       language,
       "None of the six key usage sources are connected yet, so the Usage page will stay very limited until you connect them in Settings.",
-      "6 项关键用量数据都还没接通，所以用量页只会显示很有限的信息。先去设置页按建议接入即可。",
+      "6 項關鍵用量資料都還沒接通，所以用量頁只會顯示很有限的資訊。先去設定頁按建議接入即可。",
     );
     value = pickUiText(language, "Needs setup", "待接入");
     return { status: "blocked", connectedCount, totalCount, missingCount, detail, value };
@@ -4031,24 +4031,24 @@ function connectorInsightStatus(snapshot: UsageCostSnapshot, language: UiLanguag
       detail = pickUiText(
         language,
         `${connectedCount} of ${totalCount} key usage sources are connected; the remaining item is ${gapLabel}. ${impact} ${action}`,
-        `6 项关键用量数据里，已经接上 ${connectedCount} 项，还差 1 项：${gapLabel}。${impact}${action}`,
+        `6 項關鍵用量資料裡，已經接上 ${connectedCount} 項，還差 1 項：${gapLabel}。${impact}${action}`,
       );
-      value = pickUiText(language, "Missing 1", "差 1 项");
+      value = pickUiText(language, "Missing 1", "差 1 項");
     } else {
       detail = pickUiText(
         language,
         `${connectedCount} of ${totalCount} key usage sources are connected, with ${missingCount} items still incomplete. The most important gap right now is ${gapLabel}. ${impact} ${action}`,
-        `6 项关键用量数据里，已经接上 ${connectedCount} 项，还差 ${missingCount} 项；当前最影响判断的是「${gapLabel}」。${impact}${action}`,
+        `6 項關鍵用量資料裡，已經接上 ${connectedCount} 項，還差 ${missingCount} 項；當前最影響判斷的是「${gapLabel}」。${impact}${action}`,
       );
-      value = pickUiText(language, `Missing ${missingCount}`, `差 ${missingCount} 项`);
+      value = pickUiText(language, `Missing ${missingCount}`, `差 ${missingCount} 項`);
     }
   } else {
     detail = pickUiText(
       language,
       `${connectedCount} of ${totalCount} key usage sources are connected, but ${missingCount} items are still incomplete. Open Settings and finish the remaining data connections.`,
-      `6 项关键用量数据里，已经接上 ${connectedCount} 项，但还有 ${missingCount} 项没有完整接通。去设置页按建议补齐即可。`,
+      `6 項關鍵用量資料裡，已經接上 ${connectedCount} 項，但還有 ${missingCount} 項沒有完整接通。去設定頁按建議補齊即可。`,
     );
-    value = pickUiText(language, `Missing ${missingCount}`, `差 ${missingCount} 项`);
+    value = pickUiText(language, `Missing ${missingCount}`, `差 ${missingCount} 項`);
   }
 
   return {
@@ -4069,18 +4069,18 @@ function localizeConnectionInsightValue(
     return item.status === "ok"
       ? pickUiText(language, "Connected", "已接通")
       : item.status === "info"
-        ? pickUiText(language, "Partial", "部分可见")
+        ? pickUiText(language, "Partial", "部分可見")
         : pickUiText(language, "Unavailable", "未接通");
   }
   if (item.key === "config") {
     return item.status === "ok"
-      ? pickUiText(language, "Ready", "已就绪")
+      ? pickUiText(language, "Ready", "已就緒")
       : item.status === "info"
-        ? pickUiText(language, "Partial", "部分可见")
-        : pickUiText(language, "Needs fix", "待修复");
+        ? pickUiText(language, "Partial", "部分可見")
+        : pickUiText(language, "Needs fix", "待修復");
   }
   if (item.value === "loading") {
-    return pickUiText(language, "Loading", "读取中");
+    return pickUiText(language, "Loading", "讀取中");
   }
   return item.value;
 }
@@ -4095,10 +4095,10 @@ function localizeConnectionInsightDetail(
       return pickUiText(
         language,
         "Runtime data is flowing, but the direct Gateway probe is unavailable on this host.",
-        "运行时数据已经在流动，但当前这台机器还拿不到 Gateway 的直接探测结果。",
+        "運行時數據已在流動，但當前機器還拿不到 Gateway 的直接探測結果。",
       );
     }
-    return pickUiText(language, "Gateway is not reachable.", "当前还无法连到 Gateway。");
+    return pickUiText(language, "Gateway is not reachable.", "當前還無法連到 Gateway。");
   }
   if (item.key === "config") {
     const allowedOriginsMatch = item.detail.match(/^(\d+) allowed origin/);
@@ -4107,23 +4107,23 @@ function localizeConnectionInsightDetail(
       return pickUiText(
         language,
         `${count} allowed origin${count === 1 ? "" : "s"}`,
-        `已配置 ${count} 个允许来源`,
+        `已配置 ${count} 個允許來源`,
       );
     }
     if (item.detail === "Local-only by default") {
-      return pickUiText(language, "Local-only by default.", "默认仅允许本机访问。");
+      return pickUiText(language, "Local-only by default.", "預設僅允許本機訪問。");
     }
     if (item.detail === "Runtime data is visible, but config validation is unavailable on this host") {
       return pickUiText(
         language,
         "Runtime data is visible, but config validation is unavailable on this host.",
-        "运行时数据已经可见，但当前这台机器还拿不到配置校验结果。",
+        "運行時數據已可見，但當前機器還拿不到配置校驗結果。",
       );
     }
     if (item.detail === "openclaw.json probe is unavailable") {
-      return pickUiText(language, "openclaw.json probe is unavailable.", "当前这台机器还拿不到 openclaw.json 探测结果。");
+      return pickUiText(language, "openclaw.json probe is unavailable.", "當前機器還拿不到 openclaw.json 探測結果。");
     }
-    return pickUiText(language, "openclaw.json is missing or invalid.", "openclaw.json 缺失或配置无效。");
+    return pickUiText(language, "openclaw.json is missing or invalid.", "openclaw.json 缺失或配置無效。");
   }
   const runtimeVisibleMatch = item.detail.match(/^(\d+) session(?:s)? visible across (\d+) agent/);
   if (runtimeVisibleMatch) {
@@ -4132,7 +4132,7 @@ function localizeConnectionInsightDetail(
     return pickUiText(
       language,
       `${sessionCount} session${sessionCount === 1 ? "" : "s"} visible across ${agentCount} agent${agentCount === 1 ? "" : "s"}`,
-      `已看到 ${sessionCount} 个会话，覆盖 ${agentCount} 个智能体`,
+      `已看到 ${sessionCount} 個會話，覆蓋 ${agentCount} 個智慧體`,
     );
   }
   const configuredMatch = item.detail.match(/^(\d+) agent(?:s)? configured, but no recent sessions yet$/);
@@ -4141,13 +4141,13 @@ function localizeConnectionInsightDetail(
     return pickUiText(
       language,
       `${agentCount} agent${agentCount === 1 ? "" : "s"} configured, but no recent sessions yet`,
-      `已配置 ${agentCount} 个智能体，但还没有最近会话`,
+      `已配置 ${agentCount} 個智慧體，但還沒有最近會話`,
     );
   }
   if (item.detail === "Runtime status is still loading") {
-    return pickUiText(language, "Runtime status is still loading.", "正在读取运行时状态。");
+    return pickUiText(language, "Runtime status is still loading.", "正在讀取執行時狀態。");
   }
-  return pickUiText(language, "No runtime sessions are visible yet.", "当前还没有看到运行时会话。");
+  return pickUiText(language, "No runtime sessions are visible yet.", "當前還沒有看到執行時會話。");
 }
 
 function officialControlUiHref(language: UiLanguage): string {
@@ -4168,28 +4168,28 @@ function localizeSecurityFinding(
 
   if (item.checkId === "summary.attack_surface") {
     return {
-      title: "当前暴露面概览",
-      detail: "当前环境更接近个人助理式单一信任边界，而不是多人共享隔离环境；高权限工具和内部钩子仍然可用。",
+      title: "當前暴露面概覽",
+      detail: "當前環境更接近個人助理式單一信任邊界，而不是多人共享隔離環境；高許可權工具和內部鉤子仍然可用。",
     };
   }
   if (item.checkId === "gateway.trusted_proxies_missing") {
     return {
       title: "反向代理信任尚未配置",
-      detail: "如果你通过反向代理暴露控制中心，当前还没有声明可信代理来源，转发头信息可能被错误信任。",
-      remediation: "如果继续通过反向代理访问，请把可信代理 IP 配进 gateway.trustedProxies；否则保持控制中心仅本机访问。",
+      detail: "如果你透過反向代理暴露控制中心，當前還沒有宣告可信代理來源，轉發頭資訊可能被錯誤信任。",
+      remediation: "如果繼續透過反向代理訪問，請把可信代理 IP 配進 gateway.trustedProxies；否則保持控制中心僅本機訪問。",
     };
   }
   if (item.checkId === "gateway.tailscale_serve") {
     return {
-      title: "已通过 Tailscale Serve 暴露 Gateway",
-      detail: "当前 Gateway 已经通过 Tailscale 暴露到 tailnet，可访问范围不再只限这台机器本地。",
+      title: "已透過 Tailscale Serve 暴露 Gateway",
+      detail: "當前 Gateway 已經透過 Tailscale 暴露到 tailnet，可訪問範圍不再只限這臺機器本地。",
     };
   }
   if (item.checkId === "security.trust_model.multi_user_heuristic") {
     return {
-      title: "检测到可能的多人共享使用场景",
-      detail: "当前环境看起来不只是单人自用，但 OpenClaw 默认更适合单一可信操作者，不适合把同一 Gateway 当成多人隔离环境。",
-      remediation: "如果确实给多人使用，最好拆分成独立 Gateway 或独立系统账号；至少先收紧沙箱、文件访问和高权限工具范围。",
+      title: "檢測到可能的多人共享使用場景",
+      detail: "當前環境看起來不只是單人自用，但 OpenClaw 預設更適合單一可信操作者，不適合把同一 Gateway 當成多人隔離環境。",
+      remediation: "如果確實給多人使用，最好拆分成獨立 Gateway 或獨立系統賬號；至少先收緊沙箱、檔案訪問和高許可權工具範圍。",
     };
   }
 
@@ -4203,24 +4203,24 @@ function localizeSecurityFinding(
 function localizeUpdateChannelLabel(label: string | undefined, language: UiLanguage): string {
   if (!label) return "-";
   if (language === "en") return label;
-  if (label === "stable (default)") return "稳定版（默认）";
-  if (label === "stable") return "稳定版";
-  if (label === "beta") return "测试版";
-  if (label === "dev") return "开发版";
+  if (label === "stable (default)") return "穩定版（預設）";
+  if (label === "stable") return "穩定版";
+  if (label === "beta") return "測試版";
+  if (label === "dev") return "開發版";
   return label;
 }
 
 function localizeUpdateInstallKind(kind: string | undefined, language: UiLanguage): string {
   if (!kind) return "-";
   if (language === "en") return kind;
-  if (kind === "package") return "软件包";
+  if (kind === "package") return "軟體包";
   if (kind === "git") return "Git";
   return kind;
 }
 
 function localizeCurrentVersionValue(summary: OpenClawUpdateSummary, language: UiLanguage): string {
   if (summary.currentVersion) return summary.currentVersion;
-  if (summary.latestVersion) return pickUiText(language, "Loading", "读取中");
+  if (summary.latestVersion) return pickUiText(language, "Loading", "讀取中");
   return "-";
 }
 
@@ -4232,10 +4232,10 @@ function renderOpenClawConnectionCard(
   if (!summary) {
     return `<article class="card" id="overview-connection-health">
       <div class="overview-command-head">
-        <h2>${escapeHtml(pickUiText(language, "Connection health", "接线状态"))}</h2>
-        <div>${badge("info", pickUiText(language, "Loading", "读取中"))}</div>
+        <h2>${escapeHtml(pickUiText(language, "Connection health", "接線狀態"))}</h2>
+        <div>${badge("info", pickUiText(language, "Loading", "讀取中"))}</div>
       </div>
-      <div class="empty-state">${escapeHtml(pickUiText(language, "Connection signals are loading.", "正在读取接线状态。"))}</div>
+      <div class="empty-state">${escapeHtml(pickUiText(language, "Connection signals are loading.", "正在讀取接線狀態。"))}</div>
     </article>`;
   }
 
@@ -4244,16 +4244,16 @@ function renderOpenClawConnectionCard(
     ...summary.items.map((item) => ({
       label:
         item.key === "gateway"
-          ? pickUiText(language, "Gateway", "网关")
+          ? pickUiText(language, "Gateway", "閘道器")
           : item.key === "config"
             ? pickUiText(language, "Config", "配置")
-            : pickUiText(language, "Runtime", "运行时"),
+            : pickUiText(language, "Runtime", "執行時"),
       status: item.status,
       detail: localizeConnectionInsightDetail(item, language),
       value: localizeConnectionInsightValue(item, language),
     })),
     {
-      label: pickUiText(language, "Usage sources", "用量数据"),
+      label: pickUiText(language, "Usage sources", "用量資料"),
       status: usageSourceSummary.status,
       detail: usageSourceSummary.detail,
       value: usageSourceSummary.value,
@@ -4270,21 +4270,21 @@ function renderOpenClawConnectionCard(
           : "ok";
   const headline =
     overallStatus === "ok"
-      ? pickUiText(language, "Control Center is fully connected to this OpenClaw environment.", "控制中心已经完整接上这台 OpenClaw 环境。")
+      ? pickUiText(language, "Control Center is fully connected to this OpenClaw environment.", "控制中心已經完整接上這臺 OpenClaw 環境。")
       : overallStatus === "blocked"
-        ? pickUiText(language, "Some core links are still blocked.", "有核心接线还没有打通。")
-        : pickUiText(language, "Control Center is usable, but some panels are still running in partial mode.", "控制中心已经可用，但有些面板仍处于部分接线状态。");
+        ? pickUiText(language, "Some core links are still blocked.", "有核心接線還沒有打通。")
+        : pickUiText(language, "Control Center is usable, but some panels are still running in partial mode.", "控制中心已經可用，但有些面板仍處於部分接線狀態。");
 
   return `<article class="card" id="overview-connection-health">
     <div class="overview-command-head">
       <div>
-        <h2>${escapeHtml(pickUiText(language, "Connection health", "接线状态"))}</h2>
+        <h2>${escapeHtml(pickUiText(language, "Connection health", "接線狀態"))}</h2>
         <div class="meta">${escapeHtml(headline)}</div>
       </div>
       <a class="btn" href="${escapeHtml(officialControlUiHref(language))}" target="_blank" rel="noreferrer">${escapeHtml(
         OPENCLAW_CONTROL_UI_URL
           ? pickUiText(language, "Official panel", "官方控制面板")
-          : pickUiText(language, "Official panel guide", "官方控制面板说明"),
+          : pickUiText(language, "Official panel guide", "官方控制面板說明"),
       )}</a>
       <a class="btn" href="https://app.openclaw.ai" target="_blank" rel="noopener noreferrer">${escapeHtml(
         pickUiText(language, "OpenClaw Dashboard ↗", "OpenClaw 官方面板 ↗"),
@@ -4314,22 +4314,22 @@ function renderOpenClawSecuritySection(
 ): string {
   if (!summary) {
     return `<section class="card" id="security-risk-summary">
-      <h2>${escapeHtml(pickUiText(language, "Security risk summary", "安全风险摘要"))}</h2>
-      <div class="empty-state">${escapeHtml(pickUiText(language, "Security audit is loading.", "正在读取安全审计。"))}</div>
+      <h2>${escapeHtml(pickUiText(language, "Security risk summary", "安全風險摘要"))}</h2>
+      <div class="empty-state">${escapeHtml(pickUiText(language, "Security audit is loading.", "正在讀取安全審計。"))}</div>
     </section>`;
   }
 
   const headline =
     summary.status === "blocked"
-      ? pickUiText(language, "There are critical security issues to address.", "当前有需要立刻处理的安全风险。")
+      ? pickUiText(language, "There are critical security issues to address.", "當前有需要立刻處理的安全風險。")
       : summary.status === "warn"
-        ? pickUiText(language, "There are a few configuration risks worth reviewing.", "当前有几项配置风险值得检查。")
+        ? pickUiText(language, "There are a few configuration risks worth reviewing.", "當前有幾項配置風險值得檢查。")
         : summary.status === "info"
-          ? pickUiText(language, "Security looks stable, with informational notes only.", "当前整体安全稳定，只有信息提示。")
-          : pickUiText(language, "No actionable security risk is visible right now.", "当前没有需要处理的安全风险。");
+          ? pickUiText(language, "Security looks stable, with informational notes only.", "當前整體安全穩定，只有資訊提示。")
+          : pickUiText(language, "No actionable security risk is visible right now.", "當前沒有需要處理的安全風險。");
   const findingsHtml =
     summary.findings.length === 0
-      ? `<div class="empty-state">${escapeHtml(pickUiText(language, "No audit findings yet.", "当前没有审计结果。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(pickUiText(language, "No audit findings yet.", "當前沒有審計結果。"))}</div>`
       : `<ul class="story-list">${summary.findings
           .slice(0, 4)
           .map((item) => {
@@ -4350,14 +4350,14 @@ function renderOpenClawSecuritySection(
   return `<section class="card" id="security-risk-summary">
     <div class="overview-command-head">
       <div>
-        <h2>${escapeHtml(pickUiText(language, "Security risk summary", "安全风险摘要"))}</h2>
+        <h2>${escapeHtml(pickUiText(language, "Security risk summary", "安全風險摘要"))}</h2>
         <div class="meta">${escapeHtml(headline)}</div>
       </div>
       <div>${badge(summary.status, insightStatusLabel(summary.status, language))}</div>
     </div>
     <div class="status-strip">
-      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Critical", "高风险"))}</span><strong>${summary.counts.critical}</strong></div>
-      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Warnings", "需关注"))}</span><strong>${summary.counts.warn}</strong></div>
+      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Critical", "高風險"))}</span><strong>${summary.counts.critical}</strong></div>
+      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Warnings", "需關注"))}</span><strong>${summary.counts.warn}</strong></div>
       <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Info", "提示"))}</span><strong>${summary.counts.info}</strong></div>
     </div>
     ${findingsHtml}
@@ -4370,28 +4370,28 @@ function renderOpenClawUpdateSection(
 ): string {
   if (!summary) {
     return `<section class="card" id="update-status-card">
-      <h2>${escapeHtml(pickUiText(language, "Update status", "更新状态"))}</h2>
-      <div class="empty-state">${escapeHtml(pickUiText(language, "Update status is loading.", "正在读取更新状态。"))}</div>
+      <h2>${escapeHtml(pickUiText(language, "Update status", "更新狀態"))}</h2>
+      <div class="empty-state">${escapeHtml(pickUiText(language, "Update status is loading.", "正在讀取更新狀態。"))}</div>
     </section>`;
   }
 
   const headline = summary.updateAvailable
-    ? pickUiText(language, "A newer OpenClaw version is available.", "发现了更新版本。")
-    : pickUiText(language, "This OpenClaw runtime is already up to date.", "当前 OpenClaw 已是最新。");
+    ? pickUiText(language, "A newer OpenClaw version is available.", "發現了更新版本。")
+    : pickUiText(language, "This OpenClaw runtime is already up to date.", "當前 OpenClaw 已是最新。");
   return `<section class="card" id="update-status-card">
     <div class="overview-command-head">
       <div>
-        <h2>${escapeHtml(pickUiText(language, "Update status", "更新状态"))}</h2>
+        <h2>${escapeHtml(pickUiText(language, "Update status", "更新狀態"))}</h2>
         <div class="meta">${escapeHtml(headline)}</div>
       </div>
       <div>${badge(summary.status, insightStatusLabel(summary.status, language))}</div>
     </div>
     <div class="status-strip">
-      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Current", "当前版本"))}</span><strong>${escapeHtml(localizeCurrentVersionValue(summary, language))}</strong></div>
+      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Current", "當前版本"))}</span><strong>${escapeHtml(localizeCurrentVersionValue(summary, language))}</strong></div>
       <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Latest", "最新版本"))}</span><strong>${escapeHtml(summary.latestVersion ?? "-")}</strong></div>
       <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Channel", "更新通道"))}</span><strong>${escapeHtml(localizeUpdateChannelLabel(summary.channelLabel, language))}</strong></div>
     </div>
-    <div class="meta">${escapeHtml(pickUiText(language, "Install method", "安装方式"))} ${escapeHtml(localizeUpdateInstallKind(summary.installKind, language))} · ${escapeHtml(
+    <div class="meta">${escapeHtml(pickUiText(language, "Install method", "安裝方式"))} ${escapeHtml(localizeUpdateInstallKind(summary.installKind, language))} · ${escapeHtml(
       pickUiText(language, "Package manager", "包管理器"),
     )} ${escapeHtml(summary.packageManager ?? "-")}</div>
   </section>`;
@@ -4400,8 +4400,8 @@ function renderOpenClawUpdateSection(
 function renderContextPressureCard(snapshot: UsageCostSnapshot, language: UiLanguage): string {
   if (snapshot.contextWindows.length === 0) {
     return `<section class="card" id="session-context-pressure">
-      <h2>${escapeHtml(pickUiText(language, "Context pressure", "上下文压力"))}</h2>
-      <div class="empty-state">${escapeHtml(pickUiText(language, "No session context data yet.", "当前还没有会话上下文数据。"))}</div>
+      <h2>${escapeHtml(pickUiText(language, "Context pressure", "上下文壓力"))}</h2>
+      <div class="empty-state">${escapeHtml(pickUiText(language, "No session context data yet.", "當前還沒有會話上下文資料。"))}</div>
     </section>`;
   }
 
@@ -4416,26 +4416,26 @@ function renderContextPressureCard(snapshot: UsageCostSnapshot, language: UiLang
   const topUsage = ranked[0];
   const headline =
     criticalCount > 0
-      ? pickUiText(language, "Some sessions are close to their context ceiling.", "有会话已经接近上下文上限。")
+      ? pickUiText(language, "Some sessions are close to their context ceiling.", "有會話已經接近上下文上限。")
       : warnCount > 0
-        ? pickUiText(language, "A few sessions are worth watching.", "有几条会话值得继续盯住。")
-        : pickUiText(language, "Context pressure looks healthy right now.", "当前上下文压力整体正常。");
+        ? pickUiText(language, "A few sessions are worth watching.", "有幾條會話值得繼續盯住。")
+        : pickUiText(language, "Context pressure looks healthy right now.", "當前上下文壓力整體正常。");
 
   return `<section class="card" id="session-context-pressure">
     <div class="overview-command-head">
       <div>
-        <h2>${escapeHtml(pickUiText(language, "Context pressure", "上下文压力"))}</h2>
+        <h2>${escapeHtml(pickUiText(language, "Context pressure", "上下文壓力"))}</h2>
         <div class="meta">${escapeHtml(headline)}</div>
       </div>
       <div>${badge(
         criticalCount > 0 ? "warn" : warnCount > 0 ? "info" : "ok",
-        criticalCount > 0 ? pickUiText(language, "High", "较高") : warnCount > 0 ? pickUiText(language, "Watch", "观察中") : pickUiText(language, "Healthy", "正常"),
+        criticalCount > 0 ? pickUiText(language, "High", "較高") : warnCount > 0 ? pickUiText(language, "Watch", "觀察中") : pickUiText(language, "Healthy", "正常"),
       )}</div>
     </div>
     <div class="status-strip">
-      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Critical", "临界"))}</span><strong>${criticalCount}</strong></div>
-      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Warning", "预警"))}</span><strong>${warnCount}</strong></div>
-      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Highest usage", "最高占比"))}</span><strong>${escapeHtml(
+      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Critical", "臨界"))}</span><strong>${criticalCount}</strong></div>
+      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Warning", "預警"))}</span><strong>${warnCount}</strong></div>
+      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Highest usage", "最高佔比"))}</span><strong>${escapeHtml(
         topUsage?.usagePercent !== undefined ? `${topUsage.usagePercent.toFixed(1)}%` : "-",
       )}</strong></div>
     </div>
@@ -4452,9 +4452,9 @@ function renderContextPressureCard(snapshot: UsageCostSnapshot, language: UiLang
             <div class="meta">${badge(
               tone,
               item.thresholdState === "critical"
-                ? pickUiText(language, "Critical", "临界")
+                ? pickUiText(language, "Critical", "臨界")
                 : item.thresholdState === "warn"
-                  ? pickUiText(language, "Warning", "预警")
+                  ? pickUiText(language, "Warning", "預警")
                   : item.thresholdState === "ok"
                     ? pickUiText(language, "Healthy", "正常")
                     : pickUiText(language, "Unknown", "未知"),
@@ -4471,42 +4471,42 @@ function renderContextPressureCard(snapshot: UsageCostSnapshot, language: UiLang
 function renderMemoryStateSection(summary: OpenClawMemorySummary | undefined, language: UiLanguage): string {
   if (!summary) {
     return `<section class="card" id="memory-status-card">
-      <h2>${escapeHtml(pickUiText(language, "Memory status", "记忆状态"))}</h2>
-      <div class="empty-state">${escapeHtml(pickUiText(language, "Memory status is loading.", "正在读取记忆状态。"))}</div>
+      <h2>${escapeHtml(pickUiText(language, "Memory status", "記憶狀態"))}</h2>
+      <div class="empty-state">${escapeHtml(pickUiText(language, "Memory status is loading.", "正在讀取記憶狀態。"))}</div>
     </section>`;
   }
 
   const headline =
     summary.status === "blocked"
-      ? pickUiText(language, "Some agents still do not have usable memory.", "有智能体的记忆还不可用。")
+      ? pickUiText(language, "Some agents still do not have usable memory.", "有智慧體的記憶還不可用。")
       : summary.status === "warn"
-        ? pickUiText(language, "Memory works, but some agents still need attention.", "记忆整体可用，但有些智能体还需要检查。")
-        : pickUiText(language, "Memory looks healthy for the visible agents.", "当前可见智能体的记忆状态正常。");
+        ? pickUiText(language, "Memory works, but some agents still need attention.", "記憶整體可用，但有些智慧體還需要檢查。")
+        : pickUiText(language, "Memory looks healthy for the visible agents.", "當前可見智慧體的記憶狀態正常。");
 
   return `<section class="card" id="memory-status-card">
     <div class="overview-command-head">
       <div>
-        <h2>${escapeHtml(pickUiText(language, "Memory status", "记忆状态"))}</h2>
+        <h2>${escapeHtml(pickUiText(language, "Memory status", "記憶狀態"))}</h2>
         <div class="meta">${escapeHtml(headline)}</div>
       </div>
       <div>${badge(summary.status, insightStatusLabel(summary.status, language))}</div>
     </div>
     <div class="status-strip">
       <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Healthy", "正常"))}</span><strong>${summary.okCount}</strong></div>
-      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Needs attention", "需关注"))}</span><strong>${summary.warnCount}</strong></div>
+      <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Needs attention", "需關注"))}</span><strong>${summary.warnCount}</strong></div>
       <div class="status-chip"><span>${escapeHtml(pickUiText(language, "Unavailable", "不可用"))}</span><strong>${summary.blockedCount}</strong></div>
     </div>
     <div class="decision-list">${summary.agents
       .map((item) => {
         const detailParts = [
-          `${formatInt(item.files)} ${pickUiText(language, "files", "份记忆")}`,
-          `${formatInt(item.chunks)} ${pickUiText(language, "chunks", "个块")}`,
-          item.searchable ? pickUiText(language, "searchable", "可搜索") : pickUiText(language, "search not ready", "搜索未就绪"),
+          `${formatInt(item.files)} ${pickUiText(language, "files", "份記憶")}`,
+          `${formatInt(item.chunks)} ${pickUiText(language, "chunks", "個塊")}`,
+          item.searchable ? pickUiText(language, "searchable", "可搜尋") : pickUiText(language, "search not ready", "搜尋未就緒"),
         ];
         if (item.issuesCount > 0) {
-          detailParts.push(pickUiText(language, `${item.issuesCount} issue(s)`, `${item.issuesCount} 个异常`));
+          detailParts.push(pickUiText(language, `${item.issuesCount} issue(s)`, `${item.issuesCount} 個異常`));
         } else if (item.dirty) {
-          detailParts.push(pickUiText(language, "refresh pending", "待刷新"));
+          detailParts.push(pickUiText(language, "refresh pending", "待重新整理"));
         }
         if (item.lastUpdateAt) {
           detailParts.push(
@@ -4518,7 +4518,7 @@ function renderMemoryStateSection(summary: OpenClawMemorySummary | undefined, la
             <strong>${escapeHtml(humanizeOperatorLabel(item.agentId))}</strong>
             <div class="meta">${badge(item.status, insightStatusLabel(item.status, language))} ${escapeHtml(detailParts.join(" · "))}</div>
           </div>
-          <div class="decision-row-value">${escapeHtml(item.searchable ? pickUiText(language, "Ready", "可用") : pickUiText(language, "Check", "检查"))}</div>
+          <div class="decision-row-value">${escapeHtml(item.searchable ? pickUiText(language, "Ready", "可用") : pickUiText(language, "Check", "檢查"))}</div>
         </div>`;
       })
       .join("")}</div>
@@ -4540,35 +4540,35 @@ function snapshotFreshnessSignal(
   if (ageMs <= 10 * 60 * 1000) {
     return {
       key: "freshness",
-      label: pickUiText(language, "Live picture", "实时画面"),
+      label: pickUiText(language, "Live picture", "實時畫面"),
       status: "connected",
       detail: pickUiText(
         language,
         `Updated ${ageLabel}; suitable for deciding what is happening now.`,
-        `更新于${ageLabel}，适合直接判断现在发生了什么。`,
+        `更新於${ageLabel}，適合直接判斷現在發生了什麼。`,
       ),
     };
   }
   if (ageMs <= 30 * 60 * 1000) {
     return {
       key: "freshness",
-      label: pickUiText(language, "Live picture", "实时画面"),
+      label: pickUiText(language, "Live picture", "實時畫面"),
       status: "partial",
       detail: pickUiText(
         language,
         `Updated ${ageLabel}; still useful, but not precise enough for second-by-second judgement.`,
-        `更新于${ageLabel}，仍然有参考价值，但不适合做秒级判断。`,
+        `更新於${ageLabel}，仍然有參考價值，但不適合做秒級判斷。`,
       ),
     };
   }
   return {
     key: "freshness",
-    label: pickUiText(language, "Live picture", "实时画面"),
+    label: pickUiText(language, "Live picture", "實時畫面"),
     status: "not_connected",
     detail: pickUiText(
       language,
       `Last refresh was ${ageLabel}; treat the current picture as delayed.`,
-      `最近一次刷新是${ageLabel}，当前画面应视为有延迟。`,
+      `最近一次重新整理是${ageLabel}，當前畫面應視為有延遲。`,
     ),
   };
 }
@@ -4621,18 +4621,18 @@ function buildInformationCertaintyModel(input: {
     freshness,
     {
       key: "roster",
-      label: pickUiText(language, "Staff and owners", "员工与负责人"),
+      label: pickUiText(language, "Staff and owners", "員工與負責人"),
       status: officeRoster.status,
       detail:
         officeRoster.status === "connected"
-          ? pickUiText(language, "Staff roster and ownership signals are readable.", "员工名单和负责人信号可读。")
+          ? pickUiText(language, "Staff roster and ownership signals are readable.", "員工名單和負責人訊號可讀。")
           : officeRoster.status === "partial"
-            ? pickUiText(language, "Only part of the staff roster is visible.", "目前只能看到部分员工名单。")
-            : pickUiText(language, "Staff roster is missing, so ownership may be incomplete.", "员工名单未连上，负责人视图可能不完整。"),
+            ? pickUiText(language, "Only part of the staff roster is visible.", "目前只能看到部分員工名單。")
+            : pickUiText(language, "Staff roster is missing, so ownership may be incomplete.", "員工名單未連上，負責人檢視可能不完整。"),
     },
     {
       key: "live_sessions",
-      label: pickUiText(language, "Live execution", "实时执行"),
+      label: pickUiText(language, "Live execution", "實時執行"),
       status: officePresence.status,
       detail:
         officePresence.status === "connected"
@@ -4640,45 +4640,45 @@ function buildInformationCertaintyModel(input: {
             ? pickUiText(
                 language,
                 `${officePresence.totalActiveSessions} live sessions are visible right now.`,
-                `当前可见 ${officePresence.totalActiveSessions} 个实时执行中的会话。`,
+                `當前可見 ${officePresence.totalActiveSessions} 個實時執行中的會話。`,
               )
-            : pickUiText(language, "Live session signal is connected; nothing is actively running right now.", "实时会话信号已连上；当前没有执行中的会话。")
+            : pickUiText(language, "Live session signal is connected; nothing is actively running right now.", "實時會話訊號已連上；當前沒有執行中的會話。")
           : officePresence.status === "partial"
-            ? pickUiText(language, "Only part of the live execution signal is visible.", "当前只能看到部分实时执行信号。")
-            : pickUiText(language, "Only static snapshot data is visible, so current execution may be under-reported.", "当前只能看到静态快照，实时执行可能看不全。"),
+            ? pickUiText(language, "Only part of the live execution signal is visible.", "當前只能看到部分實時執行訊號。")
+            : pickUiText(language, "Only static snapshot data is visible, so current execution may be under-reported.", "當前只能看到靜態快照，實時執行可能看不全。"),
     },
     {
       key: "usage",
-      label: pickUiText(language, "AI usage and cost", "AI 用量与费用"),
+      label: pickUiText(language, "AI usage and cost", "AI 用量與費用"),
       status: usageStatus,
       detail:
         usageStatus === "connected"
-          ? pickUiText(language, "Usage and cost data are connected.", "用量和费用数据已连上。")
+          ? pickUiText(language, "Usage and cost data are connected.", "用量和費用資料已連上。")
           : usageStatus === "partial"
-            ? pickUiText(language, "Usage trend is visible, but some cost or provider detail is still incomplete.", "已经能看到用量趋势，但费用或供应商细节还不完整。")
-            : pickUiText(language, "Usage and cost are still a blind spot.", "用量和费用目前仍是盲区。"),
+            ? pickUiText(language, "Usage trend is visible, but some cost or provider detail is still incomplete.", "已經能看到用量趨勢，但費用或供應商細節還不完整。")
+            : pickUiText(language, "Usage and cost are still a blind spot.", "用量和費用目前仍是盲區。"),
     },
     {
       key: "subscription",
-      label: pickUiText(language, "Subscription room", "订阅额度"),
+      label: pickUiText(language, "Subscription room", "訂閱額度"),
       status: usageCost.subscription.status as DataCoverageStatus,
       detail:
         usageCost.subscription.status === "connected"
-          ? pickUiText(language, "Subscription remaining and reset window are visible.", "订阅剩余额度和重置窗口可见。")
+          ? pickUiText(language, "Subscription remaining and reset window are visible.", "訂閱剩餘額度和重置視窗可見。")
           : usageCost.subscription.status === "partial"
-            ? pickUiText(language, "Subscription data exists, but part of the billing picture is missing.", "订阅数据已经有了，但账单画面还不完整。")
-            : pickUiText(language, "Remaining subscription room is not confirmed yet.", "剩余额度目前还不能完全确认。"),
+            ? pickUiText(language, "Subscription data exists, but part of the billing picture is missing.", "訂閱資料已經有了，但賬單畫面還不完整。")
+            : pickUiText(language, "Remaining subscription room is not confirmed yet.", "剩餘額度目前還不能完全確認。"),
     },
     {
       key: "history",
-      label: pickUiText(language, "Replay history", "回放历史"),
+      label: pickUiText(language, "Replay history", "回放歷史"),
       status: historyStatus,
       detail:
         historyStatus === "connected"
-          ? pickUiText(language, "Recent activity and trend history can both be replayed.", "最近活动和趋势历史都可以回看。")
+          ? pickUiText(language, "Recent activity and trend history can both be replayed.", "最近活動和趨勢歷史都可以回看。")
           : historyStatus === "partial"
-            ? pickUiText(language, "Only part of the replay history is visible.", "目前只能回看部分历史。")
-            : pickUiText(language, "Replay history is still too thin to explain change over time.", "回放历史还不够厚，难以解释长期变化。"),
+            ? pickUiText(language, "Only part of the replay history is visible.", "目前只能回看部分歷史。")
+            : pickUiText(language, "Replay history is still too thin to explain change over time.", "回放歷史還不夠厚，難以解釋長期變化。"),
     },
   ];
 
@@ -4701,21 +4701,21 @@ function buildInformationCertaintyModel(input: {
     .slice(0, 3)
     .map((signal) => {
       if (signal.key === "freshness") {
-        return pickUiText(language, "The home picture is fresh enough for current-state decisions.", "首页画面够新，可以直接拿来判断当前状态。");
+        return pickUiText(language, "The home picture is fresh enough for current-state decisions.", "首頁畫面夠新，可以直接拿來判斷當前狀態。");
       }
       if (signal.key === "live_sessions") {
-        return pickUiText(language, "Current execution is visible, not just task records on a board.", "现在能看到真实执行中的会话，而不只是任务板上的记录。");
+        return pickUiText(language, "Current execution is visible, not just task records on a board.", "現在能看到真實執行中的會話，而不只是任務板上的記錄。");
       }
       if (signal.key === "usage") {
-        return pickUiText(language, "AI usage and spending can be watched before they become a surprise.", "AI 用量和花费可以提前观察，不容易突然失控。");
+        return pickUiText(language, "AI usage and spending can be watched before they become a surprise.", "AI 用量和花費可以提前觀察，不容易突然失控。");
       }
       if (signal.key === "history") {
-        return pickUiText(language, "You can look back at recent activity instead of relying on memory.", "可以回看最近发生了什么，不必只靠记忆。");
+        return pickUiText(language, "You can look back at recent activity instead of relying on memory.", "可以回看最近發生了什麼，不必只靠記憶。");
       }
       if (signal.key === "subscription") {
-        return pickUiText(language, "Remaining subscription room is visible.", "订阅剩余额度是可见的。");
+        return pickUiText(language, "Remaining subscription room is visible.", "訂閱剩餘額度是可見的。");
       }
-      return pickUiText(language, "The people-and-ownership view is readable.", "人员和负责关系是可读的。");
+      return pickUiText(language, "The people-and-ownership view is readable.", "人員和負責關係是可讀的。");
     });
 
   const gaps = signals
@@ -4723,31 +4723,31 @@ function buildInformationCertaintyModel(input: {
     .slice(0, 3)
     .map((signal) => {
       if (signal.key === "freshness") {
-        return pickUiText(language, "This picture is delayed, so fast changes may not be reflected yet.", "当前画面有延迟，快速变化可能还没有反映出来。");
+        return pickUiText(language, "This picture is delayed, so fast changes may not be reflected yet.", "當前畫面有延遲，快速變化可能還沒有反映出來。");
       }
       if (signal.key === "live_sessions") {
-        return pickUiText(language, "You may not be seeing every session that is still running.", "你可能还看不全所有正在执行的会话。");
+        return pickUiText(language, "You may not be seeing every session that is still running.", "你可能還看不全所有正在執行的會話。");
       }
       if (signal.key === "usage") {
-        return pickUiText(language, "AI spending is only partially visible, so cost judgement is conservative.", "AI 花费目前只能看见一部分，因此费用判断会偏保守。");
+        return pickUiText(language, "AI spending is only partially visible, so cost judgement is conservative.", "AI 花費目前只能看見一部分，因此費用判斷會偏保守。");
       }
       if (signal.key === "subscription") {
-        return pickUiText(language, "Remaining package room is still unconfirmed.", "套餐剩余额度目前还没有被完全确认。");
+        return pickUiText(language, "Remaining package room is still unconfirmed.", "套餐剩餘額度目前還沒有被完全確認。");
       }
       if (signal.key === "history") {
-        return pickUiText(language, "History is thin, so long-term explanations may be weak.", "历史记录偏薄，长期变化的解释力会比较弱。");
+        return pickUiText(language, "History is thin, so long-term explanations may be weak.", "歷史記錄偏薄，長期變化的解釋力會比較弱。");
       }
-      return pickUiText(language, "Some staff or ownership signals are still missing.", "部分人员或负责关系信号还缺失。");
+      return pickUiText(language, "Some staff or ownership signals are still missing.", "部分人員或負責關係訊號還缺失。");
     });
 
   if (strengths.length === 0) {
     strengths.push(
-      pickUiText(language, "At least the current dashboard structure is readable even while signals are still sparse.", "即使信号还稀疏，当前看板结构本身仍然可读。"),
+      pickUiText(language, "At least the current dashboard structure is readable even while signals are still sparse.", "即使訊號還稀疏，當前看板結構本身仍然可讀。"),
     );
   }
   if (gaps.length === 0) {
     gaps.push(
-      pickUiText(language, "No obvious blind spot is standing out right now.", "当前没有明显突出的盲区。"),
+      pickUiText(language, "No obvious blind spot is standing out right now.", "當前沒有明顯突出的盲區。"),
     );
   }
 
@@ -4755,9 +4755,9 @@ function buildInformationCertaintyModel(input: {
     return {
       score,
       badgeStatus: "ok",
-      badgeLabel: pickUiText(language, "High certainty", "高确定性"),
-      headline: pickUiText(language, "This picture is trustworthy enough for day-to-day decisions.", "这张画面已经足够支撑日常判断。"),
-      summary: pickUiText(language, "Most key signals are connected, so you can judge OpenClaw from one screen with relatively high confidence.", "大部分关键信号都已连上，可以比较放心地用这一屏判断 OpenClaw 的当前状态。"),
+      badgeLabel: pickUiText(language, "High certainty", "高確定性"),
+      headline: pickUiText(language, "This picture is trustworthy enough for day-to-day decisions.", "這張畫面已經足夠支撐日常判斷。"),
+      summary: pickUiText(language, "Most key signals are connected, so you can judge OpenClaw from one screen with relatively high confidence.", "大部分關鍵訊號都已連上，可以比較放心地用這一屏判斷 OpenClaw 的當前狀態。"),
       strengths,
       gaps,
       signals,
@@ -4767,9 +4767,9 @@ function buildInformationCertaintyModel(input: {
     return {
       score,
       badgeStatus: "warn",
-      badgeLabel: pickUiText(language, "Medium certainty", "中等确定性"),
-      headline: pickUiText(language, "The main picture is visible, but there are still blind spots.", "主画面已经能看，但仍然有盲区。"),
-      summary: pickUiText(language, "You can judge the main direction, but some parts still need more evidence before you fully trust them.", "大方向已经能判断，但其中有些区域还需要更多证据才能完全放心。"),
+      badgeLabel: pickUiText(language, "Medium certainty", "中等確定性"),
+      headline: pickUiText(language, "The main picture is visible, but there are still blind spots.", "主畫面已經能看，但仍然有盲區。"),
+      summary: pickUiText(language, "You can judge the main direction, but some parts still need more evidence before you fully trust them.", "大方向已經能判斷，但其中有些區域還需要更多證據才能完全放心。"),
       strengths,
       gaps,
       signals,
@@ -4778,9 +4778,9 @@ function buildInformationCertaintyModel(input: {
   return {
     score,
     badgeStatus: "blocked",
-    badgeLabel: pickUiText(language, "Low certainty", "低确定性"),
-    headline: pickUiText(language, "Important parts of the picture are still missing.", "这张画面还有关键缺口。"),
-    summary: pickUiText(language, "The dashboard is usable, but some information should still be treated as a clue rather than a confirmed fact.", "当前看板虽然可用，但其中一部分信息还更像线索，不适合当作已经确认的事实。"),
+    badgeLabel: pickUiText(language, "Low certainty", "低確定性"),
+    headline: pickUiText(language, "Important parts of the picture are still missing.", "這張畫面還有關鍵缺口。"),
+    summary: pickUiText(language, "The dashboard is usable, but some information should still be treated as a clue rather than a confirmed fact.", "當前看板雖然可用，但其中一部分資訊還更像線索，不適合當作已經確認的事實。"),
     strengths,
     gaps,
     signals,
@@ -4797,26 +4797,26 @@ function renderInformationCertaintyCard(
   return `<section class="card" id="information-certainty">
       <div class="overview-command-head">
         <div>
-          <h2>${escapeHtml(pickUiText(language, "Information certainty", "信息确定性"))}</h2>
-          <div class="meta">${escapeHtml(pickUiText(language, "This answers how much of OpenClaw you can confidently see right now.", "这块回答的是：你现在对 OpenClaw 的了解，有多少是可以放心相信的。"))}</div>
+          <h2>${escapeHtml(pickUiText(language, "Information certainty", "資訊確定性"))}</h2>
+          <div class="meta">${escapeHtml(pickUiText(language, "This answers how much of OpenClaw you can confidently see right now.", "這塊回答的是：你現在對 OpenClaw 的瞭解，有多少是可以放心相信的。"))}</div>
         </div>
         <div>${badge(model.badgeStatus, model.badgeLabel)}</div>
       </div>
       <div class="task-hub-stat-grid">
         <article class="task-hub-stat">
-          <span>${escapeHtml(pickUiText(language, "Certainty score", "确定性分数"))}</span>
+          <span>${escapeHtml(pickUiText(language, "Certainty score", "確定性分數"))}</span>
           <strong>${model.score}</strong>
           <small>${escapeHtml(model.headline)}</small>
         </article>
         <article class="task-hub-stat">
-          <span>${escapeHtml(pickUiText(language, "Reliable areas", "可靠区域"))}</span>
+          <span>${escapeHtml(pickUiText(language, "Reliable areas", "可靠區域"))}</span>
           <strong>${connectedCount}</strong>
-          <small>${escapeHtml(pickUiText(language, "Areas already backed by connected signals", "已经有完整信号支撑的区域"))}</small>
+          <small>${escapeHtml(pickUiText(language, "Areas already backed by connected signals", "已經有完整訊號支撐的區域"))}</small>
         </article>
         <article class="task-hub-stat">
-          <span>${escapeHtml(pickUiText(language, "Blind spots", "盲区"))}</span>
+          <span>${escapeHtml(pickUiText(language, "Blind spots", "盲區"))}</span>
           <strong>${blindSpotCount}</strong>
-          <small>${escapeHtml(pickUiText(language, "Areas that still need more evidence", "仍然需要补证据的区域"))}</small>
+          <small>${escapeHtml(pickUiText(language, "Areas that still need more evidence", "仍然需要補證據的區域"))}</small>
         </article>
       </div>
       <div class="meta">${escapeHtml(model.summary)}</div>
@@ -4827,15 +4827,15 @@ function renderInformationCertaintyCard(
           <ul class="story-list">${model.strengths.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
         </section>
         <section class="card">
-          <h3 style="margin:0 0 6px 0;">${escapeHtml(pickUiText(language, "What may still be incomplete", "可能还不完整的地方"))}</h3>
+          <h3 style="margin:0 0 6px 0;">${escapeHtml(pickUiText(language, "What may still be incomplete", "可能還不完整的地方"))}</h3>
           <ul class="story-list">${model.gaps.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
         </section>
       </div>
       <details class="compact-table-details" style="margin-top:12px;" open>
-        <summary>${escapeHtml(pickUiText(language, "Open certainty breakdown", "展开确定性拆解"))} · ${connectedCount}/${model.signals.length} ${escapeHtml(pickUiText(language, "connected", "已连上"))} · ${partialCount} ${escapeHtml(pickUiText(language, "partial", "部分"))} · ${blindSpotCount} ${escapeHtml(pickUiText(language, "blind spot", "盲区"))}</summary>
+        <summary>${escapeHtml(pickUiText(language, "Open certainty breakdown", "展開確定性拆解"))} · ${connectedCount}/${model.signals.length} ${escapeHtml(pickUiText(language, "connected", "已連上"))} · ${partialCount} ${escapeHtml(pickUiText(language, "partial", "部分"))} · ${blindSpotCount} ${escapeHtml(pickUiText(language, "blind spot", "盲區"))}</summary>
         <div class="fold-body">
           <table>
-            <thead><tr><th>${escapeHtml(pickUiText(language, "Area", "区域"))}</th><th>${escapeHtml(pickUiText(language, "Status", "状态"))}</th><th>${escapeHtml(pickUiText(language, "What it means", "这意味着什么"))}</th></tr></thead>
+            <thead><tr><th>${escapeHtml(pickUiText(language, "Area", "區域"))}</th><th>${escapeHtml(pickUiText(language, "Status", "狀態"))}</th><th>${escapeHtml(pickUiText(language, "What it means", "這意味著什麼"))}</th></tr></thead>
             <tbody>${model.signals
               .map(
                 (signal) =>
@@ -4850,16 +4850,16 @@ function renderInformationCertaintyCard(
 
 function formatTimeAgoFromNow(value: string | undefined, language: UiLanguage = "zh"): string {
   const parsed = toSortableMs(value);
-  if (!parsed) return pickUiText(language, "time unavailable", "时间未知");
+  if (!parsed) return pickUiText(language, "time unavailable", "時間未知");
   const diffSeconds = Math.max(0, Math.round((Date.now() - parsed) / 1000));
-  if (diffSeconds < 60) return pickUiText(language, "just now", "刚刚");
+  if (diffSeconds < 60) return pickUiText(language, "just now", "剛剛");
   if (diffSeconds < 3600) {
     const minutes = Math.max(1, Math.round(diffSeconds / 60));
-    return pickUiText(language, `${minutes}m ago`, `${minutes} 分钟前`);
+    return pickUiText(language, `${minutes}m ago`, `${minutes} 分鐘前`);
   }
   if (diffSeconds < 86400) {
     const hours = Math.max(1, Math.round(diffSeconds / 3600));
-    return pickUiText(language, `${hours}h ago`, `${hours} 小时前`);
+    return pickUiText(language, `${hours}h ago`, `${hours} 小時前`);
   }
   const days = Math.max(1, Math.round(diffSeconds / 86400));
   return pickUiText(language, `${days}d ago`, `${days} 天前`);
@@ -5013,11 +5013,11 @@ function buildTaskCertaintyCards(input: {
           pickUiText(
             input.language,
             `${linkedSessionKeys.length} linked session(s)`,
-            `已关联 ${linkedSessionKeys.length} 个会话`,
+            `已關聯 ${linkedSessionKeys.length} 個會話`,
           ),
         );
       } else {
-        gaps.push(pickUiText(input.language, "No execution session is linked yet.", "还没有关联执行会话。"));
+        gaps.push(pickUiText(input.language, "No execution session is linked yet.", "還沒有關聯執行會話。"));
       }
 
       if (visibleSessionCount > 0) {
@@ -5025,7 +5025,7 @@ function buildTaskCertaintyCards(input: {
           pickUiText(
             input.language,
             `${visibleSessionCount} linked session(s) are visible in runtime.`,
-            `运行时里可见 ${visibleSessionCount} 个关联会话。`,
+            `執行時裡可見 ${visibleSessionCount} 個關聯會話。`,
           ),
         );
       } else if (linkedSessionKeys.length > 0) {
@@ -5033,7 +5033,7 @@ function buildTaskCertaintyCards(input: {
           pickUiText(
             input.language,
             "Session keys exist, but runtime details are still missing.",
-            "已经写了会话键，但运行时详情还没出现。",
+            "已經寫了會話鍵，但執行時詳情還沒出現。",
           ),
         );
       }
@@ -5043,7 +5043,7 @@ function buildTaskCertaintyCards(input: {
           pickUiText(
             input.language,
             `${liveSessionCount} live session(s) are still running.`,
-            `当前仍有 ${liveSessionCount} 个执行中的会话。`,
+            `當前仍有 ${liveSessionCount} 個執行中的會話。`,
           ),
         );
       }
@@ -5052,7 +5052,7 @@ function buildTaskCertaintyCards(input: {
           pickUiText(
             input.language,
             `Recent activity was seen ${formatTimeAgoFromNow(latestSignalAt, input.language)}.`,
-            `最近活动发生在${formatTimeAgoFromNow(latestSignalAt, input.language)}。`,
+            `最近活動發生在${formatTimeAgoFromNow(latestSignalAt, input.language)}。`,
           ),
         );
       } else if (linkedSessionKeys.length > 0) {
@@ -5060,34 +5060,34 @@ function buildTaskCertaintyCards(input: {
           pickUiText(
             input.language,
             "No fresh runtime activity was seen in the last 6 hours.",
-            "最近 6 小时还没有看到新的运行信号。",
+            "最近 6 小時還沒有看到新的執行訊號。",
           ),
         );
       }
 
       if (toolEvidenceCount > 0) {
-        evidence.push(pickUiText(input.language, "Tool activity is visible.", "已经看到工具调用痕迹。"));
+        evidence.push(pickUiText(input.language, "Tool activity is visible.", "已經看到工具呼叫痕跡。"));
       }
       if (executionEvidenceCount > 0) {
-        evidence.push(pickUiText(input.language, "Accepted/spawned execution evidence is visible.", "已看到接单/派发执行证据。"));
+        evidence.push(pickUiText(input.language, "Accepted/spawned execution evidence is visible.", "已看到接單/派發執行證據。"));
       }
       if (pendingApprovals > 0) {
         gaps.push(
           pickUiText(
             input.language,
             `${pendingApprovals} linked approval item(s) are still waiting.`,
-            `还有 ${pendingApprovals} 个关联审批在等待处理。`,
+            `還有 ${pendingApprovals} 個關聯審批在等待處理。`,
           ),
         );
       }
       if (waitingApprovalSessionCount > 0) {
-        gaps.push(pickUiText(input.language, "A linked session is waiting for approval.", "有会话卡在等待审批。"));
+        gaps.push(pickUiText(input.language, "A linked session is waiting for approval.", "有會話卡在等待審批。"));
       }
       if (blockedSessionCount > 0) {
-        gaps.push(pickUiText(input.language, "A linked session is blocked.", "有会话已经进入阻塞状态。"));
+        gaps.push(pickUiText(input.language, "A linked session is blocked.", "有會話已經進入阻塞狀態。"));
       }
       if (errorSessionCount > 0) {
-        gaps.push(pickUiText(input.language, "A linked session is in error state.", "有会话已经进入异常状态。"));
+        gaps.push(pickUiText(input.language, "A linked session is in error state.", "有會話已經進入異常狀態。"));
       }
 
       const tone: TaskCertaintyCard["tone"] =
@@ -5100,20 +5100,20 @@ function buildTaskCertaintyCards(input: {
               : "blocked";
       const toneLabel =
         tone === "ok"
-          ? pickUiText(input.language, "Evidence is strong", "证据充分")
+          ? pickUiText(input.language, "Evidence is strong", "證據充分")
           : tone === "warn"
-            ? pickUiText(input.language, "Needs follow-up", "还需跟进")
-            : pickUiText(input.language, "Evidence is weak", "证据偏弱");
+            ? pickUiText(input.language, "Needs follow-up", "還需跟進")
+            : pickUiText(input.language, "Evidence is weak", "證據偏弱");
       const summary =
         tone === "ok"
-          ? pickUiText(input.language, "Runtime shows this task is actively being carried.", "运行时已经证明这个任务正在被真正执行。")
+          ? pickUiText(input.language, "Runtime shows this task is actively being carried.", "執行時已經證明這個任務正在被真正執行。")
           : errorSessionCount > 0
-            ? pickUiText(input.language, "A linked session is failing, so this task needs intervention.", "关联会话已经报错，这个任务现在需要介入。")
+            ? pickUiText(input.language, "A linked session is failing, so this task needs intervention.", "關聯會話已經報錯，這個任務現在需要介入。")
             : blockedSessionCount > 0 || waitingApprovalSessionCount > 0 || pendingApprovals > 0
-              ? pickUiText(input.language, "Runtime shows the task exists, but it is waiting on a blocker or approval.", "运行时已经看到这个任务，但它现在卡在阻塞或审批上。")
+              ? pickUiText(input.language, "Runtime shows the task exists, but it is waiting on a blocker or approval.", "執行時已經看到這個任務，但它現在卡在阻塞或審批上。")
               : staleLinkedSessions
-                ? pickUiText(input.language, "This task has historical traces, but no fresh runtime signal right now.", "这个任务有历史痕迹，但现在没有新的运行信号。")
-                : pickUiText(input.language, "Right now there is not enough runtime evidence to say this task is truly moving.", "目前还没有足够的运行证据证明这个任务真的在推进。");
+                ? pickUiText(input.language, "This task has historical traces, but no fresh runtime signal right now.", "這個任務有歷史痕跡，但現在沒有新的執行訊號。")
+                : pickUiText(input.language, "Right now there is not enough runtime evidence to say this task is truly moving.", "目前還沒有足夠的執行證據證明這個任務真的在推進。");
 
       return {
         taskId: task.taskId,
@@ -5149,9 +5149,9 @@ function renderTaskCertaintySection(
 ): string {
   if (cards.length === 0) {
     return `<section class="card" id="task-certainty-board">
-        <h2>${escapeHtml(pickUiText(language, "Execution certainty", "执行确定性"))}</h2>
-        <div class="meta">${escapeHtml(pickUiText(language, "This answers whether OpenClaw is really carrying a task, not just whether the task exists on the board.", "这块回答的不是任务有没有写在看板上，而是 OpenClaw 是否真的把它接住并推进了。"))}</div>
-        <div class="empty-state">${escapeHtml(pickUiText(language, "There is no in-flight task under the current filter.", "当前筛选下没有需要判断执行确定性的进行中任务。"))}</div>
+        <h2>${escapeHtml(pickUiText(language, "Execution certainty", "執行確定性"))}</h2>
+        <div class="meta">${escapeHtml(pickUiText(language, "This answers whether OpenClaw is really carrying a task, not just whether the task exists on the board.", "這塊回答的不是任務有沒有寫在看板上，而是 OpenClaw 是否真的把它接住並推進了。"))}</div>
+        <div class="empty-state">${escapeHtml(pickUiText(language, "There is no in-flight task under the current filter.", "當前篩選下沒有需要判斷執行確定性的進行中任務。"))}</div>
       </section>`;
   }
 
@@ -5161,26 +5161,26 @@ function renderTaskCertaintySection(
   return `<section class="card" id="task-certainty-board">
       <div class="overview-command-head">
         <div>
-          <h2>${escapeHtml(pickUiText(language, "Execution certainty", "执行确定性"))}</h2>
-          <div class="meta">${escapeHtml(pickUiText(language, "This answers whether OpenClaw is really carrying a task, not just whether the task exists on the board.", "这块回答的不是任务有没有写在看板上，而是 OpenClaw 是否真的把它接住并推进了。"))}</div>
+          <h2>${escapeHtml(pickUiText(language, "Execution certainty", "執行確定性"))}</h2>
+          <div class="meta">${escapeHtml(pickUiText(language, "This answers whether OpenClaw is really carrying a task, not just whether the task exists on the board.", "這塊回答的不是任務有沒有寫在看板上，而是 OpenClaw 是否真的把它接住並推進了。"))}</div>
         </div>
-        <div>${badge(weakCount > 0 ? "warn" : "ok", weakCount > 0 ? pickUiText(language, "Needs follow-up", "需要跟进") : pickUiText(language, "Clear enough", "比较清楚"))}</div>
+        <div>${badge(weakCount > 0 ? "warn" : "ok", weakCount > 0 ? pickUiText(language, "Needs follow-up", "需要跟進") : pickUiText(language, "Clear enough", "比較清楚"))}</div>
       </div>
       <div class="task-hub-stat-grid">
         <article class="task-hub-stat">
-          <span>${escapeHtml(pickUiText(language, "Evidence is strong", "证据充分"))}</span>
+          <span>${escapeHtml(pickUiText(language, "Evidence is strong", "證據充分"))}</span>
           <strong>${strongCount}</strong>
-          <small>${escapeHtml(pickUiText(language, "Tasks already backed by live evidence", "已经有实时证据支撑的任务"))}</small>
+          <small>${escapeHtml(pickUiText(language, "Tasks already backed by live evidence", "已經有實時證據支撐的任務"))}</small>
         </article>
         <article class="task-hub-stat">
-          <span>${escapeHtml(pickUiText(language, "Needs follow-up", "还需跟进"))}</span>
+          <span>${escapeHtml(pickUiText(language, "Needs follow-up", "還需跟進"))}</span>
           <strong>${followupCount}</strong>
-          <small>${escapeHtml(pickUiText(language, "Tasks that are visible but still need one more proof point", "已经能看见，但还缺一块证据的任务"))}</small>
+          <small>${escapeHtml(pickUiText(language, "Tasks that are visible but still need one more proof point", "已經能看見，但還缺一塊證據的任務"))}</small>
         </article>
         <article class="task-hub-stat">
-          <span>${escapeHtml(pickUiText(language, "Evidence is weak", "证据偏弱"))}</span>
+          <span>${escapeHtml(pickUiText(language, "Evidence is weak", "證據偏弱"))}</span>
           <strong>${weakCount}</strong>
-          <small>${escapeHtml(pickUiText(language, "Tasks that still look uncertain", "目前仍然看起来不够确定的任务"))}</small>
+          <small>${escapeHtml(pickUiText(language, "Tasks that still look uncertain", "目前仍然看起來不夠確定的任務"))}</small>
         </article>
       </div>
       <div class="decision-list">${cards
@@ -5189,10 +5189,10 @@ function renderTaskCertaintySection(
           (card) => `<a class="decision-row" href="${escapeHtml(card.detailHref)}">
               <div class="decision-row-copy">
                 <strong>${escapeHtml(card.title)}</strong>
-                <div class="meta">${badge(card.tone, card.toneLabel)} · ${escapeHtml(card.projectTitle)} · ${escapeHtml(pickUiText(language, "Owner", "负责人"))} ${escapeHtml(card.owner)}</div>
+                <div class="meta">${badge(card.tone, card.toneLabel)} · ${escapeHtml(card.projectTitle)} · ${escapeHtml(pickUiText(language, "Owner", "負責人"))} ${escapeHtml(card.owner)}</div>
                 <div class="meta">${escapeHtml(card.summary)}</div>
-                <div class="meta">${escapeHtml(pickUiText(language, "Confirmed", "已确认"))}：${escapeHtml(card.evidence.join(" · ") || pickUiText(language, "No direct evidence yet.", "暂时没有直接证据。"))}</div>
-                <div class="meta">${escapeHtml(pickUiText(language, "Still missing", "仍待确认"))}：${escapeHtml(card.gaps.join(" · ") || pickUiText(language, "No obvious gap right now.", "当前没有明显缺口。"))}</div>
+                <div class="meta">${escapeHtml(pickUiText(language, "Confirmed", "已確認"))}：${escapeHtml(card.evidence.join(" · ") || pickUiText(language, "No direct evidence yet.", "暫時沒有直接證據。"))}</div>
+                <div class="meta">${escapeHtml(pickUiText(language, "Still missing", "仍待確認"))}：${escapeHtml(card.gaps.join(" · ") || pickUiText(language, "No obvious gap right now.", "當前沒有明顯缺口。"))}</div>
               </div>
               <div class="decision-row-value">${card.score}</div>
             </a>`,
@@ -5825,12 +5825,12 @@ async function renderHtml(
     activeSection === "overview"
       ? t(
           "Decide from one screen: system health, items needing your intervention, who is active, and AI burn.",
-          "一个首页只回答四件事：系统是否正常、哪里需要你介入、谁在忙、AI 用量是否异常。",
+          "一個首頁只回答四件事：系統是否正常、哪裡需要你介入、誰在忙、AI 用量是否異常。",
         )
       : activeSection === "hall-chat"
         ? t(
             "Use one shared chat to assign work, watch discussion, and track handoffs between agents.",
-            "在一条共享群聊里布置任务、观看讨论，并追踪 agent 之间的交接。",
+            "在一條共享群聊裡布置任務、觀看討論，並追蹤 Agent 之間的交接。",
           )
         : activeSection === "collaboration"
           ? t(
@@ -5840,7 +5840,7 @@ async function renderHtml(
         : activeSection === "projects-tasks"
         ? t(
             "Start with schedule and cron execution. Staff can be active from cron or ad-hoc sessions even when there is no tracked task row yet.",
-            "先看排程和 Cron 执行。员工显示在工作，可能只是 Cron 或临时会话在跑，不一定已经落成可跟踪的任务条目。",
+            "先看排程和 Cron 執行。員工顯示在工作，可能只是 Cron 或臨時會話在跑，不一定已經落成可跟蹤的任務條目。",
           )
         : sectionMeta.blurb;
   const needsSessionPreview = activeSection === "projects-tasks" || activeSection === "overview";
@@ -5928,10 +5928,10 @@ async function renderHtml(
     needsTeamSnapshot
       ? loadTeamSnapshot(officeRoster)
       : Promise.resolve<TeamSnapshot>({
-          missionStatement: t("No shared mission loaded.", "尚未加载共同目标。"),
+          missionStatement: t("No shared mission loaded.", "尚未載入共同目標。"),
           members: [],
           sourcePath: OPENCLAW_CONFIG_PATH,
-          detail: t("Loaded on the staff page only.", "仅在员工页加载。"),
+          detail: t("Loaded on the staff page only.", "僅在員工頁載入。"),
         }),
     needsMemoryFiles ? listEditableFiles("memory") : Promise.resolve<EditableFileEntry[]>([]),
     needsMemoryFiles ? listMemoryFacetOptions() : Promise.resolve<Array<{ key: string; label: string }>>([]),
@@ -6089,10 +6089,10 @@ async function renderHtml(
   const attentionCount = actionQueue.counts.unacked + runtimeIssueCount + nonOkBudgets.length;
   const replayMoments = replayPreview.timeline.entries.slice(0, 8);
   const replaySignals = [
-    { label: t("Timeline events", "时间线事件"), value: replayPreview.stats.timeline.total },
-    { label: t("Daily digests", "日报快照"), value: replayPreview.stats.digests.total },
-    { label: t("Export snapshots", "导出快照"), value: replayPreview.stats.exportSnapshots.total },
-    { label: t("Backup bundles", "备份包"), value: replayPreview.stats.exportBundles.total },
+    { label: t("Timeline events", "時間線事件"), value: replayPreview.stats.timeline.total },
+    { label: t("Daily digests", "日報快照"), value: replayPreview.stats.digests.total },
+    { label: t("Export snapshots", "匯出快照"), value: replayPreview.stats.exportSnapshots.total },
+    { label: t("Backup bundles", "備份包"), value: replayPreview.stats.exportBundles.total },
   ].filter((item) => item.value > 0);
   const heartbeatJobs = cronOverview.jobs.filter((job) => job.jobId.toLowerCase().includes("heartbeat"));
   const heartbeatEnabledCount = heartbeatJobs.filter((job) => job.enabled).length;
@@ -6106,15 +6106,15 @@ async function renderHtml(
     controlCenterMappingTasks.length > 0
       ? t(
           `${controlCenterMappingTasks.length} board-only mapping examples are hidden from execution metrics.`,
-          `另有 ${controlCenterMappingTasks.length} 个看板样例（不执行任务）。`,
+          `另有 ${controlCenterMappingTasks.length} 個看板樣例（不執行任務）。`,
         )
       : "";
   const pendingDecisionCount = actionQueue.counts.unacked;
   const budgetRiskCount = nonOkBudgets.length;
   const focusSummary = [
-    `${t("Review queue", "审阅队列")} ${pendingDecisionCount}`,
-    `${t("Runtime issues", "运行异常")} ${runtimeIssueCount}`,
-    `${t("Budget risks", "预算风险")} ${budgetRiskCount}`,
+    `${t("Review queue", "審閱佇列")} ${pendingDecisionCount}`,
+    `${t("Runtime issues", "執行異常")} ${runtimeIssueCount}`,
+    `${t("Budget risks", "預算風險")} ${budgetRiskCount}`,
   ].join(" · ");
   const focusHref = `${buildHomeHref({ quick: "all" }, options.compactStatusStrip, "projects-tasks", options.language, options.usageView)}#tracked-task-view`;
   const currentTaskHealthHref = `${buildHomeHref({ quick: "all" }, true, "projects-tasks", options.language, options.usageView)}#tracked-task-view`;
@@ -6127,12 +6127,12 @@ async function renderHtml(
     const statusLabel = runtimeJob
       ? cronHealthLabel(runtimeJob.health, options.language)
       : job.enabled
-        ? pickUiText(options.language, "Enabled (awaiting runtime sync)", "已启用（等待运行时同步）")
+        ? pickUiText(options.language, "Enabled (awaiting runtime sync)", "已啟用（等待執行時同步）")
         : cronHealthLabel("disabled", options.language);
-    const nextRun = runtimeJob?.nextRunAt ?? (job.enabled ? t("Waiting for runtime sync", "等待运行时同步") : "-");
+    const nextRun = runtimeJob?.nextRunAt ?? (job.enabled ? t("Waiting for runtime sync", "等待執行時同步") : "-");
     return {
       source: "openclaw",
-      sourceLabel: t("Task config", "任务配置"),
+      sourceLabel: t("Task config", "任務配置"),
       jobId: job.jobId,
       name: job.name,
       owner: job.owner,
@@ -6148,12 +6148,12 @@ async function renderHtml(
     .filter((job) => !catalogMatchedRuntimeIds.has(job.jobId))
     .map((job) => ({
       source: "runtime",
-      sourceLabel: t("Runtime monitor", "系统监控"),
+      sourceLabel: t("Runtime monitor", "系統監控"),
       jobId: job.jobId,
       name: job.name ?? job.jobId,
       owner: formatExecutorAgentLabel("system-cron", options.language),
       purpose: cronRuntimePurpose(job.jobId, options.language),
-      schedule: pickUiText(options.language, "system interval", "系统间隔"),
+      schedule: pickUiText(options.language, "system interval", "系統間隔"),
       status: job.enabled ? job.health : "disabled",
       statusLabel: cronHealthLabel(job.enabled ? job.health : "disabled", options.language),
       nextRun: job.nextRunAt ?? "-",
@@ -6172,7 +6172,7 @@ async function renderHtml(
   const agentJobCatalogRows = allCronRows;
   const agentJobRowsHtml =
     agentJobCatalogRows.length === 0
-      ? `<tr><td colspan="7">${escapeHtml(t("No visible jobs yet.", "暂无可见 job。"))}</td></tr>`
+      ? `<tr><td colspan="7">${escapeHtml(t("No visible jobs yet.", "暫無可見 job。"))}</td></tr>`
       : agentJobCatalogRows
           .slice(0, 40)
           .map(
@@ -6185,7 +6185,7 @@ async function renderHtml(
     .slice(0, 12);
   const toolRows =
     toolSessions.length === 0
-      ? `<tr><td colspan="5">${escapeHtml(t("No tool-call sessions yet.", "暂无工具调用会话。"))}</td></tr>`
+      ? `<tr><td colspan="5">${escapeHtml(t("No tool-call sessions yet.", "暫無工具呼叫會話。"))}</td></tr>`
       : toolSessions
           .map((item) => {
             const toolCount = item.toolEventCount ?? (item.latestKind === "tool_event" ? 1 : 0);
@@ -6200,50 +6200,50 @@ async function renderHtml(
     : "disabled";
   const importGuardRows = [
     {
-      label: "只读保护",
+      label: "只讀保護",
       value: String(READONLY_MODE),
-      note: READONLY_MODE ? "当前只允许安全演练，不会写入真实变更。" : "允许真实写入，请确认后使用。",
+      note: READONLY_MODE ? "當前只允許安全演練，不會寫入真實變更。" : "允許真實寫入，請確認後使用。",
       status: READONLY_MODE ? "enabled" : "warn",
     },
     {
-      label: "关键操作身份验证",
+      label: "關鍵操作身份驗證",
       value: String(LOCAL_TOKEN_AUTH_REQUIRED),
-      note: LOCAL_TOKEN_AUTH_REQUIRED ? "已开启，关键操作需要身份验证。" : "未开启，建议在生产环境开启。",
+      note: LOCAL_TOKEN_AUTH_REQUIRED ? "已開啟，關鍵操作需要身份驗證。" : "未開啟，建議在生產環境開啟。",
       status: LOCAL_TOKEN_AUTH_REQUIRED ? "enabled" : "warn",
     },
     {
-      label: "身份验证配置",
+      label: "身份驗證配置",
       value: String(importGuard.localTokenConfigured),
-      note: importGuard.localTokenConfigured ? "已配置完成。" : "尚未配置，关键操作将被拦截。",
+      note: importGuard.localTokenConfigured ? "已配置完成。" : "尚未配置，關鍵操作將被攔截。",
       status: importGuard.localTokenConfigured ? "enabled" : "blocked",
     },
     {
-      label: "身份验证状态",
-      value: tokenGateStatus === "armed" ? "已就绪" : tokenGateStatus === "blocked_no_token" ? "未配置" : "未开启",
-      note: "用于保护关键写入操作。",
+      label: "身份驗證狀態",
+      value: tokenGateStatus === "armed" ? "已就緒" : tokenGateStatus === "blocked_no_token" ? "未配置" : "未開啟",
+      note: "用於保護關鍵寫入操作。",
       status: tokenGateStatus === "armed" ? "enabled" : tokenGateStatus === "blocked_no_token" ? "blocked" : "disabled",
     },
     {
-      label: "变更写入开关",
+      label: "變更寫入開關",
       value: String(IMPORT_MUTATION_ENABLED),
-      note: IMPORT_MUTATION_ENABLED ? "允许写入导入变更。" : "已关闭导入写入。",
+      note: IMPORT_MUTATION_ENABLED ? "允許寫入匯入變更。" : "已關閉匯入寫入。",
       status: IMPORT_MUTATION_ENABLED ? "warn" : "disabled",
     },
     {
-      label: "审批写入开关",
+      label: "審批寫入開關",
       value: String(APPROVAL_ACTIONS_ENABLED),
-      note: APPROVAL_ACTIONS_ENABLED ? "允许执行审批写入。" : "已关闭审批写入。",
+      note: APPROVAL_ACTIONS_ENABLED ? "允許執行審批寫入。" : "已關閉審批寫入。",
       status: APPROVAL_ACTIONS_ENABLED ? "warn" : "disabled",
     },
     {
-      label: "默认保护模式",
+      label: "預設保護模式",
       value: importGuard.defaultMode,
       note:
         importGuard.defaultMode === "blocked"
-          ? "当前为保护状态，仅允许演练。"
+          ? "當前為保護狀態，僅允許演練。"
           : importGuard.defaultMode === "dry_run"
-            ? "默认先演练，再决定是否写入。"
-            : "当前允许实时写入。",
+            ? "預設先演練，再決定是否寫入。"
+            : "當前允許實時寫入。",
       status: importGuard.defaultMode,
     },
   ]
@@ -6253,54 +6253,54 @@ async function renderHtml(
     )
     .join("");
   const replayRowItems = [
-    { label: t("Timeline scanned", "时间线扫描数"), value: replayPreview.stats.timeline.total },
-    { label: t("Timeline shown", "时间线展示数"), value: replayPreview.stats.timeline.returned },
-    { label: t("Timeline filtered", "时间线过滤数"), value: replayPreview.stats.timeline.filteredOut },
-    { label: t("Digests shown", "日报快照展示数"), value: replayPreview.stats.digests.returned },
-    { label: t("Export snapshots shown", "导出快照展示数"), value: replayPreview.stats.exportSnapshots.returned },
-    { label: t("Backup bundles shown", "备份包展示数"), value: replayPreview.stats.exportBundles.returned },
-    { label: t("Replay load p50 (ms)", "回放加载 p50 (ms)"), value: replayPreview.stats.total.latencyBucketsMs.p50 },
-    { label: t("Replay load p95 (ms)", "回放加载 p95 (ms)"), value: replayPreview.stats.total.latencyBucketsMs.p95 },
+    { label: t("Timeline scanned", "時間線掃描數"), value: replayPreview.stats.timeline.total },
+    { label: t("Timeline shown", "時間線展示數"), value: replayPreview.stats.timeline.returned },
+    { label: t("Timeline filtered", "時間線過濾數"), value: replayPreview.stats.timeline.filteredOut },
+    { label: t("Digests shown", "日報快照展示數"), value: replayPreview.stats.digests.returned },
+    { label: t("Export snapshots shown", "匯出快照展示數"), value: replayPreview.stats.exportSnapshots.returned },
+    { label: t("Backup bundles shown", "備份包展示數"), value: replayPreview.stats.exportBundles.returned },
+    { label: t("Replay load p50 (ms)", "回放載入 p50 (ms)"), value: replayPreview.stats.total.latencyBucketsMs.p50 },
+    { label: t("Replay load p95 (ms)", "回放載入 p95 (ms)"), value: replayPreview.stats.total.latencyBucketsMs.p95 },
   ].filter((item) => item.value > 0);
   const replayRows = replayRowItems
     .map((item) => `<tr><td><code>${escapeHtml(item.label)}</code></td><td>${item.value}</td></tr>`)
     .join("");
   const replayMetricsHtml =
     replayRowItems.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No replay metrics yet. They will appear after the system runs for a while.", "暂无回放统计。运行一段时间后会显示。"))}</div>`
-      : `<table style="margin-top:10px;"><thead><tr><th>${escapeHtml(t("Metric", "指标"))}</th><th>${escapeHtml(t("Value", "数值"))}</th></tr></thead><tbody>${replayRows}</tbody></table>`;
+      ? `<div class="empty-state">${escapeHtml(t("No replay metrics yet. They will appear after the system runs for a while.", "暫無回放統計。執行一段時間後會顯示。"))}</div>`
+      : `<table style="margin-top:10px;"><thead><tr><th>${escapeHtml(t("Metric", "指標"))}</th><th>${escapeHtml(t("Value", "數值"))}</th></tr></thead><tbody>${replayRows}</tbody></table>`;
   const replayLatestSnapshot = replayPreview.exportSnapshots[0];
   const replayLatestBundle = replayPreview.exportBundles[0];
   const approvalsPreviewMeta =
     allApprovals.length > topApprovals.length
-      ? t(`Showing the latest ${topApprovals.length} of ${allApprovals.length} approval items.`, `当前展示最近 ${topApprovals.length}/${allApprovals.length} 条审批记录。`)
-      : t(`Showing ${topApprovals.length} approval items.`, `当前展示 ${topApprovals.length} 条审批记录。`);
+      ? t(`Showing the latest ${topApprovals.length} of ${allApprovals.length} approval items.`, `當前展示最近 ${topApprovals.length}/${allApprovals.length} 條審批記錄。`)
+      : t(`Showing ${topApprovals.length} approval items.`, `當前展示 ${topApprovals.length} 條審批記錄。`);
 
   const approvalsItems =
     topApprovals.length === 0
-      ? `<li>${escapeHtml(t("No approvals yet.", "暂无审批记录"))}</li>`
+      ? `<li>${escapeHtml(t("No approvals yet.", "暫無審批記錄"))}</li>`
       : topApprovals
           .map((approval) => {
             const status = approval.status ?? "unknown";
-            const target = approval.agentId ?? approval.sessionKey ?? t("Unknown target", "未知目标");
-            const commandLabel = approval.command ? escapeHtml(approval.command) : t("Approval action", "审批动作");
-            const when = approval.requestedAt ? ` · ${escapeHtml(t("Requested at", "提交于"))} ${escapeHtml(approval.requestedAt)}` : "";
+            const target = approval.agentId ?? approval.sessionKey ?? t("Unknown target", "未知目標");
+            const commandLabel = approval.command ? escapeHtml(approval.command) : t("Approval action", "審批動作");
+            const when = approval.requestedAt ? ` · ${escapeHtml(t("Requested at", "提交於"))} ${escapeHtml(approval.requestedAt)}` : "";
             return `<li>${badge(status)} ${commandLabel} · <strong>${escapeHtml(target)}</strong>${when}</li>`;
           })
           .join("");
 
   const budgetItems =
     nonOkBudgets.length === 0
-      ? `<tr><td colspan="4">${escapeHtml(t("All budgets are currently within the safe range.", "当前预算全部在安全范围内。"))}</td></tr>`
+      ? `<tr><td colspan="4">${escapeHtml(t("All budgets are currently within the safe range.", "當前預算全部在安全範圍內。"))}</td></tr>`
       : nonOkBudgets
           .map((item) => {
-            return `<tr><td>${badge(item.status ?? "ok")}</td><td>${escapeHtml(item.scope ?? t("Unknown scope", "未知范围"))}</td><td>${escapeHtml(item.label ?? t("Untitled", "未命名"))}</td><td>${renderMetricSummary(item)}</td></tr>`;
+            return `<tr><td>${badge(item.status ?? "ok")}</td><td>${escapeHtml(item.scope ?? t("Unknown scope", "未知範圍"))}</td><td>${escapeHtml(item.label ?? t("Untitled", "未命名"))}</td><td>${renderMetricSummary(item)}</td></tr>`;
           })
           .join("");
 
   const taskRows =
     tasks.length === 0
-      ? `<tr><td colspan="7">${escapeHtml(t("No tasks match the current filter.", "当前筛选下暂无任务。"))}</td></tr>`
+      ? `<tr><td colspan="7">${escapeHtml(t("No tasks match the current filter.", "當前篩選下暫無任務。"))}</td></tr>`
       : tasks
           .slice(0, 50)
           .map(
@@ -6310,7 +6310,7 @@ async function renderHtml(
           .join("");
   const taskGroupedListHtml =
     tasks.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No tasks match the current filter.", "当前筛选下暂无任务。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No tasks match the current filter.", "當前篩選下暫無任務。"))}</div>`
       : `<div class="group-list">${TASK_STATES.map((state) => {
           const bucket = tasks.filter((task) => task.status === state);
           if (bucket.length === 0) return "";
@@ -6323,49 +6323,49 @@ async function renderHtml(
                   <strong>${escapeHtml(task.title)}</strong>
                   ${badge(task.status, taskStateLabel(task.status, options.language))}
                 </div>
-                <div class="meta"><code>${escapeHtml(task.taskId)}</code> · ${escapeHtml(task.projectTitle)} · ${escapeHtml(t("Owner", "负责人"))} ${escapeHtml(task.owner)}</div>
-                <div class="meta">${escapeHtml(t("Due", "截止"))} ${escapeHtml(task.dueAt ?? t("Not set", "未设置"))} · ${escapeHtml(t("Updated", "更新"))} ${escapeHtml(task.updatedAt)}</div>
-                <div class="meta"><a href="${escapeHtml(detailHref)}">${escapeHtml(t("Open task detail", "查看任务详情页"))}</a></div>
+                <div class="meta"><code>${escapeHtml(task.taskId)}</code> · ${escapeHtml(task.projectTitle)} · ${escapeHtml(t("Owner", "負責人"))} ${escapeHtml(task.owner)}</div>
+                <div class="meta">${escapeHtml(t("Due", "截止"))} ${escapeHtml(task.dueAt ?? t("Not set", "未設定"))} · ${escapeHtml(t("Updated", "更新"))} ${escapeHtml(task.updatedAt)}</div>
+                <div class="meta"><a href="${escapeHtml(detailHref)}">${escapeHtml(t("Open task detail", "檢視任務詳情頁"))}</a></div>
               </li>`;
             })
             .join("");
-          const more = bucket.length > 16 ? `<div class="meta">${escapeHtml(t(`${bucket.length - 16} more tasks are collapsed.`, `其余 ${bucket.length - 16} 个任务已折叠。`))}</div>` : "";
+          const more = bucket.length > 16 ? `<div class="meta">${escapeHtml(t(`${bucket.length - 16} more tasks are collapsed.`, `其餘 ${bucket.length - 16} 個任務已摺疊。`))}</div>` : "";
           return `<details class="group-section" open><summary>${escapeHtml(taskStateLabel(state, options.language))} (${bucket.length})</summary><ul class="group-items">${itemRows}</ul>${more}</details>`;
         }).join("")}</div>`;
   const toolGroupedListHtml =
     toolSessions.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No tool-call sessions yet.", "暂无工具调用会话。"))}</div>`
-      : `<div class="group-list"><details class="group-section" open><summary>${escapeHtml(t("Active tool sessions", "活跃工具会话"))} (${toolSessions.length})</summary><ul class="group-items">${toolSessions
+      ? `<div class="empty-state">${escapeHtml(t("No tool-call sessions yet.", "暫無工具呼叫會話。"))}</div>`
+      : `<div class="group-list"><details class="group-section" open><summary>${escapeHtml(t("Active tool sessions", "活躍工具會話"))} (${toolSessions.length})</summary><ul class="group-items">${toolSessions
           .map((item) => {
             const toolCount = item.toolEventCount ?? (item.latestKind === "tool_event" ? 1 : 0);
             return `<li class="group-item">
               <div class="group-item-head"><strong>${escapeHtml(item.label ?? item.sessionKey)}</strong>${badge(item.state, sessionStateLabel(item.state))}</div>
-              <div class="meta">${escapeHtml(t("Agent", "智能体"))} ${escapeHtml(item.agentId ?? t("Unassigned", "未分配"))} · ${escapeHtml(t("Calls", "调用"))} ${toolCount} ${escapeHtml(t("times", "次"))}</div>
-              <div class="meta">${escapeHtml(t("Latest activity", "最近活动"))} ${escapeHtml(item.lastMessageAt ?? "-")}</div>
-              <div class="meta"><a href="${escapeHtml(buildSessionDetailHref(item.sessionKey, options.language))}">${escapeHtml(t("Open session detail", "查看会话详情页"))}</a></div>
+              <div class="meta">${escapeHtml(t("Agent", "智慧體"))} ${escapeHtml(item.agentId ?? t("Unassigned", "未分配"))} · ${escapeHtml(t("Calls", "呼叫"))} ${toolCount} ${escapeHtml(t("times", "次"))}</div>
+              <div class="meta">${escapeHtml(t("Latest activity", "最近活動"))} ${escapeHtml(item.lastMessageAt ?? "-")}</div>
+              <div class="meta"><a href="${escapeHtml(buildSessionDetailHref(item.sessionKey, options.language))}">${escapeHtml(t("Open session detail", "檢視會話詳情頁"))}</a></div>
             </li>`;
           })
           .join("")}</ul></details></div>`;
   const heartbeatGroupedListHtml =
     heartbeatJobs.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No heartbeat timed jobs found yet.", "尚未发现心跳定时任务。"))}</div>`
-      : `<div class="group-list"><details class="group-section" open><summary>${escapeHtml(t("Heartbeat checks", "心跳检查项"))} (${heartbeatJobs.length})</summary><ul class="group-items">${heartbeatJobs
+      ? `<div class="empty-state">${escapeHtml(t("No heartbeat timed jobs found yet.", "尚未發現心跳定時任務。"))}</div>`
+      : `<div class="group-list"><details class="group-section" open><summary>${escapeHtml(t("Heartbeat checks", "心跳檢查項"))} (${heartbeatJobs.length})</summary><ul class="group-items">${heartbeatJobs
           .slice(0, 16)
           .map((job) => {
             const detailHref = buildCronDetailHref(job.jobId, options.language);
             const checkLabel = job.jobId.toLowerCase().includes("heartbeat")
-              ? t("Task heartbeat service", "任务心跳服务")
+              ? t("Task heartbeat service", "任務心跳服務")
               : job.name?.trim() || job.jobId;
             return `<li class="group-item">
               <div class="group-item-head"><strong>${escapeHtml(checkLabel)}</strong>${badge(job.health, cronHealthLabel(job.health, options.language))}</div>
-              <div class="meta">${escapeHtml(t("Next run", "下次运行"))} ${escapeHtml(job.nextRunAt ?? "-")} · ${escapeHtml(formatSeconds(job.dueInSeconds, options.language))}</div>
-              <div class="meta"><a href="${escapeHtml(detailHref)}">${escapeHtml(t("Open task detail", "查看任务详情页"))}</a></div>
+              <div class="meta">${escapeHtml(t("Next run", "下次執行"))} ${escapeHtml(job.nextRunAt ?? "-")} · ${escapeHtml(formatSeconds(job.dueInSeconds, options.language))}</div>
+              <div class="meta"><a href="${escapeHtml(detailHref)}">${escapeHtml(t("Open task detail", "檢視任務詳情頁"))}</a></div>
             </li>`;
           })
           .join("")}</ul></details></div>`;
   const agentJobGroupedListHtml =
     agentJobCatalogRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No visible jobs yet.", "暂无可见 job。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No visible jobs yet.", "暫無可見 job。"))}</div>`
       : `<div class="group-list">${[...new Set(agentJobCatalogRows.map((item) => item.owner))]
           .slice(0, 10)
           .map((owner) => {
@@ -6378,7 +6378,7 @@ async function renderHtml(
                   <div class="group-item-head"><strong>${escapeHtml(item.name)}</strong>${badge(item.status, item.statusLabel)}</div>
                   <div class="meta"><code>${escapeHtml(item.jobId)}</code> · ${escapeHtml(displayCronScheduleLabel(item.schedule, options.language))}</div>
                   <div class="meta">${escapeHtml(sanitizeCronPurposeText(item.purpose, options.language, 80))}</div>
-                  <div class="meta"><a href="${escapeHtml(detailHref)}">${escapeHtml(t("Open task detail", "查看任务详情页"))}</a></div>
+                  <div class="meta"><a href="${escapeHtml(detailHref)}">${escapeHtml(t("Open task detail", "檢視任務詳情頁"))}</a></div>
                 </li>`;
               })
               .join("");
@@ -6394,10 +6394,10 @@ async function renderHtml(
   const quickFilters = renderQuickFilters(filters, options.compactStatusStrip, options.section, options.language, options.usageView);
   const clearHref = buildHomeHref({ quick: "all" }, options.compactStatusStrip, options.section, options.language, options.usageView);
   const signalItems = [
-    { label: t("Active sessions", "活跃会话"), value: liveSessionCount },
-    { label: t("Tasks under watch", "正在观察中的任务"), value: trackedTaskCount },
-    { label: t("Risk signals", "风险信号"), value: attentionCount },
-    { label: t("Active projects", "活跃项目"), value: snapshot.projectSummaries.filter((item) => item.status === "active").length },
+    { label: t("Active sessions", "活躍會話"), value: liveSessionCount },
+    { label: t("Tasks under watch", "正在觀察中的任務"), value: trackedTaskCount },
+    { label: t("Risk signals", "風險訊號"), value: attentionCount },
+    { label: t("Active projects", "活躍專案"), value: snapshot.projectSummaries.filter((item) => item.status === "active").length },
   ].filter((item) => item.value > 0);
   const subscriptionWindowHint =
     usageCost.subscription.primaryWindowLabel || usageCost.subscription.secondaryUsedPercent !== undefined
@@ -6408,34 +6408,34 @@ async function renderHtml(
       : usageCost.subscription.planLabel;
   const executiveCards = [
     {
-      title: t("Projects", "项目"),
+      title: t("Projects", "專案"),
       metric: `${snapshot.projectSummaries.length}`,
-      detail: `${t("Active", "活跃")} ${snapshot.projectSummaries.filter((item) => item.status === "active").length} · ${t("Blocked", "阻塞")} ${snapshot.projectSummaries.filter((item) => item.status === "blocked").length}`,
+      detail: `${t("Active", "活躍")} ${snapshot.projectSummaries.filter((item) => item.status === "active").length} · ${t("Blocked", "阻塞")} ${snapshot.projectSummaries.filter((item) => item.status === "blocked").length}`,
     },
     {
-      title: t("Tasks", "任务"),
+      title: t("Tasks", "任務"),
       metric: `${realTasks.length}`,
-      detail: `${t("In motion", "进行中")} ${inProgressTasksCount} · ${t("Blocked", "阻塞")} ${blockedTasksCount}${controlCenterMappingTasks.length > 0 ? ` · ${t("Mapping examples", "映射样例")} ${controlCenterMappingTasks.length}` : ""}`,
+      detail: `${t("In motion", "進行中")} ${inProgressTasksCount} · ${t("Blocked", "阻塞")} ${blockedTasksCount}${controlCenterMappingTasks.length > 0 ? ` · ${t("Mapping examples", "對映樣例")} ${controlCenterMappingTasks.length}` : ""}`,
     },
     {
-      title: t("Agents", "智能体"),
+      title: t("Agents", "智慧體"),
       metric: `${officeCards.filter((card) => card.status !== "inactive").length}`,
-      detail: `${t("Online agents", "在线智能体")} ${officeCards.filter((card) => card.activeSessions > 0).length}`,
+      detail: `${t("Online agents", "線上智慧體")} ${officeCards.filter((card) => card.activeSessions > 0).length}`,
     },
     {
-      title: t("Budget", "预算"),
+      title: t("Budget", "預算"),
       metric: `${budgets.total}`,
-      detail: `${t("Warnings", "预警")} ${budgets.warn ?? 0} · ${t("Over limit", "超限")} ${budgets.over ?? 0}`,
+      detail: `${t("Warnings", "預警")} ${budgets.warn ?? 0} · ${t("Over limit", "超限")} ${budgets.over ?? 0}`,
     },
     {
-      title: t("Subscription", "订阅"),
-      metric: usageCost.subscription.status === "connected" ? t("Connected", "已连接") : t("Needs connection", "待连接"),
+      title: t("Subscription", "訂閱"),
+      metric: usageCost.subscription.status === "connected" ? t("Connected", "已連線") : t("Needs connection", "待連線"),
       detail: subscriptionWindowHint,
     },
     {
-      title: t("System health", "系统健康"),
-      metric: cronOverview.health.status === "ok" ? t("Healthy", "正常") : t("Attention", "关注"),
-      detail: `${t("Timed jobs", "定时任务")} ${cronOverview.jobs.length} ${t("items", "个")} · ${t("Heartbeats", "心跳")} ${heartbeatEnabledCount} ${t("items", "个")}`,
+      title: t("System health", "系統健康"),
+      metric: cronOverview.health.status === "ok" ? t("Healthy", "正常") : t("Attention", "關注"),
+      detail: `${t("Timed jobs", "定時任務")} ${cronOverview.jobs.length} ${t("items", "個")} · ${t("Heartbeats", "心跳")} ${heartbeatEnabledCount} ${t("items", "個")}`,
     },
   ];
   const executiveCardsHtml = `<section class="executive-grid">${executiveCards
@@ -6447,51 +6447,51 @@ async function renderHtml(
   const overviewTopMetrics = [
     {
       key: "review-queue",
-      title: t("Review queue", "审阅队列"),
+      title: t("Review queue", "審閱佇列"),
       numericValue: pendingDecisionCount,
       displayValue: formatInt(pendingDecisionCount),
-      detail: pendingDecisionCount > 0 ? t("Waiting for your review", "等你处理") : t("No backlog", "无积压"),
+      detail: pendingDecisionCount > 0 ? t("Waiting for your review", "等你處理") : t("No backlog", "無積壓"),
       tone: pendingDecisionCount > 0 ? "warn" : "ok",
     },
     {
       key: "runtime-issues",
-      title: t("Runtime issues", "运行异常"),
+      title: t("Runtime issues", "執行異常"),
       numericValue: runtimeSessionIssueCount,
       displayValue: formatInt(runtimeSessionIssueCount),
       detail:
         runtimeSessionIssueCount > 0
-          ? t("Blocked, waiting, or failing sessions", "阻塞、等待或报错中的会话")
-          : t("Normal", "状态正常"),
+          ? t("Blocked, waiting, or failing sessions", "阻塞、等待或報錯中的會話")
+          : t("Normal", "狀態正常"),
       tone: runtimeSessionIssueCount > 0 ? "warn" : "ok",
     },
     {
       key: "stalled-runs",
-      title: t("Stalled runs", "停滞执行"),
+      title: t("Stalled runs", "停滯執行"),
       numericValue: stalledRunningSessionCount,
       displayValue: formatInt(stalledRunningSessionCount),
       detail:
         stalledRunningSessionCount > 0
-          ? t("Running sessions have gone quiet", "运行中的会话已经沉默")
-          : t("Fresh", "信号新鲜"),
+          ? t("Running sessions have gone quiet", "執行中的會話已經沉默")
+          : t("Fresh", "訊號新鮮"),
       tone: stalledRunningSessionCount > 0 ? "warn" : "ok",
     },
     {
       key: "budget-risk",
-      title: t("Budget risk", "预算风险"),
+      title: t("Budget risk", "預算風險"),
       numericValue: budgetRiskCount,
       displayValue: formatInt(budgetRiskCount),
-      detail: budgetRiskCount > 0 ? t("Budget warning", "预算告警") : t("Budget safe", "预算安全"),
+      detail: budgetRiskCount > 0 ? t("Budget warning", "預算告警") : t("Budget safe", "預算安全"),
       tone: budgetRiskCount > 0 ? "warn" : "ok",
     },
     {
       key: "today-usage",
       title: t("Today's usage", "今日用量"),
       numericValue: usageToday?.sourceStatus === "not_connected" ? undefined : usageToday?.tokens ?? 0,
-      displayValue: usageToday?.sourceStatus === "not_connected" ? t("Not connected", "未连接") : formatInt(usageToday?.tokens ?? 0),
+      displayValue: usageToday?.sourceStatus === "not_connected" ? t("Not connected", "未連線") : formatInt(usageToday?.tokens ?? 0),
       detail:
         usageToday?.sourceStatus === "not_connected"
-          ? t("Not connected", "未连接")
-          : `${t("Cost", "费用")} ${formatCurrency(usageToday?.estimatedCost ?? 0)}`,
+          ? t("Not connected", "未連線")
+          : `${t("Cost", "費用")} ${formatCurrency(usageToday?.estimatedCost ?? 0)}`,
       tone: usageToday?.sourceStatus === "not_connected" ? "neutral" : "ok",
     },
   ];
@@ -6534,7 +6534,7 @@ async function renderHtml(
   const languageToggle = renderLanguageToggle(filters, options);
   const replayMomentsRows =
     replayMoments.length === 0
-      ? `<li>${escapeHtml(t("No timeline events yet.", "暂无时间线事件。"))}</li>`
+      ? `<li>${escapeHtml(t("No timeline events yet.", "暫無時間線事件。"))}</li>`
       : replayMoments
           .map((item) => `<li><code>${escapeHtml(item.timestamp)}</code> ${escapeHtml(item.summary)}</li>`)
           .join("");
@@ -6543,13 +6543,13 @@ async function renderHtml(
   const usagePeriodCards = renderUsagePeriodCards(usagePeriodsForView, options.language);
   const usageViewTodayHref = buildHomeHref(filters, options.compactStatusStrip, "usage-cost", options.language, "today");
   const usageViewCumulativeHref = buildHomeHref(filters, options.compactStatusStrip, "usage-cost", options.language, "cumulative");
-  const usageViewSwitchHtml = `<div class="segment-switch"><a class="segment-item${isTodayUsageView ? " active" : ""}" href="${escapeHtml(usageViewTodayHref)}">${escapeHtml(t("Today", "今天"))}</a><a class="segment-item${!isTodayUsageView ? " active" : ""}" href="${escapeHtml(usageViewCumulativeHref)}">${escapeHtml(t("Cumulative", "累计"))}</a></div>`;
+  const usageViewSwitchHtml = `<div class="segment-switch"><a class="segment-item${isTodayUsageView ? " active" : ""}" href="${escapeHtml(usageViewTodayHref)}">${escapeHtml(t("Today", "今天"))}</a><a class="segment-item${!isTodayUsageView ? " active" : ""}" href="${escapeHtml(usageViewCumulativeHref)}">${escapeHtml(t("Cumulative", "累計"))}</a></div>`;
   const usageViewRangeText = isTodayUsageView
-    ? t("Range: today from 00:00 until now.", "统计范围：今日 00:00 至当前。")
-    : t("Range: cumulative history until now.", "统计范围：历史累计到当前。");
+    ? t("Range: today from 00:00 until now.", "統計範圍：今日 00:00 至當前。")
+    : t("Range: cumulative history until now.", "統計範圍：歷史累計到當前。");
   const usageViewRangeDetail = isTodayUsageView
-    ? t("Today view focuses on same-day consumption and live budget pressure.", "今天视图聚焦当日消耗，适合看实时预算压力。")
-    : t("Cumulative view shows overall composition and long-term trend.", "累计视图用于看整体结构占比和长期趋势。");
+    ? t("Today view focuses on same-day consumption and live budget pressure.", "今天檢視聚焦當日消耗，適合看實時預算壓力。")
+    : t("Cumulative view shows overall composition and long-term trend.", "累計檢視用於看整體結構佔比和長期趨勢。");
   const usageContextRows = renderUsageContextRows(usageCost.contextWindows, options.language);
   const selectedUsageBreakdown = isTodayUsageView ? usageCost.breakdownToday : usageCost.breakdown;
   const usageAgentRows = renderUsageBreakdownRows(selectedUsageBreakdown.byAgent, "agent", options.language);
@@ -6570,128 +6570,128 @@ async function renderHtml(
   const usageSourceProjectTotalTokens = selectedUsageBreakdown.byProject.reduce((sum, item) => sum + item.tokens, 0);
   const runtimeTokenRangeLabel =
     usageToday?.sourceStatus === "not_connected"
-      ? t("Range: current snapshot (data source not connected).", "统计范围：当前快照（数据源未连接）。")
+      ? t("Range: current snapshot (data source not connected).", "統計範圍：當前快照（資料來源未連線）。")
       : isTodayUsageView
-        ? t("Range: today from 00:00 until now.", "统计范围：今日 00:00 至当前。")
-        : t("Range: cumulative until now.", "统计范围：累计至当前。");
+        ? t("Range: today from 00:00 until now.", "統計範圍：今日 00:00 至當前。")
+        : t("Range: cumulative until now.", "統計範圍：累計至當前。");
   const sessionTypeTokenRangeLabel = isTodayUsageView
-    ? t("Range: all sessions today (00:00 until now).", "统计范围：今日全部会话（00:00 至当前）。")
-    : t("Range: all sessions cumulative (through now).", "统计范围：全部会话累计（截至当前）。");
+    ? t("Range: all sessions today (00:00 until now).", "統計範圍：今日全部會話（00:00 至當前）。")
+    : t("Range: all sessions cumulative (through now).", "統計範圍：全部會話累計（截至當前）。");
   const cronTokenRangeLabel = isTodayUsageView
-    ? t("Range: timed-job sessions today (00:00 until now).", "统计范围：今日定时任务会话（00:00 至当前）。")
-    : t("Range: timed-job sessions cumulative (through now).", "统计范围：定时任务会话累计（截至当前）。");
+    ? t("Range: timed-job sessions today (00:00 until now).", "統計範圍：今日定時任務會話（00:00 至當前）。")
+    : t("Range: timed-job sessions cumulative (through now).", "統計範圍：定時任務會話累計（截至當前）。");
   const usageSourcePieHtml =
     selectedUsageBreakdown.byAgent.length === 0 && selectedUsageBreakdown.byProject.length === 0
       ? ""
       : `<div class="bars">
           <div>
-            <div class="meta">${escapeHtml(t("Share by agent", "按智能体占比"))}</div>
-            ${renderTokenPieChart(selectedUsageBreakdown.byAgent, usageSourceAgentTotalTokens, t("Agents", "智能体"), options.language)}
+            <div class="meta">${escapeHtml(t("Share by agent", "按智慧體佔比"))}</div>
+            ${renderTokenPieChart(selectedUsageBreakdown.byAgent, usageSourceAgentTotalTokens, t("Agents", "智慧體"), options.language)}
           </div>
           <div>
-            <div class="meta">${escapeHtml(t("Share by project", "按项目占比"))}</div>
-            ${renderTokenPieChart(selectedUsageBreakdown.byProject, usageSourceProjectTotalTokens, t("Projects", "项目"), options.language)}
+            <div class="meta">${escapeHtml(t("Share by project", "按專案佔比"))}</div>
+            ${renderTokenPieChart(selectedUsageBreakdown.byProject, usageSourceProjectTotalTokens, t("Projects", "專案"), options.language)}
           </div>
         </div>`;
-  const usageSessionTypePieHtml = renderTokenPieChart(usageSessionTypeRows, usageSessionTypeTotalTokens, t("All sessions", "全部会话"), options.language);
-  const usageCronJobPieHtml = renderTokenPieChart(usageCronJobRows, usageCronTotalTokens, t("Timed jobs", "定时任务"), options.language);
-  const usageCronAgentPieHtml = renderTokenPieChart(usageCronAgentRows, usageCronAgentTotalTokens, t("Agents", "智能体"), options.language);
+  const usageSessionTypePieHtml = renderTokenPieChart(usageSessionTypeRows, usageSessionTypeTotalTokens, t("All sessions", "全部會話"), options.language);
+  const usageCronJobPieHtml = renderTokenPieChart(usageCronJobRows, usageCronTotalTokens, t("Timed jobs", "定時任務"), options.language);
+  const usageCronAgentPieHtml = renderTokenPieChart(usageCronAgentRows, usageCronAgentTotalTokens, t("Agents", "智慧體"), options.language);
   const usageSessionTypeShareHtml =
     usageSessionTypeRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No session-type usage data yet.", "暂无会话类型用量数据。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No session-type usage data yet.", "暫無會話型別用量資料。"))}</div>`
       : `<div class="meta">${sessionTypeTokenRangeLabel}</div>
-         <div class="meta">${escapeHtml(t("Total usage", "总用量"))}：${formatInt(usageSessionTypeTotalTokens)}</div>
+         <div class="meta">${escapeHtml(t("Total usage", "總用量"))}：${formatInt(usageSessionTypeTotalTokens)}</div>
          ${usageSessionTypePieHtml}
          <table>
-           <thead><tr><th>${escapeHtml(t("Type", "类型"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Share", "占比"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead>
+           <thead><tr><th>${escapeHtml(t("Type", "型別"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Share", "佔比"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead>
            <tbody>${renderTokenShareRows(usageSessionTypeRows, usageSessionTypeTotalTokens, options.language)}</tbody>
          </table>`;
   const usageCronJobShareHtml =
     usageCronJobRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No timed-job usage data yet.", "暂无定时任务用量数据。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No timed-job usage data yet.", "暫無定時任務用量資料。"))}</div>`
       : `<div class="meta">${cronTokenRangeLabel}</div>
-         <div class="meta">${escapeHtml(t("Total timed-job usage", "定时任务总用量"))}：${formatInt(usageCronTotalTokens)}</div>
+         <div class="meta">${escapeHtml(t("Total timed-job usage", "定時任務總用量"))}：${formatInt(usageCronTotalTokens)}</div>
          ${usageCronJobPieHtml}
          <table>
-           <thead><tr><th>${escapeHtml(t("Timed job", "定时任务"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Share within timed jobs", "占比（定时任务内）"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead>
+           <thead><tr><th>${escapeHtml(t("Timed job", "定時任務"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Share within timed jobs", "佔比（定時任務內）"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead>
            <tbody>${renderTokenShareRows(usageCronJobRows, usageCronTotalTokens, options.language)}</tbody>
          </table>`;
   const usageCronAgentShareHtml =
     usageCronAgentRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No timed-job agent usage data yet.", "暂无定时任务智能体用量数据。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No timed-job agent usage data yet.", "暫無定時任務智慧體用量資料。"))}</div>`
       : `<div class="meta">${cronTokenRangeLabel}</div>
-         <div class="meta">${escapeHtml(t("Total timed-job agent usage", "定时任务智能体总用量"))}：${formatInt(usageCronAgentTotalTokens)}</div>
+         <div class="meta">${escapeHtml(t("Total timed-job agent usage", "定時任務智慧體總用量"))}：${formatInt(usageCronAgentTotalTokens)}</div>
          ${usageCronAgentPieHtml}
          <table>
-           <thead><tr><th>${escapeHtml(t("Agent", "智能体"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Share within timed jobs", "占比（定时任务内）"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead>
+           <thead><tr><th>${escapeHtml(t("Agent", "智慧體"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Share within timed jobs", "佔比（定時任務內）"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead>
            <tbody>${renderTokenShareRows(usageCronAgentRows, usageCronAgentTotalTokens, options.language)}</tbody>
          </table>`;
   const usageConnectorTodos = renderUsageConnectorTodos(usageCost.connectors.todos, options.language);
   const usageBudgetStatusLabel =
-    usageCost.budget.status === "ok" ? t("Healthy", "正常") : usageCost.budget.status === "warn" ? t("Warning", "预警") : t("Over limit", "超限");
+    usageCost.budget.status === "ok" ? t("Healthy", "正常") : usageCost.budget.status === "warn" ? t("Warning", "預警") : t("Over limit", "超限");
   const usageBudgetHeadline =
     usageCost.budget.status === "not_connected"
-      ? t("Budget data source is not connected", "预算数据源未连接")
+      ? t("Budget data source is not connected", "預算資料來源未連線")
       : `${badge(usageCost.budget.status, usageBudgetStatusLabel)} ${escapeHtml(usageCost.budget.message)}`;
   const usageBudgetMeta =
     usage30d?.sourceStatus === "not_connected"
-      ? t("Last 30 days cost: data source not connected", "近 30 天费用：数据源未连接")
+      ? t("Last 30 days cost: data source not connected", "近 30 天費用：資料來源未連線")
       : usageCost.budget.limitCost30d
-        ? `${t("Last 30 days cost", "近 30 天费用")} ${formatCurrency(usageCost.budget.usedCost30d)} / ${t("Limit", "限额")} ${formatCurrency(usageCost.budget.limitCost30d)}`
-        : `${t("Last 30 days cost", "近 30 天费用")} ${formatCurrency(usageCost.budget.usedCost30d)}`;
+        ? `${t("Last 30 days cost", "近 30 天費用")} ${formatCurrency(usageCost.budget.usedCost30d)} / ${t("Limit", "限額")} ${formatCurrency(usageCost.budget.limitCost30d)}`
+        : `${t("Last 30 days cost", "近 30 天費用")} ${formatCurrency(usageCost.budget.usedCost30d)}`;
   const hasUsageActivity =
     usageCost.contextWindows.length > 0 ||
     usageCost.periods.some((item) => item.tokens > 0 || item.estimatedCost > 0 || item.statusSamples > 0);
   const usageContextHtml =
     usageCost.contextWindows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No context-usage records yet. They will appear after sessions start.", "暂无上下文使用记录。开始会话后会显示。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No context-usage records yet. They will appear after sessions start.", "暫無上下文使用記錄。開始會話後會顯示。"))}</div>`
       : `<table>
-        <thead><tr><th>${escapeHtml(t("Agent", "助手"))}</th><th>${escapeHtml(t("Session", "会话"))}</th><th>${escapeHtml(t("Model", "模型"))}</th><th>${escapeHtml(t("Context usage", "上下文使用"))}</th><th>${escapeHtml(t("Pace", "节奏"))}</th><th>${escapeHtml(t("Threshold", "阈值"))}</th></tr></thead>
+        <thead><tr><th>${escapeHtml(t("Agent", "助手"))}</th><th>${escapeHtml(t("Session", "會話"))}</th><th>${escapeHtml(t("Model", "模型"))}</th><th>${escapeHtml(t("Context usage", "上下文使用"))}</th><th>${escapeHtml(t("Pace", "節奏"))}</th><th>${escapeHtml(t("Threshold", "閾值"))}</th></tr></thead>
         <tbody>${usageContextRows}</tbody>
       </table>`;
   const usageSourceHtml =
     selectedUsageBreakdown.byAgent.length === 0 && selectedUsageBreakdown.byProject.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No source attribution yet. It will appear after activity is recorded.", "暂无来源拆分。产生调用后会显示。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No source attribution yet. It will appear after activity is recorded.", "暫無來源拆分。產生呼叫後會顯示。"))}</div>`
       : `<div class="meta">${runtimeTokenRangeLabel}</div>
         ${usageSourcePieHtml}
         ${selectedUsageBreakdown.byAgent.length === 0
           ? ""
-          : `<table><thead><tr><th>${escapeHtml(t("Agent", "智能体"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "预估费用"))}</th><th>${escapeHtml(t("Requests", "请求数"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead><tbody>${usageAgentRows}</tbody></table>`}
+          : `<table><thead><tr><th>${escapeHtml(t("Agent", "智慧體"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "預估費用"))}</th><th>${escapeHtml(t("Requests", "請求數"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead><tbody>${usageAgentRows}</tbody></table>`}
         ${selectedUsageBreakdown.byProject.length === 0
           ? ""
-          : `<table style="margin-top:12px;"><thead><tr><th>${escapeHtml(t("Project", "项目"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "预估费用"))}</th><th>${escapeHtml(t("Requests", "请求数"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead><tbody>${usageProjectRows}</tbody></table>`}`;
+          : `<table style="margin-top:12px;"><thead><tr><th>${escapeHtml(t("Project", "專案"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "預估費用"))}</th><th>${escapeHtml(t("Requests", "請求數"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead><tbody>${usageProjectRows}</tbody></table>`}`;
   const usageTaskHtml =
     usageTaskBreakdownRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No real task-level usage data yet.", "暂无真实任务级用量数据。"))}</div>`
-      : `<div class="meta">${runtimeTokenRangeLabel}</div><table><thead><tr><th>${escapeHtml(t("Task", "任务"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "预估费用"))}</th><th>${escapeHtml(t("Requests", "请求数"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead><tbody>${usageTaskRows}</tbody></table>`;
+      ? `<div class="empty-state">${escapeHtml(t("No real task-level usage data yet.", "暫無真實任務級用量資料。"))}</div>`
+      : `<div class="meta">${runtimeTokenRangeLabel}</div><table><thead><tr><th>${escapeHtml(t("Task", "任務"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "預估費用"))}</th><th>${escapeHtml(t("Requests", "請求數"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead><tbody>${usageTaskRows}</tbody></table>`;
   const usageOverviewAgentRows = renderUsageBreakdownRows(selectedUsageBreakdown.byAgent.slice(0, 8), "agent", options.language);
   const usageOverviewTaskRows = renderUsageBreakdownRows(usageTaskBreakdownRows.slice(0, 8), "task", options.language);
   const usageAttributionHtml =
     selectedUsageBreakdown.byAgent.length === 0 && usageTaskBreakdownRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No usage attribution by agent or task yet.", "暂无按智能体/任务归因的用量数据。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No usage attribution by agent or task yet.", "暫無按智慧體/任務歸因的用量資料。"))}</div>`
       : `<div class="meta">${runtimeTokenRangeLabel}</div>
         ${selectedUsageBreakdown.byAgent.length === 0
           ? ""
-          : `<table><thead><tr><th>${escapeHtml(t("Agent", "智能体"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "预估费用"))}</th><th>${escapeHtml(t("Requests", "请求数"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead><tbody>${usageOverviewAgentRows}</tbody></table>`}
+          : `<table><thead><tr><th>${escapeHtml(t("Agent", "智慧體"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "預估費用"))}</th><th>${escapeHtml(t("Requests", "請求數"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead><tbody>${usageOverviewAgentRows}</tbody></table>`}
         ${usageTaskBreakdownRows.length === 0
           ? ""
-          : `<table style="margin-top:12px;"><thead><tr><th>${escapeHtml(t("Task", "任务"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "预估费用"))}</th><th>${escapeHtml(t("Requests", "请求数"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead><tbody>${usageOverviewTaskRows}</tbody></table>`}`;
+          : `<table style="margin-top:12px;"><thead><tr><th>${escapeHtml(t("Task", "任務"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "預估費用"))}</th><th>${escapeHtml(t("Requests", "請求數"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead><tbody>${usageOverviewTaskRows}</tbody></table>`}`;
   const usageModelMixHtml =
     selectedUsageBreakdown.byModel.length === 0 && selectedUsageBreakdown.byProvider.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No model or provider split yet.", "暂无模型与供应商拆分数据。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No model or provider split yet.", "暫無模型與供應商拆分資料。"))}</div>`
       : `<div class="meta">${runtimeTokenRangeLabel}</div>
         ${selectedUsageBreakdown.byModel.length === 0
           ? ""
-          : `<table><thead><tr><th>${escapeHtml(t("Model", "模型"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "预估费用"))}</th><th>${escapeHtml(t("Requests", "请求数"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead><tbody>${usageModelRows}</tbody></table>`}
+          : `<table><thead><tr><th>${escapeHtml(t("Model", "模型"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "預估費用"))}</th><th>${escapeHtml(t("Requests", "請求數"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead><tbody>${usageModelRows}</tbody></table>`}
         ${selectedUsageBreakdown.byProvider.length === 0
           ? ""
-          : `<table style="margin-top:12px;"><thead><tr><th>${escapeHtml(t("Provider", "供应商"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "预估费用"))}</th><th>${escapeHtml(t("Requests", "请求数"))}</th><th>${escapeHtml(t("Sessions", "会话数"))}</th><th>${escapeHtml(t("Data status", "数据状态"))}</th></tr></thead><tbody>${usageProviderRows}</tbody></table>`}`;
+          : `<table style="margin-top:12px;"><thead><tr><th>${escapeHtml(t("Provider", "供應商"))}</th><th>${escapeHtml(t("Usage", "用量"))}</th><th>${escapeHtml(t("Estimated cost", "預估費用"))}</th><th>${escapeHtml(t("Requests", "請求數"))}</th><th>${escapeHtml(t("Sessions", "會話數"))}</th><th>${escapeHtml(t("Data status", "資料狀態"))}</th></tr></thead><tbody>${usageProviderRows}</tbody></table>`}`;
   const renderExecutionAgentItem = (item: ExecutionAgentSummary, mode: "active" | "usage"): string => {
     const modeHint = mode === "active"
-      ? t("Live", "实时")
+      ? t("Live", "實時")
       : t("Recent", "近期");
     const detail = mode === "active"
-      ? `${t("Sessions", "会话")} ${item.activeSessions} · ${t("Tasks", "任务")} ${item.activeTasks}`
+      ? `${t("Sessions", "會話")} ${item.activeSessions} · ${t("Tasks", "任務")} ${item.activeTasks}`
       : `${t("Recent usage", "近期用量")} ${formatInt(item.recentTokens30d)}`;
     return `<li><strong>${escapeHtml(item.displayName)}</strong> <span class="meta-inline">${escapeHtml(modeHint)}</span><div class="meta">${detail}</div></li>`;
   };
@@ -6711,7 +6711,7 @@ async function renderHtml(
   const taskRoleRows = taskRoleSummaries
     .map(
       (item) =>
-        `<li><strong>${escapeHtml(item.owner)}</strong><div class="meta">${escapeHtml(t("Board labels", "看板标签"))} ${item.activeTasks} ${escapeHtml(t("items", "个"))} · ${escapeHtml(t("Examples", "示例"))}：${escapeHtml(item.sampleTaskIds.join("、") || t("None", "暂无"))}</div></li>`,
+        `<li><strong>${escapeHtml(item.owner)}</strong><div class="meta">${escapeHtml(t("Board labels", "看板標籤"))} ${item.activeTasks} ${escapeHtml(t("items", "個"))} · ${escapeHtml(t("Examples", "示例"))}：${escapeHtml(item.sampleTaskIds.join("、") || t("None", "暫無"))}</div></li>`,
     )
     .join("");
   const mappingTaskRows = controlCenterMappingTasks
@@ -6722,21 +6722,21 @@ async function renderHtml(
     .join("");
   const cronTable =
     allCronRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No timed jobs yet. They will appear here after you create them.", "暂无定时任务。创建后会显示在这里。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No timed jobs yet. They will appear here after you create them.", "暫無定時任務。建立後會顯示在這裡。"))}</div>`
       : `<table>
-          <thead><tr><th>${escapeHtml(t("Job", "任务"))}</th><th>${escapeHtml(t("Agent", "智能体"))}</th><th>${escapeHtml(t("Purpose", "任务目的"))}</th><th>${escapeHtml(t("Status", "状态"))}</th><th>${escapeHtml(t("Next run", "下次运行"))}</th><th>${escapeHtml(t("Due in", "距离执行"))}</th></tr></thead>
+          <thead><tr><th>${escapeHtml(t("Job", "任務"))}</th><th>${escapeHtml(t("Agent", "智慧體"))}</th><th>${escapeHtml(t("Purpose", "任務目的"))}</th><th>${escapeHtml(t("Status", "狀態"))}</th><th>${escapeHtml(t("Next run", "下次執行"))}</th><th>${escapeHtml(t("Due in", "距離執行"))}</th></tr></thead>
           <tbody>${cronRows}</tbody>
         </table>`;
   const cronOwnerBuckets = new Map<string, typeof allCronRows>();
   for (const job of allCronRows) {
-    const ownerKey = job.owner.trim() || t("Unassigned agent", "未分配智能体");
+    const ownerKey = job.owner.trim() || t("Unassigned agent", "未分配智慧體");
     const bucket = cronOwnerBuckets.get(ownerKey) ?? [];
     bucket.push(job);
     cronOwnerBuckets.set(ownerKey, bucket);
   }
   const cronBoardHtml =
     allCronRows.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No timed jobs yet. They will be grouped by agent here once configured.", "暂无定时任务，配置后这里会自动按智能体分组展示。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No timed jobs yet. They will be grouped by agent here once configured.", "暫無定時任務，配置後這裡會自動按智慧體分組展示。"))}</div>`
       : `<div class="cron-board">${[...cronOwnerBuckets.entries()]
           .sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0], "zh-Hans-CN"))
           .map(([owner, jobs]) => {
@@ -6749,8 +6749,8 @@ async function renderHtml(
                 return `<li><div class="cron-job-head"><strong>${escapeHtml(item.name)}</strong>${badge(item.status, item.statusLabel)}</div><div class="meta">${escapeHtml(sanitizeCronPurposeText(item.purpose, options.language, 52))}</div><div class="meta">${escapeHtml(t("Next", "下次"))}：${escapeHtml(item.nextRun)} · ${escapeHtml(dueIn)}</div></li>`;
               })
               .join("");
-            const moreLabel = jobs.length > 10 ? `<div class="meta">${escapeHtml(t(`${jobs.length - 10} more jobs are omitted.`, `其余 ${jobs.length - 10} 个任务已省略。`))}</div>` : "";
-            return `<article class="cron-owner-card"><div class="cron-owner-head"><h3>${escapeHtml(owner)}</h3><span class="meta">${jobs.length} ${escapeHtml(t("jobs", "个任务"))}</span></div><div class="meta">${escapeHtml(t("Healthy", "健康"))} ${healthyCount} · ${escapeHtml(t("Attention", "关注"))} ${unhealthyCount}</div><ul class="cron-job-list">${jobRows}</ul>${moreLabel}</article>`;
+            const moreLabel = jobs.length > 10 ? `<div class="meta">${escapeHtml(t(`${jobs.length - 10} more jobs are omitted.`, `其餘 ${jobs.length - 10} 個任務已省略。`))}</div>` : "";
+            return `<article class="cron-owner-card"><div class="cron-owner-head"><h3>${escapeHtml(owner)}</h3><span class="meta">${jobs.length} ${escapeHtml(t("jobs", "個任務"))}</span></div><div class="meta">${escapeHtml(t("Healthy", "健康"))} ${healthyCount} · ${escapeHtml(t("Attention", "關注"))} ${unhealthyCount}</div><ul class="cron-job-list">${jobRows}</ul>${moreLabel}</article>`;
           })
           .join("")}</div>`;
   const subscriptionSidebarRows = renderSubscriptionSidebarSummary(usageCost.subscription, options.language);
@@ -6765,33 +6765,33 @@ async function renderHtml(
     : usageCost.periods.filter((item) => item.key === "today" || item.key === "7d");
   const overviewUsageCards = hasUsageActivity
     ? renderUsagePeriodCards(overviewUsagePeriods, options.language)
-    : `<div class="empty-state">${escapeHtml(t("No usage data yet. Usage and cost cards will appear after activity starts.", "暂无用量数据。开始会话后会显示用量和费用卡片。"))}</div>`;
+    : `<div class="empty-state">${escapeHtml(t("No usage data yet. Usage and cost cards will appear after activity starts.", "暫無用量資料。開始會話後會顯示用量和費用卡片。"))}</div>`;
   const overviewAttentionTotal = pendingDecisionCount + runtimeIssueCount + budgetRiskCount;
-  const overviewCommandStatus = overviewAttentionTotal > 0 ? badge("warn", t("Needs attention", "需要关注")) : badge("ok", t("Stable", "平稳"));
+  const overviewCommandStatus = overviewAttentionTotal > 0 ? badge("warn", t("Needs attention", "需要關注")) : badge("ok", t("Stable", "平穩"));
   const overviewActionItems = [
     {
-      label: t("Review queue", "审阅队列"),
+      label: t("Review queue", "審閱佇列"),
       value: pendingDecisionCount,
       detail:
         pendingDecisionCount > 0
-          ? t("Approvals or runtime actions are waiting for review", "还有审批或运行异常等待处理")
-          : t("Nothing is waiting for review", "当前没有待审事项"),
+          ? t("Approvals or runtime actions are waiting for review", "還有審批或執行異常等待處理")
+          : t("Nothing is waiting for review", "當前沒有待審事項"),
     },
     {
-      label: t("Runtime issues", "运行异常"),
+      label: t("Runtime issues", "執行異常"),
       value: runtimeIssueCount,
       detail:
         runtimeIssueCount > 0
           ? t(
               `${runtimeSessionIssueCount} blocked/error/waiting sessions · ${stalledRunningSessionCount} stalled runs`,
-              `${runtimeSessionIssueCount} 个阻塞/异常/等待会话 · ${stalledRunningSessionCount} 个停滞执行`,
+              `${runtimeSessionIssueCount} 個阻塞/異常/等待會話 · ${stalledRunningSessionCount} 個停滯執行`,
             )
-          : t("No blocked, failing, or stalled runtime signal", "当前没有阻塞、报错或停滞信号"),
+          : t("No blocked, failing, or stalled runtime signal", "當前沒有阻塞、報錯或停滯訊號"),
     },
     {
-      label: t("Budget risk", "预算风险"),
+      label: t("Budget risk", "預算風險"),
       value: budgetRiskCount,
-      detail: budgetRiskCount > 0 ? t("Near or over the budget line", "接近或触发预算线") : t("Budget is in the safe zone", "预算处于安全区"),
+      detail: budgetRiskCount > 0 ? t("Near or over the budget line", "接近或觸發預算線") : t("Budget is in the safe zone", "預算處於安全區"),
     },
   ];
   const overviewActionRows = overviewActionItems
@@ -6800,16 +6800,16 @@ async function renderHtml(
       return `<div class="overview-action-item${toneClass}"><span>${escapeHtml(item.label)}</span><strong>${item.value}</strong><small>${escapeHtml(item.detail)}</small></div>`;
     })
     .join("");
-  const overviewPrimaryStatus = overviewAttentionTotal > 0 ? badge("warn", t("Needs attention", "需要关注")) : badge("ok", t("Stable", "稳定运行"));
-  const overviewPrimarySignalText = overviewAttentionTotal > 0 ? t("Runtime is surfacing signals that need intervention.", "运行现场正在冒出需要你处理的信号。") : t("The system is holding a stable rhythm.", "系统维持稳定节奏。");
+  const overviewPrimaryStatus = overviewAttentionTotal > 0 ? badge("warn", t("Needs attention", "需要關注")) : badge("ok", t("Stable", "穩定執行"));
+  const overviewPrimarySignalText = overviewAttentionTotal > 0 ? t("Runtime is surfacing signals that need intervention.", "執行現場正在冒出需要你處理的訊號。") : t("The system is holding a stable rhythm.", "系統維持穩定節奏。");
   const overviewPrimaryDirective =
     pendingDecisionCount > 0
-      ? t("Clear the review queue first", "先清掉审阅队列")
+      ? t("Clear the review queue first", "先清掉審閱佇列")
       : runtimeIssueCount > 0
-        ? t("Inspect blocked, failing, or stalled runs next", "接着检查阻塞、报错和停滞执行")
+        ? t("Inspect blocked, failing, or stalled runs next", "接著檢查阻塞、報錯和停滯執行")
         : budgetRiskCount > 0
-          ? t("Prioritize budget risk", "优先处理预算风险")
-          : t("Keep the current rhythm", "继续保持当前节奏");
+          ? t("Prioritize budget risk", "優先處理預算風險")
+          : t("Keep the current rhythm", "繼續保持當前節奏");
   markRenderPhase("view-models");
   const overviewFocusScore = Math.max(
     0,
@@ -6827,8 +6827,8 @@ async function renderHtml(
   const overviewFocusTone =
     overviewFocusScore >= 80 ? "#1f9a63" : overviewFocusScore >= 60 ? "#c28819" : "#d2473a";
   const overviewFocusHeadline =
-    overviewFocusScore >= 80 ? t("Flowing well", "推进顺畅") : overviewFocusScore >= 60 ? t("Light pressure", "轻度压力") : t("Needs immediate action", "需要立刻处理");
-  const overviewFocusShort = `${t("Review queue", "审阅队列")} ${pendingDecisionCount} · ${t("Runtime issues", "运行异常")} ${runtimeSessionIssueCount} · ${t("Stalled runs", "停滞执行")} ${stalledRunningSessionCount} · ${t("Budget risk", "预算风险")} ${budgetRiskCount}`;
+    overviewFocusScore >= 80 ? t("Flowing well", "推進順暢") : overviewFocusScore >= 60 ? t("Light pressure", "輕度壓力") : t("Needs immediate action", "需要立刻處理");
+  const overviewFocusShort = `${t("Review queue", "審閱佇列")} ${pendingDecisionCount} · ${t("Runtime issues", "執行異常")} ${runtimeSessionIssueCount} · ${t("Stalled runs", "停滯執行")} ${stalledRunningSessionCount} · ${t("Budget risk", "預算風險")} ${budgetRiskCount}`;
   const enabledCronCount = allCronRows.filter((item) => item.status !== "disabled").length;
   const upcomingTaskDueCount = realTasks.filter((task) => task.dueAt && task.status !== "done").length;
   const taskHubHref = buildHomeHref({ quick: "all" }, options.compactStatusStrip, "projects-tasks", options.language, options.usageView);
@@ -6837,7 +6837,7 @@ async function renderHtml(
   const decisionHubHref = `${taskHubHref}#task-decision-center`;
   const executionChainHubHref = `${taskHubHref}#task-execution-chain`;
   const staffHubHref = buildHomeHref({ quick: "all" }, options.compactStatusStrip, "team", options.language, options.usageView);
-  const overviewNextOpsSummary = `Cron ${cronOverview.nextRunAt ?? t("None", "暂无")} · ${t("Heartbeat", "心跳")} ${heartbeatNextRun}`;
+  const overviewNextOpsSummary = `Cron ${cronOverview.nextRunAt ?? t("None", "暫無")} · ${t("Heartbeat", "心跳")} ${heartbeatNextRun}`;
   const calendarEvents = [
     ...allCronRows.map((row) => ({
       at: row.nextRun,
@@ -6853,7 +6853,7 @@ async function renderHtml(
       .map((task) => ({
         at: task.dueAt ?? "-",
         day: task.dueAt ? task.dueAt.slice(0, 10) : "-",
-        type: t("Task due", "任务截止"),
+        type: t("Task due", "任務截止"),
         title: task.title,
         status: task.status,
         detail: `${task.projectId} · ${task.owner}`,
@@ -6880,17 +6880,17 @@ async function renderHtml(
     .slice(0, 3);
   const overviewBusyCardsHtml =
     overviewBusyAgents.length === 0
-      ? `<div class="empty-state">${escapeHtml(t("No staff are carrying live work right now.", "当前没有员工在承担实时工作。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No staff are carrying live work right now.", "當前沒有員工在承擔實時工作。"))}</div>`
       : `<div class="overview-busy-grid">${overviewBusyAgents
           .map((item) => {
-            const leadAssignment = item.cronJobNames[0] ?? t("No live assignment", "暂无实时分派");
+            const leadAssignment = item.cronJobNames[0] ?? t("No live assignment", "暫無實時分派");
             return `<article class="overview-busy-card">
               <div class="overview-busy-head">
                 <strong>${escapeHtml(item.displayName)}</strong>
-                <span>${escapeHtml(t("Live", "实时"))}</span>
+                <span>${escapeHtml(t("Live", "實時"))}</span>
               </div>
               <div class="overview-busy-copy">${escapeHtml(leadAssignment)}</div>
-              <div class="meta">${escapeHtml(t("Tasks", "任务"))} ${item.activeTasks} · ${escapeHtml(t("Sessions", "会话"))} ${item.activeSessions} · Cron ${item.enabledCronJobs}</div>
+              <div class="meta">${escapeHtml(t("Tasks", "任務"))} ${item.activeTasks} · ${escapeHtml(t("Sessions", "會話"))} ${item.activeSessions} · Cron ${item.enabledCronJobs}</div>
             </article>`;
           })
           .join("")}</div>`;
@@ -6911,29 +6911,29 @@ async function renderHtml(
   const overviewRuntimeRowsHtml = `<div class="decision-list">
     <div class="decision-row">
       <div class="decision-row-copy">
-        <strong>${escapeHtml(t("Timed jobs running", "正在运行的定时任务"))}</strong>
-        <div class="meta">${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暂无"))}</div>
+        <strong>${escapeHtml(t("Timed jobs running", "正在執行的定時任務"))}</strong>
+        <div class="meta">${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暫無"))}</div>
       </div>
       <div class="decision-row-value">${enabledCronCount}/${allCronRows.length}</div>
     </div>
     <div class="decision-row">
       <div class="decision-row-copy">
-        <strong>${escapeHtml(t("Heartbeat checks", "任务心跳"))}</strong>
+        <strong>${escapeHtml(t("Heartbeat checks", "任務心跳"))}</strong>
         <div class="meta">${escapeHtml(t("Next", "下次"))} ${escapeHtml(heartbeatNextRun)}</div>
       </div>
       <div class="decision-row-value">${heartbeatEnabledCount}</div>
     </div>
     <div class="decision-row">
       <div class="decision-row-copy">
-        <strong>${escapeHtml(t("Stalled runs", "停滞执行"))}</strong>
-        <div class="meta">${escapeHtml(t("Running sessions with no fresh signal in the last 2 hours", "最近 2 小时没有新信号的运行会话"))}</div>
+        <strong>${escapeHtml(t("Stalled runs", "停滯執行"))}</strong>
+        <div class="meta">${escapeHtml(t("Running sessions with no fresh signal in the last 2 hours", "最近 2 小時沒有新訊號的執行會話"))}</div>
       </div>
       <div class="decision-row-value">${stalledRunningSessionCount}</div>
     </div>
     <a class="decision-row" href="${escapeHtml(executionChainHubHref)}">
       <div class="decision-row-copy">
-        <strong>${escapeHtml(t("Isolated execution", "隔离执行"))}</strong>
-        <div class="meta">${escapeHtml(t("Accepted and spawned child sessions", "已接单并派发子会话"))}</div>
+        <strong>${escapeHtml(t("Isolated execution", "隔離執行"))}</strong>
+        <div class="meta">${escapeHtml(t("Accepted and spawned child sessions", "已接單並派發子會話"))}</div>
       </div>
       <div class="decision-row-value">${runningExecutionChainCount}/${spawnedExecutionChainCount}</div>
     </a>
@@ -6949,7 +6949,7 @@ async function renderHtml(
                 <strong>${escapeHtml(item.message)}</strong>
                 <div class="meta">${badge(item.level)} <code>${escapeHtml(item.itemId)}</code></div>
               </div>
-              <div class="decision-row-link">${escapeHtml(t("Open", "打开"))}</div>
+              <div class="decision-row-link">${escapeHtml(t("Open", "開啟"))}</div>
             </a>`;
           })
           .join("")}</div>`
@@ -6957,37 +6957,37 @@ async function renderHtml(
         ? `<div class="decision-list">${topApprovals
             .slice(0, 4)
             .map((approval) => {
-              const target = approval.agentId ?? approval.sessionKey ?? t("Unknown target", "未知目标");
+              const target = approval.agentId ?? approval.sessionKey ?? t("Unknown target", "未知目標");
               return `<a class="decision-row" href="${escapeHtml(decisionHubHref)}">
                 <div class="decision-row-copy">
-                  <strong>${escapeHtml(approval.command || t("Approval action", "审批动作"))}</strong>
+                  <strong>${escapeHtml(approval.command || t("Approval action", "審批動作"))}</strong>
                   <div class="meta">${badge(approval.status ?? "unknown")} ${escapeHtml(target)}</div>
                 </div>
-                <div class="decision-row-link">${escapeHtml(t("Review", "审阅"))}</div>
+                <div class="decision-row-link">${escapeHtml(t("Review", "審閱"))}</div>
               </a>`;
             })
             .join("")}</div>`
-        : `<div class="empty-state">${escapeHtml(t("Nothing is waiting for your review right now.", "当前没有等待你决策的事项。"))}</div>`;
+        : `<div class="empty-state">${escapeHtml(t("Nothing is waiting for your review right now.", "當前沒有等待你決策的事項。"))}</div>`;
   const taskHubStatCardsHtml = `<div class="task-hub-stat-grid">
     <article class="task-hub-stat">
-      <span>${escapeHtml(t("Confirmed live", "已确认在跑"))}</span>
+      <span>${escapeHtml(t("Confirmed live", "已確認在跑"))}</span>
       <strong>${taskCertaintyStrongCount}</strong>
-      <small>${escapeHtml(t("Tasks already backed by fresh runtime signals", "已经有新鲜运行信号支撑的任务"))}</small>
+      <small>${escapeHtml(t("Tasks already backed by fresh runtime signals", "已經有新鮮執行訊號支撐的任務"))}</small>
     </article>
     <article class="task-hub-stat">
-      <span>${escapeHtml(t("Need review", "待确认"))}</span>
+      <span>${escapeHtml(t("Need review", "待確認"))}</span>
       <strong>${pendingDecisionCount}</strong>
-      <small>${escapeHtml(t("Approvals and action items", "审批与待处理事项"))}</small>
+      <small>${escapeHtml(t("Approvals and action items", "審批與待處理事項"))}</small>
     </article>
     <article class="task-hub-stat">
-      <span>${escapeHtml(t("Timed jobs", "定时任务"))}</span>
+      <span>${escapeHtml(t("Timed jobs", "定時任務"))}</span>
       <strong>${enabledCronCount}</strong>
-      <small>${escapeHtml(t("Enabled cron jobs", "已启用的 Cron"))}</small>
+      <small>${escapeHtml(t("Enabled cron jobs", "已啟用的 Cron"))}</small>
     </article>
     <article class="task-hub-stat">
       <span>${escapeHtml(t("Needs inspection", "需排查"))}</span>
       <strong>${taskCertaintyWeakCount}</strong>
-      <small>${escapeHtml(t("Tasks whose runtime signals still look weak", "运行信号仍然偏弱的任务"))}</small>
+      <small>${escapeHtml(t("Tasks whose runtime signals still look weak", "執行訊號仍然偏弱的任務"))}</small>
     </article>
   </div>`;
   const overviewSection = `
@@ -6995,7 +6995,7 @@ async function renderHtml(
       <article class="card overview-primary-card" id="overview-primary-card">
         <div class="overview-primary-head">
           <div>
-            <h2>${escapeHtml(t("Today's control posture", "今日总控态势"))}</h2>
+            <h2>${escapeHtml(t("Today's control posture", "今日總控態勢"))}</h2>
             <div class="meta">${escapeHtml(overviewPrimarySignalText)}</div>
           </div>
           <div>${overviewPrimaryStatus}</div>
@@ -7021,11 +7021,11 @@ async function renderHtml(
             0,
             overviewAttentionTotal,
           )}" data-counter-format="int">${formatInt(overviewAttentionTotal)}</div>
-          <div class="overview-primary-label">${escapeHtml(t("Key action items", "待处理关键事项"))}</div>
+          <div class="overview-primary-label">${escapeHtml(t("Key action items", "待處理關鍵事項"))}</div>
         </div>
         <div class="overview-quick-links">
-          <a class="btn" href="${escapeHtml(currentTaskHealthHref)}">${escapeHtml(t("Open current tasks", "查看当前任务"))}</a>
-          <a class="btn" href="${escapeHtml(focusHref)}">${escapeHtml(t("Open follow-up items", "查看待处理"))}</a>
+          <a class="btn" href="${escapeHtml(currentTaskHealthHref)}">${escapeHtml(t("Open current tasks", "檢視當前任務"))}</a>
+          <a class="btn" href="${escapeHtml(focusHref)}">${escapeHtml(t("Open follow-up items", "檢視待處理"))}</a>
         </div>
       </article>
       ${overviewTopMetricHtml}
@@ -7040,15 +7040,15 @@ async function renderHtml(
       </article>
       <article class="card" id="overview-busy-staff">
         <div class="overview-command-head">
-          <h2>${escapeHtml(t("Who is active", "谁在忙"))}</h2>
-          <a class="btn" href="${escapeHtml(staffHubHref)}">${escapeHtml(t("Open staff", "查看员工"))}</a>
+          <h2>${escapeHtml(t("Who is active", "誰在忙"))}</h2>
+          <a class="btn" href="${escapeHtml(staffHubHref)}">${escapeHtml(t("Open staff", "檢視員工"))}</a>
         </div>
         ${overviewBusyCardsHtml}
       </article>
       <article class="card overview-usage-card" id="usage-pulse">
         <div class="overview-command-head">
-          <h2>${escapeHtml(t("AI burn now", "当前 AI 用量"))}</h2>
-          <a class="btn" href="${escapeHtml(usageDetailHref)}">${escapeHtml(t("Open usage", "查看用量"))}</a>
+          <h2>${escapeHtml(t("AI burn now", "當前 AI 用量"))}</h2>
+          <a class="btn" href="${escapeHtml(usageDetailHref)}">${escapeHtml(t("Open usage", "檢視用量"))}</a>
         </div>
         ${overviewUsageCards}
         <div class="meta">${usageBudgetMeta}</div>
@@ -7056,39 +7056,39 @@ async function renderHtml(
       <article class="card" id="overview-runtime-checkpoint">
         <div class="overview-command-head">
           <h2>${escapeHtml(t("Next scheduled work", "下一批排程"))}</h2>
-          <a class="btn" href="${escapeHtml(timelineHubHref)}">${escapeHtml(t("Open task hub", "查看任务中枢"))}</a>
+          <a class="btn" href="${escapeHtml(timelineHubHref)}">${escapeHtml(t("Open task hub", "檢視任務中樞"))}</a>
         </div>
         ${
           overviewUpcomingRows
             ? `<div class="decision-list">${overviewUpcomingRows}</div>`
-            : `<div class="empty-state">${escapeHtml(t("No future schedule yet.", "暂无未来排程。"))}</div>`
+            : `<div class="empty-state">${escapeHtml(t("No future schedule yet.", "暫無未來排程。"))}</div>`
         }
         <div style="height:10px;"></div>
         ${overviewRuntimeRowsHtml}
       </article>
     </section>
     <details class="card compact-details overview-secondary-shell" id="overview-secondary-shell">
-      <summary>${escapeHtml(t("Expand runtime detail", "展开运行细节"))}</summary>
+      <summary>${escapeHtml(t("Expand runtime detail", "展開執行細節"))}</summary>
       <div class="fold-body">
         <details class="card compact-details" open>
-          <summary>${escapeHtml(t("More key metrics", "更多关键指标"))}</summary>
+          <summary>${escapeHtml(t("More key metrics", "更多關鍵指標"))}</summary>
           <div class="fold-body">${executiveCardsHtml}</div>
         </details>
         <article class="card overview-span overview-pulse-card" id="overview-pulse">
-          <h2>${escapeHtml(t("Global pulse", "全局脉搏"))}</h2>
+          <h2>${escapeHtml(t("Global pulse", "全域性脈搏"))}</h2>
           ${
             showSignalsFallback
-              ? `<div class="empty-state">${escapeHtml(t("No live signals yet. This will update automatically after tasks or sessions start.", "还没有实时信号。启动任务或会话后，这里会自动更新。"))}</div>`
+              ? `<div class="empty-state">${escapeHtml(t("No live signals yet. This will update automatically after tasks or sessions start.", "還沒有實時訊號。啟動任務或會話後，這裡會自動更新。"))}</div>`
               : `<div class="status-strip ${options.compactStatusStrip ? "compact" : "expanded"}">${signalStrip}</div>`
           }
         </article>
         <section class="card" id="cron-health">
           <div class="overview-command-head">
-            <h2>${escapeHtml(t("Runtime checkpoint", "运行检查点"))}</h2>
-            <a class="btn" href="${escapeHtml(cronHubHref)}">${escapeHtml(t("Open cron board", "查看 Cron 看板"))}</a>
+            <h2>${escapeHtml(t("Runtime checkpoint", "執行檢查點"))}</h2>
+            <a class="btn" href="${escapeHtml(cronHubHref)}">${escapeHtml(t("Open cron board", "檢視 Cron 看板"))}</a>
           </div>
-          <div class="meta">${escapeHtml(t("Use the task hub for the full cron board. This panel stays compact and only tells you whether runtime scheduling is healthy.", "完整 Cron 看板已下放到任务页，这里只保留紧凑的运行检查点。"))}</div>
-          <div class="meta">${escapeHtml(t("Status", "状态"))} ${badge(cronOverview.health.status)} · ${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暂无"))} · ${escapeHtml(t("Enabled", "启用"))} ${enabledCronCount}</div>
+          <div class="meta">${escapeHtml(t("Use the task hub for the full cron board. This panel stays compact and only tells you whether runtime scheduling is healthy.", "完整 Cron 看板已下放到任務頁，這裡只保留緊湊的執行檢查點。"))}</div>
+          <div class="meta">${escapeHtml(t("Status", "狀態"))} ${badge(cronOverview.health.status)} · ${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暫無"))} · ${escapeHtml(t("Enabled", "啟用"))} ${enabledCronCount}</div>
           ${
             overviewUpcomingRows
               ? `<div class="decision-list" style="margin-top:10px;">${overviewUpcomingRows}</div>`
@@ -7096,20 +7096,20 @@ async function renderHtml(
           }
         </section>
         <details class="card compact-details" id="heartbeat-health">
-          <summary>${escapeHtml(t("Heartbeat monitor", "任务心跳监控"))}</summary>
+          <summary>${escapeHtml(t("Heartbeat monitor", "任務心跳監控"))}</summary>
           <div class="fold-body">
-            <div class="meta">${escapeHtml(t("Status", "状态"))} ${badge(heartbeatHealth)} · ${escapeHtml(t("Enabled", "已启用"))} ${heartbeatEnabledCount} ${escapeHtml(t("items", "个"))} · ${escapeHtml(t("Next", "下次"))} ${escapeHtml(heartbeatNextRun)}</div>
+            <div class="meta">${escapeHtml(t("Status", "狀態"))} ${badge(heartbeatHealth)} · ${escapeHtml(t("Enabled", "已啟用"))} ${heartbeatEnabledCount} ${escapeHtml(t("items", "個"))} · ${escapeHtml(t("Next", "下次"))} ${escapeHtml(heartbeatNextRun)}</div>
             ${heartbeatGroupedListHtml}
             <details class="compact-table-details" style="margin-top:12px;">
-              <summary>${escapeHtml(t("Open raw table", "查看原始表格"))}</summary>
+              <summary>${escapeHtml(t("Open raw table", "檢視原始表格"))}</summary>
               <div class="fold-body">${
                 heartbeatJobs.length === 0
-                  ? `<div class="empty-state">${escapeHtml(t("No heartbeat timed jobs found yet.", "尚未发现心跳定时任务。"))}</div>`
-                  : `<table><thead><tr><th>${escapeHtml(t("Check", "检查项"))}</th><th>${escapeHtml(t("Status", "状态"))}</th><th>${escapeHtml(t("Next run", "下次运行"))}</th><th>${escapeHtml(t("Due in", "距离执行"))}</th></tr></thead><tbody>${heartbeatJobs
+                  ? `<div class="empty-state">${escapeHtml(t("No heartbeat timed jobs found yet.", "尚未發現心跳定時任務。"))}</div>`
+                  : `<table><thead><tr><th>${escapeHtml(t("Check", "檢查項"))}</th><th>${escapeHtml(t("Status", "狀態"))}</th><th>${escapeHtml(t("Next run", "下次執行"))}</th><th>${escapeHtml(t("Due in", "距離執行"))}</th></tr></thead><tbody>${heartbeatJobs
                       .slice(0, 12)
                       .map((job) => {
                         const checkLabel = job.jobId.toLowerCase().includes("heartbeat")
-                          ? t("Task heartbeat service", "任务心跳服务")
+                          ? t("Task heartbeat service", "任務心跳服務")
                           : job.name?.trim() || job.jobId;
                         return `<tr><td>${escapeHtml(checkLabel)}</td><td>${badge(job.health, cronHealthLabel(job.health, options.language))}</td><td>${escapeHtml(job.nextRunAt ?? "-")}</td><td>${escapeHtml(formatSeconds(job.dueInSeconds, options.language))}</td></tr>`;
                       })
@@ -7119,14 +7119,14 @@ async function renderHtml(
           </div>
         </details>
         <details class="card compact-details" id="tool-activity">
-          <summary>${escapeHtml(t("Tool activity detail", "工具调用详情"))}</summary>
+          <summary>${escapeHtml(t("Tool activity detail", "工具呼叫詳情"))}</summary>
           <div class="fold-body">
             ${toolGroupedListHtml}
             <details class="compact-table-details" style="margin-top:12px;">
-              <summary>${escapeHtml(t("Open raw table", "查看原始表格"))}</summary>
+              <summary>${escapeHtml(t("Open raw table", "檢視原始表格"))}</summary>
               <div class="fold-body">
                 <table>
-                  <thead><tr><th>${escapeHtml(t("Session", "会话"))}</th><th>${escapeHtml(t("Agent", "助手"))}</th><th>${escapeHtml(t("Call count", "调用次数"))}</th><th>${escapeHtml(t("Status", "状态"))}</th><th>${escapeHtml(t("Latest activity", "最近活动"))}</th></tr></thead>
+                  <thead><tr><th>${escapeHtml(t("Session", "會話"))}</th><th>${escapeHtml(t("Agent", "助手"))}</th><th>${escapeHtml(t("Call count", "呼叫次數"))}</th><th>${escapeHtml(t("Status", "狀態"))}</th><th>${escapeHtml(t("Latest activity", "最近活動"))}</th></tr></thead>
                   <tbody>${toolRows}</tbody>
                 </table>
               </div>
@@ -7134,15 +7134,15 @@ async function renderHtml(
           </div>
         </details>
         <details class="card compact-details" id="agent-job-catalog">
-          <summary>${escapeHtml(t("Timed-job catalog (execution entry)", "定时任务名录（执行入口）"))}</summary>
+          <summary>${escapeHtml(t("Timed-job catalog (execution entry)", "定時任務名錄（執行入口）"))}</summary>
           <div class="fold-body">
-            <div class="meta">${escapeHtml(t("This shows the real timed jobs that can trigger execution.", "这里展示会触发执行的真实定时任务。"))}</div>
+            <div class="meta">${escapeHtml(t("This shows the real timed jobs that can trigger execution.", "這裡展示會觸發執行的真實定時任務。"))}</div>
             ${agentJobGroupedListHtml}
             <details class="compact-table-details" style="margin-top:12px;">
-              <summary>${escapeHtml(t("Open raw table", "查看原始表格"))}</summary>
+              <summary>${escapeHtml(t("Open raw table", "檢視原始表格"))}</summary>
               <div class="fold-body">
                 <table>
-                  <thead><tr><th>${escapeHtml(t("Source", "来源"))}</th><th>${escapeHtml(t("Job", "任务"))}</th><th>${escapeHtml(t("Agent", "智能体"))}</th><th>${escapeHtml(t("Purpose", "任务目的"))}</th><th>${escapeHtml(t("Schedule", "调度"))}</th><th>${escapeHtml(t("Next run", "下次运行"))}</th><th>${escapeHtml(t("Status", "状态"))}</th></tr></thead>
+                  <thead><tr><th>${escapeHtml(t("Source", "來源"))}</th><th>${escapeHtml(t("Job", "任務"))}</th><th>${escapeHtml(t("Agent", "智慧體"))}</th><th>${escapeHtml(t("Purpose", "任務目的"))}</th><th>${escapeHtml(t("Schedule", "排程"))}</th><th>${escapeHtml(t("Next run", "下次執行"))}</th><th>${escapeHtml(t("Status", "狀態"))}</th></tr></thead>
                   <tbody>${agentJobRowsHtml}</tbody>
                 </table>
               </div>
@@ -7160,7 +7160,7 @@ async function renderHtml(
   }
   const calendarBoardHtml =
     calendarBuckets.size === 0
-      ? `<div class="empty-state">${escapeHtml(t("No future schedule yet. You can add timed jobs from tasks or automations.", "暂无未来排程。你可以在任务或自动化里添加定时任务。"))}</div>`
+      ? `<div class="empty-state">${escapeHtml(t("No future schedule yet. You can add timed jobs from tasks or automations.", "暫無未來排程。你可以在任務或自動化裡新增定時任務。"))}</div>`
       : `<div class="calendar-grid">${[...calendarBuckets.entries()]
           .sort((a, b) => a[0].localeCompare(b[0]))
           .slice(0, 12)
@@ -7175,23 +7175,23 @@ async function renderHtml(
                 </li>`,
               )
               .join("");
-            return `<article class="calendar-day"><h3>${escapeHtml(day)}</h3><div class="meta">${events.length} ${escapeHtml(t("scheduled items", "条排程"))}</div><ul class="calendar-event-list">${rows}</ul></article>`;
+            return `<article class="calendar-day"><h3>${escapeHtml(day)}</h3><div class="meta">${events.length} ${escapeHtml(t("scheduled items", "條排程"))}</div><ul class="calendar-event-list">${rows}</ul></article>`;
           })
           .join("")}</div>`;
   const calendarSection = `
     <section class="card" id="calendar-board">
       <div id="task-timeline">
-        <h2>${escapeHtml(t("Today and next schedule", "今日与下一批排程"))}</h2>
-        <div class="meta">${escapeHtml(t("See timed jobs and due dates together so you can confirm OpenClaw actually scheduled them, instead of only saying it did in chat.", "把定时任务和任务截止放在一起看，确认 OpenClaw 真的排上了，而不是只在对话里说“已安排”。"))}</div>
+        <h2>${escapeHtml(t("Today and next schedule", "今日與下一批排程"))}</h2>
+        <div class="meta">${escapeHtml(t("See timed jobs and due dates together so you can confirm OpenClaw actually scheduled them, instead of only saying it did in chat.", "把定時任務和任務截止放在一起看，確認 OpenClaw 真的排上了，而不是隻在對話裡說“已安排”。"))}</div>
         <div class="timeline-summary-strip">
-          <div class="timeline-stat"><span>${escapeHtml(t("Timed jobs", "定时任务"))}</span><strong>${allCronRows.length}</strong><small>${escapeHtml(t("Catalog total", "名录总数"))}</small></div>
-          <div class="timeline-stat"><span>${escapeHtml(t("Enabled", "启用"))}</span><strong>${enabledCronCount}</strong><small>${escapeHtml(t("Ready to run", "已准备执行"))}</small></div>
-          <div class="timeline-stat"><span>${escapeHtml(t("Upcoming due", "即将截止"))}</span><strong>${upcomingTaskDueCount}</strong><small>${escapeHtml(t("Tasks with due dates", "带截止时间的任务"))}</small></div>
+          <div class="timeline-stat"><span>${escapeHtml(t("Timed jobs", "定時任務"))}</span><strong>${allCronRows.length}</strong><small>${escapeHtml(t("Catalog total", "名錄總數"))}</small></div>
+          <div class="timeline-stat"><span>${escapeHtml(t("Enabled", "啟用"))}</span><strong>${enabledCronCount}</strong><small>${escapeHtml(t("Ready to run", "已準備執行"))}</small></div>
+          <div class="timeline-stat"><span>${escapeHtml(t("Upcoming due", "即將截止"))}</span><strong>${upcomingTaskDueCount}</strong><small>${escapeHtml(t("Tasks with due dates", "帶截止時間的任務"))}</small></div>
         </div>
       </div>
       ${calendarBoardHtml}
       <details class="compact-table-details" style="margin-top:12px;">
-        <summary>${escapeHtml(t("Open Cron table detail", "查看 Cron 表格明细"))}</summary>
+        <summary>${escapeHtml(t("Open Cron table detail", "檢視 Cron 表格明細"))}</summary>
         <div class="fold-body">${cronTable}</div>
       </details>
     </section>
@@ -7199,14 +7199,14 @@ async function renderHtml(
   const cronExecutionSection = `
     <section class="card" id="cron-execution-board">
       <div class="overview-command-head">
-        <h2>${escapeHtml(t("Cron execution board", "Cron 执行看板"))}</h2>
+        <h2>${escapeHtml(t("Cron execution board", "Cron 執行看板"))}</h2>
         <div>${badge(cronOverview.health.status, cronHealthLabel(cronOverview.health.status, options.language))}</div>
       </div>
-      <div class="meta">${escapeHtml(t("Grouped by agent so you can see which timed jobs are active, what they do, and when they run next.", "按智能体分组展示当前定时任务、任务目的以及下次执行时间。"))}</div>
-      <div class="meta">${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暂无"))} · ${escapeHtml(t("Heartbeat", "心跳"))} ${escapeHtml(heartbeatNextRun)} · ${escapeHtml(t("Enabled", "启用"))} ${enabledCronCount}</div>
+      <div class="meta">${escapeHtml(t("Grouped by agent so you can see which timed jobs are active, what they do, and when they run next.", "按智慧體分組展示當前定時任務、任務目的以及下次執行時間。"))}</div>
+      <div class="meta">${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暫無"))} · ${escapeHtml(t("Heartbeat", "心跳"))} ${escapeHtml(heartbeatNextRun)} · ${escapeHtml(t("Enabled", "啟用"))} ${enabledCronCount}</div>
       ${cronBoardHtml}
       <details class="compact-table-details" style="margin-top:12px;">
-        <summary>${escapeHtml(t("Open Cron table detail", "查看 Cron 表格明细"))}</summary>
+        <summary>${escapeHtml(t("Open Cron table detail", "檢視 Cron 表格明細"))}</summary>
         <div class="fold-body">${cronTable}</div>
       </details>
     </section>
@@ -7214,17 +7214,17 @@ async function renderHtml(
   const taskExecutionChainSection = `
     <section class="card" id="task-execution-chain">
       <div class="overview-command-head">
-        <h2>${escapeHtml(t("Execution chain", "执行链"))}</h2>
-        <div>${badge(spawnedExecutionChainCount > 0 ? "info" : "idle", spawnedExecutionChainCount > 0 ? t("Active", "活跃") : t("Waiting", "等待中"))}</div>
+        <h2>${escapeHtml(t("Execution chain", "執行鏈"))}</h2>
+        <div>${badge(spawnedExecutionChainCount > 0 ? "info" : "idle", spawnedExecutionChainCount > 0 ? t("Active", "活躍") : t("Waiting", "等待中"))}</div>
       </div>
-      <div class="meta">${escapeHtml(t("See whether the parent session accepted the work, whether it spawned an isolated session, and which child session is now running.", "直接看父会话是否接单、是否派发隔离会话，以及当前到底是哪条子会话在执行。"))}</div>
-      <div class="meta">${escapeHtml(t("Isolated runs", "隔离执行"))} ${spawnedExecutionChainCount} · ${escapeHtml(t("Running now", "当前执行中"))} ${runningExecutionChainCount} · ${escapeHtml(t("Mapped tasks", "已关联任务"))} ${mappedExecutionChainCount}</div>
+      <div class="meta">${escapeHtml(t("See whether the parent session accepted the work, whether it spawned an isolated session, and which child session is now running.", "直接看父會話是否接單、是否派發隔離會話，以及當前到底是哪條子會話在執行。"))}</div>
+      <div class="meta">${escapeHtml(t("Isolated runs", "隔離執行"))} ${spawnedExecutionChainCount} · ${escapeHtml(t("Running now", "當前執行中"))} ${runningExecutionChainCount} · ${escapeHtml(t("Mapped tasks", "已關聯任務"))} ${mappedExecutionChainCount}</div>
       ${taskExecutionChainHtml}
     </section>
   `;
   const teamMembersTableRows =
     teamSnapshot.members.length === 0
-      ? `<tr><td colspan="5">${escapeHtml(t("No staff found.", "暂无员工。"))}</td></tr>`
+      ? `<tr><td colspan="5">${escapeHtml(t("No staff found.", "暫無員工。"))}</td></tr>`
       : teamSnapshot.members
           .map(
             (member) =>
@@ -7233,23 +7233,23 @@ async function renderHtml(
           .join("");
   const teamSection = activeSection === "team" ? `
     <section class="card">
-      <h2>${escapeHtml(t("Staff overview", "员工总览"))}</h2>
-      <div class="meta">${escapeHtml(t("The default view shows only name, role, current status, current work, recent output, and whether each person is on the schedule.", "默认视图只显示员工名字、角色定位、当前状态、正在处理什么、最近产出，以及是否在排班里。"))}</div>
+      <h2>${escapeHtml(t("Staff overview", "員工總覽"))}</h2>
+      <div class="meta">${escapeHtml(t("The default view shows only name, role, current status, current work, recent output, and whether each person is on the schedule.", "預設檢視只顯示員工名字、角色定位、當前狀態、正在處理什麼、最近產出，以及是否在排班裡。"))}</div>
       ${staffOverviewCardsHtml}
     </section>
     <details class="card compact-details">
-      <summary>${escapeHtml(t("Shared staff mission", "员工共同目标"))}</summary>
+      <summary>${escapeHtml(t("Shared staff mission", "員工共同目標"))}</summary>
       <div class="fold-body">
         <div class="mission-banner">${escapeHtml(teamSnapshot.missionStatement)}</div>
-        <div class="meta">${escapeHtml(t("Source", "来源"))}：${escapeHtml(teamSnapshot.sourcePath)}</div>
+        <div class="meta">${escapeHtml(t("Source", "來源"))}：${escapeHtml(teamSnapshot.sourcePath)}</div>
         <div class="meta">${escapeHtml(teamSnapshot.detail)}</div>
       </div>
     </details>
     <details class="card compact-details">
-      <summary>${escapeHtml(t("Staff system details", "员工配置明细"))}</summary>
+      <summary>${escapeHtml(t("Staff system details", "員工配置明細"))}</summary>
       <div class="fold-body">
         <table>
-          <thead><tr><th>${escapeHtml(t("Name", "名称"))}</th><th>agentId</th><th>${escapeHtml(t("Model", "模型"))}</th><th>${escapeHtml(t("Tool profile", "工具权限"))}</th><th>${escapeHtml(t("Workspace", "工作目录"))}</th></tr></thead>
+          <thead><tr><th>${escapeHtml(t("Name", "名稱"))}</th><th>agentId</th><th>${escapeHtml(t("Model", "模型"))}</th><th>${escapeHtml(t("Tool profile", "工具許可權"))}</th><th>${escapeHtml(t("Workspace", "工作目錄"))}</th></tr></thead>
           <tbody>${teamMembersTableRows}</tbody>
         </table>
       </div>
@@ -7343,14 +7343,14 @@ async function renderHtml(
     <section class="card" id="collaboration-hub">
       <div class="overview-command-head">
         <div>
-          <h2>${escapeHtml(t("Team collaboration", "团队协作"))}</h2>
-          <div class="meta">${escapeHtml(t("See both collaboration patterns in one place: parent-child relays and cross-session messages between existing agent sessions.", "把两种协作都放在同一页看清楚：父子会话接力，以及不同智能体既有会话之间的消息往返。"))}</div>
+          <h2>${escapeHtml(t("Team collaboration", "團隊協作"))}</h2>
+          <div class="meta">${escapeHtml(t("See both collaboration patterns in one place: parent-child relays and cross-session messages between existing agent sessions.", "把兩種協作都放在同一頁看清楚：父子會話接力，以及不同智慧體既有會話之間的訊息往返。"))}</div>
         </div>
-        <div>${badge(collaborationBlockedCount > 0 ? "warn" : collaborationActiveCount > 0 ? "info" : "ok", collaborationBlockedCount > 0 ? t("Needs follow-up", "需跟进") : collaborationActiveCount > 0 ? t("Active", "进行中") : t("Steady", "平稳"))}</div>
+        <div>${badge(collaborationBlockedCount > 0 ? "warn" : collaborationActiveCount > 0 ? "info" : "ok", collaborationBlockedCount > 0 ? t("Needs follow-up", "需跟進") : collaborationActiveCount > 0 ? t("Active", "進行中") : t("Steady", "平穩"))}</div>
       </div>
       <div class="status-strip collaboration-summary-grid">
         <div class="status-chip">
-          <span>${escapeHtml(t("Active", "活跃协作"))}</span>
+          <span>${escapeHtml(t("Active", "活躍協作"))}</span>
           <strong>${collaborationActiveCount}</strong>
         </div>
         <div class="status-chip">
@@ -7371,30 +7371,30 @@ async function renderHtml(
           ? collaborationThreadTotalCount > collaborationThreadVisibleCount
             ? t(
                 `${collaborationThreadTotalCount} collaboration threads are visible in total. Similar completed threads are folded into ${collaborationThreadVisibleCount} cards so this page stays readable.`,
-                `当前共整理出 ${collaborationThreadTotalCount} 条协作线程，并把相近的已完成线程折叠为 ${collaborationThreadVisibleCount} 张卡片，方便直接看重点。`,
+                `當前共整理出 ${collaborationThreadTotalCount} 條協作執行緒，並把相近的已完成執行緒摺疊為 ${collaborationThreadVisibleCount} 張卡片，方便直接看重點。`,
               )
             : t(
                 `${collaborationThreadVisibleCount} visible collaboration threads. Open a thread to inspect parent-child relays or cross-session messages without leaving this page.`,
-                `当前可见 ${collaborationThreadVisibleCount} 条协作线程。直接展开线程，就能在当前页查看父子接力或跨会话消息时间线。`,
+                `當前可見 ${collaborationThreadVisibleCount} 條協作執行緒。直接展開執行緒，就能在當前頁檢視父子接力或跨會話訊息時間線。`,
               )
           : t(
               "No visible collaboration threads yet. They will appear once parent-child relays or cross-session messages become visible.",
-              "当前还没有可见的协作线程。父子接力或跨会话通信出现后，这里就会开始显示。",
+              "當前還沒有可見的協作執行緒。父子接力或跨會話通訊出現後，這裡就會開始顯示。",
             ),
       )}</div>
     </section>
     <section class="card" id="collaboration-board" data-collab-root>
       <div class="overview-command-head">
-        <h2>${escapeHtml(t("Collaboration threads", "协作线程"))}</h2>
-        <div class="meta" data-collab-filter-state>${escapeHtml(t("Showing all visible threads", "当前显示全部可见线程"))}</div>
+        <h2>${escapeHtml(t("Collaboration threads", "協作執行緒"))}</h2>
+        <div class="meta" data-collab-filter-state>${escapeHtml(t("Showing all visible threads", "當前顯示全部可見執行緒"))}</div>
       </div>
-      <div class="segment-switch collaboration-filter-bar" role="tablist" aria-label="${escapeHtml(t("Collaboration filters", "协作筛选"))}">
+      <div class="segment-switch collaboration-filter-bar" role="tablist" aria-label="${escapeHtml(t("Collaboration filters", "協作篩選"))}">
         <button class="segment-item active" type="button" data-collab-filter="all">${escapeHtml(t("All", "全部"))}</button>
-        <button class="segment-item" type="button" data-collab-filter="active">${escapeHtml(t("In progress", "进行中"))}</button>
+        <button class="segment-item" type="button" data-collab-filter="active">${escapeHtml(t("In progress", "進行中"))}</button>
         <button class="segment-item" type="button" data-collab-filter="blocked">${escapeHtml(t("Blocked", "卡住"))}</button>
         <button class="segment-item" type="button" data-collab-filter="completed">${escapeHtml(t("Completed", "已完成"))}</button>
-        <button class="segment-item" type="button" data-collab-filter="multi-agent">${escapeHtml(t("Multi-agent only", "只看多智能体"))}</button>
-        <button class="segment-item" type="button" data-collab-filter="main-dispatched">${escapeHtml(t("Main dispatched", "只看 Main 派发"))}</button>
+        <button class="segment-item" type="button" data-collab-filter="multi-agent">${escapeHtml(t("Multi-agent only", "只看多智慧體"))}</button>
+        <button class="segment-item" type="button" data-collab-filter="main-dispatched">${escapeHtml(t("Main dispatched", "只看 Main 派發"))}</button>
       </div>
       ${collaborationThreadHtml}
     </section>
@@ -7407,10 +7407,10 @@ async function renderHtml(
     ? await renderEditableFileWorkbench({
         scope: "memory",
         language: options.language,
-        title: t("Memory file workbench", "记忆文件工作台"),
-        description: t("Browse and edit OpenClaw memory files directly. Saving writes back to the source files.", "直接浏览和修改 OpenClaw 的记忆文件。保存后会写回原文件。"),
+        title: t("Memory file workbench", "記憶檔案工作臺"),
+        description: t("Browse and edit OpenClaw memory files directly. Saving writes back to the source files.", "直接瀏覽和修改 OpenClaw 的記憶檔案。儲存後會寫回原檔案。"),
         entries: memoryFiles,
-        emptyMessage: t("There are no editable memory files right now.", "当前没有可编辑的记忆文件。"),
+        emptyMessage: t("There are no editable memory files right now.", "當前沒有可編輯的記憶檔案。"),
         defaultFacetKey: "main",
         includeAllFacet: false,
         facetOptions: memoryFacetOptions,
@@ -7419,11 +7419,11 @@ async function renderHtml(
   const memoryViewsLabel = joinDisplayList(["Main", ...memoryFacetOptions.filter((item) => item.key !== "main").map((item) => item.label)], options.language);
   const memorySection = activeSection === "memory" ? `
     <section class="card">
-      <h2>${escapeHtml(t("Memory overview", "记忆概览"))}</h2>
-      <div class="meta">Main ${escapeHtml(t("memories", "记忆"))} ${memoryMainCount} ${escapeHtml(t("files", "份"))} · ${escapeHtml(t("Agents found", "已发现智能体"))} ${Math.max(0, memoryFacetOptions.filter((item) => item.key !== "main").length)} ${escapeHtml(t("items", "个"))}</div>
-      <div class="meta">${escapeHtml(t("Available views", "可切换查看"))}${escapeHtml(options.language === "en" ? ": " : "：")}${escapeHtml(memoryViewsLabel)}</div>
-      <div class="meta">${escapeHtml(t("Only memory-related files are kept here: root MEMORY.md, memory/, and each agent's own MEMORY.md and memory/.", "这里只保留记忆相关文件：根目录 MEMORY.md、memory/，以及各智能体自己的 MEMORY.md 与 memory/。"))}</div>
-      <div class="meta">${escapeHtml(t("Edits here sync directly back to the real memory files on the OpenClaw machine.", "这里的编辑会直接同步到 OpenClaw 机器上的真实记忆文件。"))}</div>
+      <h2>${escapeHtml(t("Memory overview", "記憶概覽"))}</h2>
+      <div class="meta">Main ${escapeHtml(t("memories", "記憶"))} ${memoryMainCount} ${escapeHtml(t("files", "份"))} · ${escapeHtml(t("Agents found", "已發現智慧體"))} ${Math.max(0, memoryFacetOptions.filter((item) => item.key !== "main").length)} ${escapeHtml(t("items", "個"))}</div>
+      <div class="meta">${escapeHtml(t("Available views", "可切換檢視"))}${escapeHtml(options.language === "en" ? ": " : "：")}${escapeHtml(memoryViewsLabel)}</div>
+      <div class="meta">${escapeHtml(t("Only memory-related files are kept here: root MEMORY.md, memory/, and each agent's own MEMORY.md and memory/.", "這裡只保留記憶相關檔案：根目錄 MEMORY.md、memory/，以及各智慧體自己的 MEMORY.md 與 memory/。"))}</div>
+      <div class="meta">${escapeHtml(t("Edits here sync directly back to the real memory files on the OpenClaw machine.", "這裡的編輯會直接同步到 OpenClaw 機器上的真實記憶檔案。"))}</div>
     </section>
     ${memoryWorkbench}
     ${memoryStateSection}
@@ -7433,10 +7433,10 @@ async function renderHtml(
     ? await renderEditableFileWorkbench({
         scope: "workspace",
         language: options.language,
-        title: t("Document workbench", "文档工作台"),
-        description: t("Keep only Main documents and each active agent's most useful core Markdown files. Saving writes back to the source files.", "只保留 Main 文档，以及当前启用智能体最有用、最应该调整的核心 Markdown。保存后会直接写回源文件。"),
+        title: t("Document workbench", "文件工作臺"),
+        description: t("Keep only Main documents and each active agent's most useful core Markdown files. Saving writes back to the source files.", "只保留 Main 文件，以及當前啟用智慧體最有用、最應該調整的核心 Markdown。儲存後會直接寫回原始檔。"),
         entries: workspaceFiles,
-        emptyMessage: t("No editable Main documents or core agent documents were found.", "当前没有发现可编辑的 Main 文档或智能体核心文档。"),
+        emptyMessage: t("No editable Main documents or core agent documents were found.", "當前沒有發現可編輯的 Main 文件或智慧體核心文件。"),
         defaultFacetKey: "main",
         includeAllFacet: false,
         facetOptions: workspaceFacetOptions,
@@ -7445,115 +7445,115 @@ async function renderHtml(
   const documentViewsLabel = joinDisplayList(["Main", ...workspaceFacetOptions.filter((item) => item.key !== "main").map((item) => item.label)], options.language);
   const docsSection = activeSection === "docs" ? `
     <section class="card">
-      <h2>${escapeHtml(t("Document overview", "文档概览"))}</h2>
-      <div class="meta">${escapeHtml(t("Main documents", "Main 文档"))} ${mainDocumentCount} ${escapeHtml(t("files", "份"))} · ${escapeHtml(t("Agents found", "已发现智能体"))} ${Math.max(0, workspaceFacetOptions.filter((item) => item.key !== "main").length)} ${escapeHtml(t("items", "个"))}</div>
-      <div class="meta">${escapeHtml(t("Available views", "可切换查看"))}${escapeHtml(options.language === "en" ? ": " : "：")}${escapeHtml(documentViewsLabel)}</div>
-      <div class="meta">${escapeHtml(t("This keeps only Main documents plus the small set of Markdown files that matter most for each active agent.", "这里只保留 Main 文档，以及当前启用智能体最常用、最值得调整的那几份 Markdown。"))}</div>
-      <div class="meta">${escapeHtml(t("Documents are no longer shown by chat history. They are archived by Main or by active agent.", "不再按会话历史展示文档，统一按 Main / 当前启用智能体归档。"))}</div>
+      <h2>${escapeHtml(t("Document overview", "文件概覽"))}</h2>
+      <div class="meta">${escapeHtml(t("Main documents", "Main 文件"))} ${mainDocumentCount} ${escapeHtml(t("files", "份"))} · ${escapeHtml(t("Agents found", "已發現智慧體"))} ${Math.max(0, workspaceFacetOptions.filter((item) => item.key !== "main").length)} ${escapeHtml(t("items", "個"))}</div>
+      <div class="meta">${escapeHtml(t("Available views", "可切換檢視"))}${escapeHtml(options.language === "en" ? ": " : "：")}${escapeHtml(documentViewsLabel)}</div>
+      <div class="meta">${escapeHtml(t("This keeps only Main documents plus the small set of Markdown files that matter most for each active agent.", "這裡只保留 Main 文件，以及當前啟用智慧體最常用、最值得調整的那幾份 Markdown。"))}</div>
+      <div class="meta">${escapeHtml(t("Documents are no longer shown by chat history. They are archived by Main or by active agent.", "不再按會話歷史展示文件，統一按 Main / 當前啟用智慧體歸檔。"))}</div>
     </section>
     ${workspaceWorkbench}
   ` : "";
   const usageSection = `
     <section class="card">
-      <h2>${escapeHtml(t("Measurement scope", "统计口径"))}</h2>
+      <h2>${escapeHtml(t("Measurement scope", "統計口徑"))}</h2>
       ${usageViewSwitchHtml}
       <div class="meta">${usageViewRangeText}</div>
       <div class="meta">${usageViewRangeDetail}</div>
-      <div class="meta">${escapeHtml(t("Today: from 00:00 until now. Cumulative: full history until now.", "今日：当日 00:00 至当前。累计：历史全量到当前。"))}</div>
+      <div class="meta">${escapeHtml(t("Today: from 00:00 until now. Cumulative: full history until now.", "今日：當日 00:00 至當前。累計：歷史全量到當前。"))}</div>
     </section>
     <section class="card">
-      <h2>${escapeHtml(isTodayUsageView ? t("Today's usage snapshot", "今日用量快照") : t("Cost trend", "费用趋势"))}</h2>
-      <div class="meta">${isTodayUsageView ? escapeHtml(t("Range: today.", "统计范围：今日。")) : runtimeTokenRangeLabel}</div>
+      <h2>${escapeHtml(isTodayUsageView ? t("Today's usage snapshot", "今日用量快照") : t("Cost trend", "費用趨勢"))}</h2>
+      <div class="meta">${isTodayUsageView ? escapeHtml(t("Range: today.", "統計範圍：今日。")) : runtimeTokenRangeLabel}</div>
       ${
         hasUsageActivity
           ? usagePeriodCards
-          : `<div class="empty-state">${escapeHtml(t("No usage data yet. It will be generated automatically after sessions start.", "暂无用量数据。开始会话后会自动生成。"))}</div>`
+          : `<div class="empty-state">${escapeHtml(t("No usage data yet. It will be generated automatically after sessions start.", "暫無用量資料。開始會話後會自動生成。"))}</div>`
       }
     </section>
     <section class="card">
-      <h2>${escapeHtml(t("Subscription windows", "订阅窗口"))}</h2>
+      <h2>${escapeHtml(t("Subscription windows", "訂閱視窗"))}</h2>
       ${subscriptionStatusHtml}
     </section>
     <section class="card">
-      <h2>${escapeHtml(t("AI usage mix (all sessions)", "AI 用量构成（全部会话）"))}</h2>
-      <div class="meta">${escapeHtml(t("Timed jobs, Discord, Telegram, internal sessions", "定时任务、Discord、Telegram、内部会话"))}</div>
+      <h2>${escapeHtml(t("AI usage mix (all sessions)", "AI 用量構成（全部會話）"))}</h2>
+      <div class="meta">${escapeHtml(t("Timed jobs, Discord, Telegram, internal sessions", "定時任務、Discord、Telegram、內部會話"))}</div>
       ${usageSessionTypeShareHtml}
     </section>
     <section class="card">
-      <h2>${escapeHtml(t("Timed-job usage share", "定时任务用量占比"))}</h2>
+      <h2>${escapeHtml(t("Timed-job usage share", "定時任務用量佔比"))}</h2>
       <div class="meta">${cronTokenRangeLabel}</div>
       ${usageCronJobShareHtml}
       <details class="compact-table-details" style="margin-top:12px;">
-        <summary>${escapeHtml(t("Agent share within timed jobs", "定时任务内各智能体占比"))}</summary>
+        <summary>${escapeHtml(t("Agent share within timed jobs", "定時任務內各智慧體佔比"))}</summary>
         <div class="fold-body">${usageCronAgentShareHtml}</div>
       </details>
     </section>
     ${contextPressureCard}
     <details class="card compact-details">
-      <summary>${escapeHtml(t("Advanced detail (attribution / model / context / budget)", "高级明细（归因/模型/上下文/预算）"))}</summary>
+      <summary>${escapeHtml(t("Advanced detail (attribution / model / context / budget)", "高階明細（歸因/模型/上下文/預算）"))}</summary>
       <div class="fold-body">
-        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Split by agent and task", "按智能体与任务拆分"))}</h3>
+        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Split by agent and task", "按智慧體與任務拆分"))}</h3>
         ${usageAttributionHtml}
         <div style="height:10px;"></div>
-        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Usage sources", "用量来源"))}</h3>
+        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Usage sources", "用量來源"))}</h3>
         ${usageSourceHtml}
         <div style="height:10px;"></div>
-        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Task consumption", "任务消耗"))}</h3>
+        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Task consumption", "任務消耗"))}</h3>
         ${usageTaskHtml}
         <div style="height:10px;"></div>
-        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Models and providers", "模型与供应商"))}</h3>
+        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Models and providers", "模型與供應商"))}</h3>
         ${usageModelMixHtml}
         <div style="height:10px;"></div>
-        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Session context", "会话上下文"))}</h3>
+        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Session context", "會話上下文"))}</h3>
         ${usageContextHtml}
         <div style="height:10px;"></div>
-        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Budget forecast", "预算预测"))}</h3>
+        <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Budget forecast", "預算預測"))}</h3>
         <div class="meta">${usageBudgetMeta}</div>
         <div class="meta">${usageBudgetHeadline}</div>
         <div class="meta">${escapeHtml(t("Daily burn", "日均消耗"))} ${
           usageCost.budget.burnRatePerDay !== undefined
             ? formatCurrency(usageCost.budget.burnRatePerDay)
-            : t("Data source not connected", "数据源未连接")
+            : t("Data source not connected", "資料來源未連線")
         }</div>
-        <div class="meta">${escapeHtml(t("Estimated days remaining", "预计剩余天数"))} ${
+        <div class="meta">${escapeHtml(t("Estimated days remaining", "預計剩餘天數"))} ${
           usageCost.budget.projectedDaysToLimit !== undefined
             ? usageCost.budget.projectedDaysToLimit.toFixed(1)
-            : t("Data source not connected", "数据源未连接")
+            : t("Data source not connected", "資料來源未連線")
         }</div>
       </div>
     </details>
   `;
   const officeSection = options.section === "office-space" ? `
     <section class="card">
-      <h2>看板映射说明</h2>
-      <div class="meta">Alex / Sam / Taylor / Unassigned 这类名称只是 control-center 的分组标签，不是智能体，不会单独消耗预算。</div>
+      <h2>看板對映說明</h2>
+      <div class="meta">Alex / Sam / Taylor / Unassigned 這類名稱只是 control-center 的分組標籤，不是智慧體，不會單獨消耗預算。</div>
       <details class="compact-table-details" style="margin-top:8px;" open>
-        <summary>查看映射标签（不执行任务）</summary>
+        <summary>檢視對映標籤（不執行任務）</summary>
         <div class="fold-body">
-          <ul class="story-list">${taskRoleRows || "<li>当前没有映射标签。</li>"}</ul>
+          <ul class="story-list">${taskRoleRows || "<li>當前沒有對映標籤。</li>"}</ul>
         </div>
       </details>
     </section>
     <details class="card compact-details" open>
-      <summary>执行分区（工位）</summary>
+      <summary>執行分割槽（工位）</summary>
       <div class="fold-body">${officeFloorHtml}</div>
     </details>
     <details class="card compact-details" open>
-      <summary>最近会话（${sessionPreview.items.length}/${sessionPreview.total}）</summary>
+      <summary>最近會話（${sessionPreview.items.length}/${sessionPreview.total}）</summary>
       <div class="fold-body">
         ${
           sessionPreview.items.length === 0
-            ? '<div class="empty-state">暂无会话数据。</div>'
-            : `<div class="group-list"><details class="group-section" open><summary>最近活跃会话（${sessionPreview.items.length}）</summary><ul class="group-items">${sessionPreview.items
+            ? '<div class="empty-state">暫無會話資料。</div>'
+            : `<div class="group-list"><details class="group-section" open><summary>最近活躍會話（${sessionPreview.items.length}）</summary><ul class="group-items">${sessionPreview.items
                 .slice(0, 14)
-                .map((item) => `<li class="group-item"><div class="group-item-head"><strong>${escapeHtml(item.label ?? item.sessionKey)}</strong>${badge(item.state, sessionStateLabel(item.state))}</div><div class="meta">智能体 ${escapeHtml(item.agentId ?? "-")} · 最近 ${escapeHtml(item.lastMessageAt ?? "-")}</div><div class="meta">最新事件 ${escapeHtml(item.latestKind ?? "message")} · 历史 ${item.historyCount}</div><div class="meta"><a href="${escapeHtml(buildSessionDetailHref(item.sessionKey, options.language))}">查看会话详情页</a></div></li>`)
+                .map((item) => `<li class="group-item"><div class="group-item-head"><strong>${escapeHtml(item.label ?? item.sessionKey)}</strong>${badge(item.state, sessionStateLabel(item.state))}</div><div class="meta">智慧體 ${escapeHtml(item.agentId ?? "-")} · 最近 ${escapeHtml(item.lastMessageAt ?? "-")}</div><div class="meta">最新事件 ${escapeHtml(item.latestKind ?? "message")} · 歷史 ${item.historyCount}</div><div class="meta"><a href="${escapeHtml(buildSessionDetailHref(item.sessionKey, options.language))}">檢視會話詳情頁</a></div></li>`)
                 .join("")}</ul></details></div>`
         }
         <details class="compact-table-details" style="margin-top:12px;">
-          <summary>查看原始表格</summary>
+          <summary>檢視原始表格</summary>
           <div class="fold-body">
             <table>
-              <thead><tr><th>会话</th><th>状态</th><th>助手</th><th>最近活动</th></tr></thead>
+              <thead><tr><th>會話</th><th>狀態</th><th>助手</th><th>最近活動</th></tr></thead>
               <tbody>${sessionRows}</tbody>
             </table>
           </div>
@@ -7567,22 +7567,22 @@ async function renderHtml(
   const trackedTaskSummaryText = hasTrackedTaskPanels
     ? t(
         `Tracked tasks ${trackedTaskCount} · Follow-up ${pendingDecisionCount}`,
-        `跟踪任务 ${trackedTaskCount} · 待处理 ${pendingDecisionCount}`,
+        `跟蹤任務 ${trackedTaskCount} · 待處理 ${pendingDecisionCount}`,
       )
-    : t("No tracked task rows yet", "还没有跟踪任务条目");
+    : t("No tracked task rows yet", "還沒有跟蹤任務條目");
   const trackedTaskExplanation = hasTrackedTaskPanels
     ? t(
         "This lower-priority area is only for tracked task rows, decisions, and runtime evidence.",
-        "这块低优先级区域只看可跟踪任务条目、待处理事项和运行证据。",
+        "這塊低優先順序區域只看可跟蹤任務條目、待處理事項和執行證據。",
       )
     : liveSessionCount > 0
       ? t(
           "Staff status comes from live sessions. Cron jobs, heartbeat, and ad-hoc sessions can keep agents busy before anything becomes a tracked task row.",
-          "员工状态来自实时会话。Cron、心跳和临时会话可能已经让智能体在工作，但还没有形成可跟踪的任务条目。",
+          "員工狀態來自實時會話。Cron、心跳和臨時會話可能已經讓智慧體在工作，但還沒有形成可跟蹤的任務條目。",
         )
       : t(
           "There is no tracked task row visible right now. Start here only when you actually use the task store.",
-          "当前还没有可见的跟踪任务条目。只有真正使用任务库时，这里才会出现内容。",
+          "當前還沒有可見的跟蹤任務條目。只有真正使用任務庫時，這裡才會出現內容。",
         );
   const trackedTaskDetailsBody = hasTrackedTaskPanels
     ? `
@@ -7590,41 +7590,41 @@ async function renderHtml(
         <article class="card task-hub-primary" id="task-hub-primary">
           <div class="overview-command-head">
             <div>
-              <h2>${escapeHtml(t("Task hub", "任务中枢"))}</h2>
-              <div class="meta">${escapeHtml(t("One place for tracked tasks, follow-up items, and runtime evidence.", "把可跟踪任务、待处理事项和运行证据放在一起。"))}</div>
+              <h2>${escapeHtml(t("Task hub", "任務中樞"))}</h2>
+              <div class="meta">${escapeHtml(t("One place for tracked tasks, follow-up items, and runtime evidence.", "把可跟蹤任務、待處理事項和執行證據放在一起。"))}</div>
             </div>
             <div>${overviewPrimaryStatus}</div>
           </div>
           ${taskHubStatCardsHtml}
           <div class="overview-task-strip">
             <div>
-              <div class="meta">${escapeHtml(t("Current focus", "当前关注"))}</div>
-              <div class="overview-task-metric">${badge(currentTaskHealth)} ${escapeHtml(t("Confirmed live", "已确认在跑"))} ${taskCertaintyStrongCount} · ${escapeHtml(t("Need follow-up", "需跟进"))} ${taskCertaintyFollowupCount} · ${escapeHtml(t("Needs inspection", "需排查"))} ${taskCertaintyWeakCount}</div>
+              <div class="meta">${escapeHtml(t("Current focus", "當前關注"))}</div>
+              <div class="overview-task-metric">${badge(currentTaskHealth)} ${escapeHtml(t("Confirmed live", "已確認在跑"))} ${taskCertaintyStrongCount} · ${escapeHtml(t("Need follow-up", "需跟進"))} ${taskCertaintyFollowupCount} · ${escapeHtml(t("Needs inspection", "需排查"))} ${taskCertaintyWeakCount}</div>
               ${mappingTaskHint ? `<div class="meta">${escapeHtml(mappingTaskHint)}</div>` : ""}
             </div>
             <div class="overview-quick-links">
-              <a class="btn" href="${escapeHtml(currentTaskHealthHref)}">${escapeHtml(t("Open tracked tasks", "查看跟踪任务"))}</a>
-              <a class="btn" href="${escapeHtml(focusHref)}">${escapeHtml(t("Open follow-up items", "查看待处理"))}</a>
+              <a class="btn" href="${escapeHtml(currentTaskHealthHref)}">${escapeHtml(t("Open tracked tasks", "檢視跟蹤任務"))}</a>
+              <a class="btn" href="${escapeHtml(focusHref)}">${escapeHtml(t("Open follow-up items", "檢視待處理"))}</a>
             </div>
           </div>
         </article>
         <article class="card" id="task-decision-center">
           <div class="overview-command-head">
-            <h2>${escapeHtml(t("Waiting for your decision", "等待你决策"))}</h2>
-            <div>${badge(pendingDecisionCount > 0 ? "warn" : "ok", pendingDecisionCount > 0 ? t("Queue active", "队列活跃") : t("Clear", "已清空"))}</div>
+            <h2>${escapeHtml(t("Waiting for your decision", "等待你決策"))}</h2>
+            <div>${badge(pendingDecisionCount > 0 ? "warn" : "ok", pendingDecisionCount > 0 ? t("Queue active", "佇列活躍") : t("Clear", "已清空"))}</div>
           </div>
-          <div class="meta">${escapeHtml(t("Pending decisions", "待处理事项"))} ${pendingDecisionCount} · ${escapeHtml(t("Approvals", "审批"))} ${pendingApprovalsCount} · ${escapeHtml(t("Unacked alerts", "未确认告警"))} ${actionQueue.counts.unacked}</div>
+          <div class="meta">${escapeHtml(t("Pending decisions", "待處理事項"))} ${pendingDecisionCount} · ${escapeHtml(t("Approvals", "審批"))} ${pendingApprovalsCount} · ${escapeHtml(t("Unacked alerts", "未確認告警"))} ${actionQueue.counts.unacked}</div>
           ${taskDecisionPreviewHtml}
         </article>
       </section>
       ${taskExecutionChainSection}
       <section class="task-hub-grid task-hub-board-grid">
         <section class="card" id="task-lane">
-          <h2>${escapeHtml(t("Task lanes", "任务泳道"))}</h2>
-          <div class="meta">${escapeHtml(t("Current focus", "当前关注"))}：${escapeHtml(quickFilterLabel(effectiveQuick, options.language))}</div>
+          <h2>${escapeHtml(t("Task lanes", "任務泳道"))}</h2>
+          <div class="meta">${escapeHtml(t("Current focus", "當前關注"))}：${escapeHtml(quickFilterLabel(effectiveQuick, options.language))}</div>
           ${
             controlCenterMappingTasks.length > 0
-              ? `<div class="meta">${escapeHtml(t(`${controlCenterMappingTasks.length} board-only mapping examples are hidden because they are not real execution tasks.`, `已隐藏 ${controlCenterMappingTasks.length} 个看板映射样例（非真实执行任务）。`))}</div>`
+              ? `<div class="meta">${escapeHtml(t(`${controlCenterMappingTasks.length} board-only mapping examples are hidden because they are not real execution tasks.`, `已隱藏 ${controlCenterMappingTasks.length} 個看板對映樣例（非真實執行任務）。`))}</div>`
               : ""
           }
           <div class="quick-filters">${quickFilters}</div>
@@ -7635,7 +7635,7 @@ async function renderHtml(
             <input type="hidden" name="compact" value="${options.compactStatusStrip ? "1" : "0"}" />
             <input type="hidden" name="usage_view" value="${options.usageView === "today" ? "today" : "cumulative"}" />
             <div>
-              <label for="status">${escapeHtml(t("Status", "状态"))}</label>
+              <label for="status">${escapeHtml(t("Status", "狀態"))}</label>
               <select id="status" name="status">
                 ${renderSelectOptions(
                   [{ value: "", label: t("All", "全部") }, ...TASK_STATES.map((state) => ({ value: state, label: taskStateLabel(state, options.language) }))],
@@ -7644,7 +7644,7 @@ async function renderHtml(
               </select>
             </div>
             <div>
-              <label for="owner">${escapeHtml(t("Agent", "智能体"))}</label>
+              <label for="owner">${escapeHtml(t("Agent", "智慧體"))}</label>
               <select id="owner" name="owner">
                 ${renderSelectOptions(
                   [{ value: "", label: t("All", "全部") }, ...ownerOptions.map((owner) => ({ value: owner, label: owner }))],
@@ -7653,7 +7653,7 @@ async function renderHtml(
               </select>
             </div>
             <div>
-              <label for="project">${escapeHtml(t("Project", "项目"))}</label>
+              <label for="project">${escapeHtml(t("Project", "專案"))}</label>
               <select id="project" name="project">
                 ${renderSelectOptions(
                   [{ value: "", label: t("All", "全部") }, ...projectOptions.map((project) => ({ value: project, label: project }))],
@@ -7662,22 +7662,22 @@ async function renderHtml(
               </select>
             </div>
             <div class="filter-actions">
-              <button class="btn" type="submit">${escapeHtml(t("Apply", "应用"))}</button>
-              <a href="${escapeHtml(clearHref)}">${escapeHtml(t("Clear filters", "清空筛选"))}</a>
+              <button class="btn" type="submit">${escapeHtml(t("Apply", "應用"))}</button>
+              <a href="${escapeHtml(clearHref)}">${escapeHtml(t("Clear filters", "清空篩選"))}</a>
             </div>
           </form>
           ${taskBoard}
           <div style="height:10px;"></div>
-          <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Task groups (native view)", "任务分组列表（原生视图）"))}</h3>
+          <h3 style="margin:0 0 6px 0;">${escapeHtml(t("Task groups (native view)", "任務分組列表（原生檢視）"))}</h3>
           ${taskGroupedListHtml}
           ${
             controlCenterMappingTasks.length === 0
               ? ""
               : `<details class="compact-table-details" style="margin-top:12px;" open>
-                   <summary>${escapeHtml(t("Open board mapping examples (non-executing)", "查看看板映射样例（不执行任务）"))}</summary>
+                   <summary>${escapeHtml(t("Open board mapping examples (non-executing)", "檢視看板對映樣例（不執行任務）"))}</summary>
                    <div class="fold-body">
                      <table>
-                       <thead><tr><th>${escapeHtml(t("Example task", "样例任务"))}</th><th>${escapeHtml(t("Label", "标签"))}</th><th>${escapeHtml(t("Status", "状态"))}</th></tr></thead>
+                       <thead><tr><th>${escapeHtml(t("Example task", "樣例任務"))}</th><th>${escapeHtml(t("Label", "標籤"))}</th><th>${escapeHtml(t("Status", "狀態"))}</th></tr></thead>
                        <tbody>${mappingTaskRows}</tbody>
                      </table>
                    </div>
@@ -7686,21 +7686,21 @@ async function renderHtml(
         </section>
         <div class="task-hub-sidebar">
           <section class="card" id="project-lane">
-            <h2>${escapeHtml(t("Project lanes", "项目泳道"))}</h2>
+            <h2>${escapeHtml(t("Project lanes", "專案泳道"))}</h2>
             ${projectBoard}
           </section>
           <section class="card" id="task-live-feed">
-            <h2>${escapeHtml(t("Live activity feed", "实时活动流"))}</h2>
-            <div class="meta">${escapeHtml(t("Use this to confirm what OpenClaw and its sub-agents are doing right now.", "用于确认 OpenClaw 与子智能体当前正在执行什么。"))}</div>
+            <h2>${escapeHtml(t("Live activity feed", "實時活動流"))}</h2>
+            <div class="meta">${escapeHtml(t("Use this to confirm what OpenClaw and its sub-agents are doing right now.", "用於確認 OpenClaw 與子智慧體當前正在執行什麼。"))}</div>
             <ul class="story-list">${replayMomentsRows}</ul>
           </section>
         </div>
       </section>
       <details class="card compact-details" id="task-table">
-        <summary>${escapeHtml(t(`Task table (raw detail, ${tasks.length}/${allTasks.length})`, `任务表格（原始明细，${tasks.length}/${allTasks.length}）`))}</summary>
+        <summary>${escapeHtml(t(`Task table (raw detail, ${tasks.length}/${allTasks.length})`, `任務表格（原始明細，${tasks.length}/${allTasks.length}）`))}</summary>
         <div class="fold-body">
           <table>
-            <thead><tr><th>${escapeHtml(t("Project", "项目"))}</th><th>${escapeHtml(t("Task", "任务"))}</th><th>${escapeHtml(t("Title", "标题"))}</th><th>${escapeHtml(t("Status", "状态"))}</th><th>${escapeHtml(t("Agent", "智能体"))}</th><th>${escapeHtml(t("Due", "截止"))}</th><th>${escapeHtml(t("Updated", "更新时间"))}</th></tr></thead>
+            <thead><tr><th>${escapeHtml(t("Project", "專案"))}</th><th>${escapeHtml(t("Task", "任務"))}</th><th>${escapeHtml(t("Title", "標題"))}</th><th>${escapeHtml(t("Status", "狀態"))}</th><th>${escapeHtml(t("Agent", "智慧體"))}</th><th>${escapeHtml(t("Due", "截止"))}</th><th>${escapeHtml(t("Updated", "更新時間"))}</th></tr></thead>
             <tbody>${taskRows}</tbody>
           </table>
         </div>
@@ -7713,7 +7713,7 @@ async function renderHtml(
       ${cronExecutionSection}
     </section>
     <details class="card compact-details" id="tracked-task-view"${trackedTaskDetailsOpen ? " open" : ""}>
-      <summary>${escapeHtml(t("Tracked tasks and follow-up", "跟踪任务与跟进"))}</summary>
+      <summary>${escapeHtml(t("Tracked tasks and follow-up", "跟蹤任務與跟進"))}</summary>
       <div class="fold-body">
         <div class="meta">${escapeHtml(trackedTaskSummaryText)}</div>
         <div class="meta">${escapeHtml(trackedTaskExplanation)}</div>
@@ -7723,56 +7723,56 @@ async function renderHtml(
   ` : "";
   const alertsSection = activeSection === "alerts" ? `
     <section class="card">
-      <h2>${escapeHtml(t("Attention items", "关注事项"))}</h2>
-      <div class="meta">${escapeHtml(t("Blocked", "阻塞"))} ${exceptions.counts.blocked} · ${escapeHtml(t("Errors", "异常"))} ${exceptions.counts.errors} · ${escapeHtml(t("Pending approvals", "待审批"))} ${exceptions.counts.pendingApprovals} · ${escapeHtml(t("Stalled runs", "停滞执行"))} ${stalledRunningSessionCount}</div>
+      <h2>${escapeHtml(t("Attention items", "關注事項"))}</h2>
+      <div class="meta">${escapeHtml(t("Blocked", "阻塞"))} ${exceptions.counts.blocked} · ${escapeHtml(t("Errors", "異常"))} ${exceptions.counts.errors} · ${escapeHtml(t("Pending approvals", "待審批"))} ${exceptions.counts.pendingApprovals} · ${escapeHtml(t("Stalled runs", "停滯執行"))} ${stalledRunningSessionCount}</div>
       <ul class="story-list">${exceptionsItems}</ul>
     </section>
     <section class="card">
-      <h2>${escapeHtml(t("Needs your decision", "需要你决策"))}</h2>
-      <div class="meta">${escapeHtml(t("Unacked", "待处理"))} ${actionQueue.counts.unacked} · ${escapeHtml(t("Acked", "已确认"))} ${actionQueue.counts.acked}</div>
+      <h2>${escapeHtml(t("Needs your decision", "需要你決策"))}</h2>
+      <div class="meta">${escapeHtml(t("Unacked", "待處理"))} ${actionQueue.counts.unacked} · ${escapeHtml(t("Acked", "已確認"))} ${actionQueue.counts.acked}</div>
       ${
         actionQueue.counts.total === 0
-          ? `<div class="empty-state">${escapeHtml(t("There is nothing waiting for a decision right now.", "当前没有待决策事项。"))}</div>`
+          ? `<div class="empty-state">${escapeHtml(t("There is nothing waiting for a decision right now.", "當前沒有待決策事項。"))}</div>`
           : actionQueueItems
       }
     </section>
     <details class="card compact-details">
-      <summary>${escapeHtml(t("Approval requests", "审批请求"))}</summary>
+      <summary>${escapeHtml(t("Approval requests", "審批請求"))}</summary>
       <div class="fold-body">${
         topApprovals.length === 0
-          ? `<div class="empty-state">${escapeHtml(t("No approval requests yet.", "暂无审批请求。"))}</div>`
+          ? `<div class="empty-state">${escapeHtml(t("No approval requests yet.", "暫無審批請求。"))}</div>`
           : `<div class="meta">${escapeHtml(approvalsPreviewMeta)}</div><ul class="story-list">${approvalsItems}</ul>`
       }</div>
     </details>
     <details class="card compact-details">
-      <summary>${escapeHtml(t("Budget watch", "预算监控"))}</summary>
+      <summary>${escapeHtml(t("Budget watch", "預算監控"))}</summary>
       <div class="fold-body">${
         nonOkBudgets.length === 0
-          ? `<div class="empty-state">${escapeHtml(t("Budget status looks healthy right now.", "预算状态健康，当前无预警。"))}</div>`
-          : `<table><thead><tr><th>${escapeHtml(t("Status", "状态"))}</th><th>${escapeHtml(t("Scope", "范围"))}</th><th>${escapeHtml(t("Target", "对象"))}</th><th>${escapeHtml(t("Usage", "使用情况"))}</th></tr></thead><tbody>${budgetItems}</tbody></table>`
+          ? `<div class="empty-state">${escapeHtml(t("Budget status looks healthy right now.", "預算狀態健康，當前無預警。"))}</div>`
+          : `<table><thead><tr><th>${escapeHtml(t("Status", "狀態"))}</th><th>${escapeHtml(t("Scope", "範圍"))}</th><th>${escapeHtml(t("Target", "物件"))}</th><th>${escapeHtml(t("Usage", "使用情況"))}</th></tr></thead><tbody>${budgetItems}</tbody></table>`
       }</div>
     </details>
   ` : "";
   const replaySection = needsReplayPreview ? `
     <section class="card">
-      <h2>${escapeHtml(t("Replay activity", "活动回放"))}</h2>
+      <h2>${escapeHtml(t("Replay activity", "活動回放"))}</h2>
       ${
         replaySignals.length === 0
-          ? `<div class="empty-state">${escapeHtml(t("No replay data yet. It will appear after the monitor has been running.", "暂无回放数据。监控运行后会出现。"))}</div>`
+          ? `<div class="empty-state">${escapeHtml(t("No replay data yet. It will appear after the monitor has been running.", "暫無回放資料。監控執行後會出現。"))}</div>`
           : `<div class="status-strip">${replaySignals
               .map((item) => `<div class="status-chip"><span>${escapeHtml(item.label)}</span><strong>${item.value}</strong></div>`)
               .join("")}</div>`
       }
-      <div class="meta">${escapeHtml(t("Latest snapshot", "最新快照"))}：${escapeHtml(replayLatestSnapshot?.fileName ?? t("Not available", "暂无"))}</div>
-      <div class="meta">${escapeHtml(t("Latest backup", "最新备份"))}：${escapeHtml(replayLatestBundle?.fileName ?? t("Not available", "暂无"))}</div>
-      <div class="meta"><a href="/audit">${escapeHtml(t("Open audit timeline", "查看活动时间线"))}</a> · <a href="/export/state.json">${escapeHtml(t("Create backup snapshot", "创建备份快照"))}</a></div>
+      <div class="meta">${escapeHtml(t("Latest snapshot", "最新快照"))}：${escapeHtml(replayLatestSnapshot?.fileName ?? t("Not available", "暫無"))}</div>
+      <div class="meta">${escapeHtml(t("Latest backup", "最新備份"))}：${escapeHtml(replayLatestBundle?.fileName ?? t("Not available", "暫無"))}</div>
+      <div class="meta"><a href="/audit">${escapeHtml(t("Open audit timeline", "檢視活動時間線"))}</a> · <a href="/export/state.json">${escapeHtml(t("Create backup snapshot", "建立備份快照"))}</a></div>
     </section>
     <details class="card compact-details">
-      <summary>${escapeHtml(t("Replay metrics", "回放详细指标"))}</summary>
+      <summary>${escapeHtml(t("Replay metrics", "回放詳細指標"))}</summary>
       <div class="fold-body">${replayMetricsHtml}</div>
     </details>
     <details class="card compact-details">
-      <summary>${escapeHtml(t("Recent timeline", "最近时间线"))}</summary>
+      <summary>${escapeHtml(t("Recent timeline", "最近時間線"))}</summary>
       <div class="fold-body"><ul class="story-list">${replayMomentsRows}</ul></div>
     </details>
   ` : "";
@@ -7782,7 +7782,7 @@ async function renderHtml(
       <div class="meta">${escapeHtml(
         t(
           "Collect app/runtime versions, Gateway connectivity, redacted token presence, and recent failed operation IDs in one report.",
-          "一键收集应用与运行时版本、Gateway 接线、已脱敏 token 存在性，以及最近失败操作的 requestId。",
+          "一键收集應用与运行时版本、Gateway 接线、已脱敏 token 存在性，以及最近失败操作的 requestId。",
         ),
       )}</div>
       <div class="toolbar">
@@ -7799,21 +7799,21 @@ async function renderHtml(
     ${updateStatusSection}
     ${diagnosticsSection}
     <section class="card">
-      <h2>安全开关</h2>
+      <h2>安全開關</h2>
       <table>
-        <thead><tr><th>项目</th><th>状态</th><th>当前值</th><th>说明</th></tr></thead>
+        <thead><tr><th>專案</th><th>狀態</th><th>當前值</th><th>說明</th></tr></thead>
         <tbody>${importGuardRows}</tbody>
       </table>
     </section>
     <section class="card" id="tool-connectors">
-      <h2>${escapeHtml(t("Recommended data connections", "数据接入建议"))}</h2>
+      <h2>${escapeHtml(t("Recommended data connections", "資料接入建議"))}</h2>
       <ul class="story-list">${usageConnectorTodos}</ul>
     </section>
     <section class="card">
       <h2>${escapeHtml(t("Panel preferences", "面板偏好"))}</h2>
       <div class="toolbar">
-        <a class="btn" href="${escapeHtml(buildHomeHref(filters, !options.compactStatusStrip, options.section, options.language, options.usageView))}">${escapeHtml(t("Density", "信息密度"))}：${escapeHtml(options.compactStatusStrip ? t("Compact", "紧凑") : t("Expanded", "展开"))}</a>
-        <a class="btn" href="${escapeHtml(clearHref)}">${escapeHtml(t("Reset filters", "重置筛选"))}</a>
+        <a class="btn" href="${escapeHtml(buildHomeHref(filters, !options.compactStatusStrip, options.section, options.language, options.usageView))}">${escapeHtml(t("Density", "資訊密度"))}：${escapeHtml(options.compactStatusStrip ? t("Compact", "緊湊") : t("Expanded", "展開"))}</a>
+        <a class="btn" href="${escapeHtml(clearHref)}">${escapeHtml(t("Reset filters", "重置篩選"))}</a>
       </div>
     </section>
   ` : "";
@@ -7836,22 +7836,22 @@ async function renderHtml(
   const globalVisibilityQuickRows = globalVisibilityModel
     ? [
         {
-          label: pickUiText(options.language, "Timed jobs", "定时任务"),
+          label: pickUiText(options.language, "Timed jobs", "定時任務"),
           count: globalVisibilityModel.signalCounts.schedule,
           href: buildGlobalVisibilityDetailHref("cron", options.language),
         },
         {
-          label: pickUiText(options.language, "Heartbeat", "任务心跳"),
+          label: pickUiText(options.language, "Heartbeat", "任務心跳"),
           count: globalVisibilityModel.signalCounts.heartbeat,
           href: buildGlobalVisibilityDetailHref("heartbeat", options.language),
         },
         {
-          label: pickUiText(options.language, "Current tasks", "当前任务"),
+          label: pickUiText(options.language, "Current tasks", "當前任務"),
           count: globalVisibilityModel.signalCounts.currentTasks,
           href: buildGlobalVisibilityDetailHref("current_task", options.language),
         },
         {
-          label: pickUiText(options.language, "Tool calls", "工具调用"),
+          label: pickUiText(options.language, "Tool calls", "工具呼叫"),
           count: globalVisibilityModel.signalCounts.toolCalls,
           href: buildGlobalVisibilityDetailHref("tool_call", options.language),
         },
@@ -7862,7 +7862,7 @@ async function renderHtml(
   const sidebarSignalRows =
     options.section === "overview"
       ? globalVisibilityQuickRows
-      : `<div class="meta"><a href="${escapeHtml(buildHomeHref({ quick: "all" }, true, "overview", options.language, options.usageView))}">${escapeHtml(t("See four signals in overview", "在总览查看四项信号"))}</a></div>`;
+      : `<div class="meta"><a href="${escapeHtml(buildHomeHref({ quick: "all" }, true, "overview", options.language, options.usageView))}">${escapeHtml(t("See four signals in overview", "在總覽檢視四項訊號"))}</a></div>`;
   const fileWorkbenchScript = renderFileWorkbenchScript();
   const agentVisualEnhancerScript = renderAgentVisualEnhancerScript();
   const nativeMotionScript = renderNativeMotionScript(options.language);
@@ -11271,20 +11271,20 @@ async function renderHtml(
     }
   </style>
 </head>
-<body class="ui-preload${collaborationImmersive ? " section-collaboration" : ""}${activeSection === "hall-chat" ? " section-hall-chat" : ""}" data-ui-polish="apple-native-v3" data-apple-window-controls="true" data-ui-language="${escapeHtml(options.language)}" data-token-required="${LOCAL_TOKEN_AUTH_REQUIRED ? "1" : "0"}" data-token-configured="${LOCAL_API_TOKEN ? "1" : "0"}" data-local-token-header="${escapeHtml(LOCAL_TOKEN_HEADER)}" style="--fold-open-label:${options.language === "en" ? "'Expand'" : "'展开'"}; --fold-close-label:${options.language === "en" ? "'Collapse'" : "'收起'"};">
+<body class="ui-preload${collaborationImmersive ? " section-collaboration" : ""}${activeSection === "hall-chat" ? " section-hall-chat" : ""}" data-ui-polish="apple-native-v3" data-apple-window-controls="true" data-ui-language="${escapeHtml(options.language)}" data-token-required="${LOCAL_TOKEN_AUTH_REQUIRED ? "1" : "0"}" data-token-configured="${LOCAL_API_TOKEN ? "1" : "0"}" data-local-token-header="${escapeHtml(LOCAL_TOKEN_HEADER)}" style="--fold-open-label:${options.language === "en" ? "'Expand'" : "'展開'"}; --fold-close-label:${options.language === "en" ? "'Collapse'" : "'收起'"};">
   <div class="app-shell">
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-bar">
           <div class="brand-kicker">OpenClaw</div>
           <div class="brand-actions">
-            <button id="theme-toggle" type="button" class="icon-btn" aria-label="${escapeHtml(t("Toggle theme", "切换主题"))}" title="${escapeHtml(t("Toggle theme", "切换主题"))}">
+            <button id="theme-toggle" type="button" class="icon-btn" aria-label="${escapeHtml(t("Toggle theme", "切換主題"))}" title="${escapeHtml(t("Toggle theme", "切換主題"))}">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M12 18.5a6.5 6.5 0 1 0 0-13a6.5 6.5 0 0 0 0 13Z" stroke="currentColor" stroke-width="1.8"/>
                 <path d="M12 2.8v2.2M12 19v2.2M3.6 12h2.2M18.2 12h2.2M5.1 5.1l1.6 1.6M17.3 17.3l1.6 1.6M18.9 5.1l-1.6 1.6M6.7 17.3l-1.6 1.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
               </svg>
             </button>
-            <button id="data-refresh" type="button" class="icon-btn" aria-label="${escapeHtml(t("Refresh data", "刷新数据"))}" title="${escapeHtml(t("Refresh data", "刷新数据"))}">
+            <button id="data-refresh" type="button" class="icon-btn" aria-label="${escapeHtml(t("Refresh data", "重新整理資料"))}" title="${escapeHtml(t("Refresh data", "重新整理資料"))}">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M20 12a8 8 0 1 1-2.34-5.66" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
                 <path d="M20 4v6h-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -11293,7 +11293,7 @@ async function renderHtml(
           </div>
         </div>
         <h1>OpenClaw Control Center</h1>
-        <div class="meta">${escapeHtml(t("Updated", "更新时间"))}${escapeHtml(options.language === "en" ? ": " : "：")}${escapeHtml(snapshot.generatedAt ?? t("Not available", "暂无"))}</div>
+        <div class="meta">${escapeHtml(t("Updated", "更新時間"))}${escapeHtml(options.language === "en" ? ": " : "：")}${escapeHtml(snapshot.generatedAt ?? t("Not available", "暫無"))}</div>
         ${languageToggle}
       </div>
       <nav class="nav-links">${sectionNav}</nav>
@@ -11305,48 +11305,48 @@ async function renderHtml(
           <div class="section-blurb">${escapeHtml(sectionLeadText)}</div>
         </div>
         <div class="section-head-actions">
-          <button id="inspector-toggle" type="button" class="panel-toggle" aria-pressed="false">${escapeHtml(t("Collapse inspector", "收起检视栏"))}</button>
+          <button id="inspector-toggle" type="button" class="panel-toggle" aria-pressed="false">${escapeHtml(t("Collapse inspector", "收起檢視欄"))}</button>
         </div>
       </header>
       <div class="content-stack">${globalVisibilityBlock}${sectionBody}</div>
     </main>
     <aside class="sidebar inspector-sidebar">
       <div class="card">
-        <h2>${escapeHtml(t("Current status", "当前状态"))}</h2>
-        <div class="meta">${escapeHtml(t("Active sessions", "活跃会话"))}：${liveSessionCount}</div>
-        <div class="meta">${escapeHtml(t("Tasks under watch", "正在观察中的任务"))}：${trackedTaskCount}</div>
-        <div class="meta">${escapeHtml(t("Review queue", "审阅队列"))}：${pendingDecisionCount}</div>
+        <h2>${escapeHtml(t("Current status", "當前狀態"))}</h2>
+        <div class="meta">${escapeHtml(t("Active sessions", "活躍會話"))}：${liveSessionCount}</div>
+        <div class="meta">${escapeHtml(t("Tasks under watch", "正在觀察中的任務"))}：${trackedTaskCount}</div>
+        <div class="meta">${escapeHtml(t("Review queue", "審閱佇列"))}：${pendingDecisionCount}</div>
         ${sidebarSignalRows}
       </div>
       <div class="card" style="margin-top:10px;">
-        <h2>${escapeHtml(t("Usage and subscription summary", "用量与订阅摘要"))}</h2>
+        <h2>${escapeHtml(t("Usage and subscription summary", "用量與訂閱摘要"))}</h2>
         <div class="meta">${escapeHtml(t("Today's AI usage", "今日 AI 用量"))}：${
           usageToday?.sourceStatus === "not_connected"
-            ? t("Data source not connected", "数据源未连接")
+            ? t("Data source not connected", "資料來源未連線")
             : formatInt(usageToday?.tokens ?? 0)
         }</div>
-        <div class="meta">${escapeHtml(t("Today's cost", "今日费用"))}：${
+        <div class="meta">${escapeHtml(t("Today's cost", "今日費用"))}：${
           usageToday?.sourceStatus === "not_connected"
-            ? t("Data source not connected", "数据源未连接")
+            ? t("Data source not connected", "資料來源未連線")
             : formatCurrency(usageToday?.estimatedCost ?? 0)
         }</div>
         <div class="meta">${escapeHtml(t("Last 30 days", "近 30 天"))}：${
           usage30d?.sourceStatus === "not_connected"
-            ? t("Data source not connected", "数据源未连接")
+            ? t("Data source not connected", "資料來源未連線")
             : formatCurrency(usage30d?.estimatedCost ?? 0)
         }</div>
         ${subscriptionSidebarRows}
-        <div class="meta"><a href="${escapeHtml(usageDetailHref)}">${escapeHtml(t("Open full usage and subscription view", "查看完整用量与订阅"))}</a></div>
+        <div class="meta"><a href="${escapeHtml(usageDetailHref)}">${escapeHtml(t("Open full usage and subscription view", "檢視完整用量與訂閱"))}</a></div>
       </div>
       <div class="card" style="margin-top:10px;">
-        <h2>${escapeHtml(t("Currently active agents", "当前活跃智能体"))}</h2>
-        <ul class="story-list">${executionAgentRows || `<li>${escapeHtml(t("No active agent signal yet.", "暂无活跃智能体信号。"))}</li>`}</ul>
+        <h2>${escapeHtml(t("Currently active agents", "當前活躍智慧體"))}</h2>
+        <ul class="story-list">${executionAgentRows || `<li>${escapeHtml(t("No active agent signal yet.", "暫無活躍智慧體訊號。"))}</li>`}</ul>
       </div>
       <section class="card" style="margin-top:10px;">
-        <h2>${escapeHtml(t("Timed jobs and heartbeat", "定时与心跳"))}</h2>
-        <div class="meta">${escapeHtml(t("Timed jobs", "定时"))} ${badge(cronOverview.health.status)} · ${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暂无"))}</div>
+        <h2>${escapeHtml(t("Timed jobs and heartbeat", "定時與心跳"))}</h2>
+        <div class="meta">${escapeHtml(t("Timed jobs", "定時"))} ${badge(cronOverview.health.status)} · ${escapeHtml(t("Next", "下次"))} ${escapeHtml(cronOverview.nextRunAt ?? t("None", "暫無"))}</div>
         <div class="meta">${escapeHtml(t("Heartbeat", "心跳"))} ${badge(heartbeatHealth)} · ${escapeHtml(t("Next", "下次"))} ${escapeHtml(heartbeatNextRun)}</div>
-        <div class="meta"><a href="/?section=overview#cron-health">${escapeHtml(t("Open timed jobs", "查看定时任务"))}</a> · <a href="/?section=overview#heartbeat-health">${escapeHtml(t("Open heartbeat checks", "查看任务心跳"))}</a></div>
+        <div class="meta"><a href="/?section=overview#cron-health">${escapeHtml(t("Open timed jobs", "檢視定時任務"))}</a> · <a href="/?section=overview#heartbeat-health">${escapeHtml(t("Open heartbeat checks", "檢視任務心跳"))}</a></div>
       </section>
     </aside>
   </div>
@@ -11582,7 +11582,7 @@ function buildDashboardSearchResult(
     const items = result.items;
     const rows =
       items.length === 0
-        ? "<tr><td colspan=\"6\">未找到匹配任务。</td></tr>"
+        ? "<tr><td colspan=\"6\">未找到匹配任務。</td></tr>"
         : items
             .map(
               (item) =>
@@ -11595,7 +11595,7 @@ function buildDashboardSearchResult(
       limit: query.limit,
       count: result.count,
       returned: result.returned,
-      rows: `<table style="margin-top:8px;"><thead><tr><th>任务 ID</th><th>标题</th><th>状态</th><th>智能体</th><th>项目</th><th>更新时间</th></tr></thead><tbody>${rows}</tbody></table>`,
+      rows: `<table style="margin-top:8px;"><thead><tr><th>任務 ID</th><th>標題</th><th>狀態</th><th>智慧體</th><th>專案</th><th>更新時間</th></tr></thead><tbody>${rows}</tbody></table>`,
     };
   }
 
@@ -11610,7 +11610,7 @@ function buildDashboardSearchResult(
     const items = result.items;
     const rows =
       items.length === 0
-        ? "<tr><td colspan=\"5\">未找到匹配项目。</td></tr>"
+        ? "<tr><td colspan=\"5\">未找到匹配專案。</td></tr>"
         : items
             .map(
               (item) =>
@@ -11623,7 +11623,7 @@ function buildDashboardSearchResult(
       limit: query.limit,
       count: result.count,
       returned: result.returned,
-      rows: `<table style="margin-top:8px;"><thead><tr><th>项目 ID</th><th>标题</th><th>状态</th><th>智能体</th><th>更新时间</th></tr></thead><tbody>${rows}</tbody></table>`,
+      rows: `<table style="margin-top:8px;"><thead><tr><th>專案 ID</th><th>標題</th><th>狀態</th><th>智慧體</th><th>更新時間</th></tr></thead><tbody>${rows}</tbody></table>`,
     };
   }
 
@@ -11645,7 +11645,7 @@ function buildDashboardSearchResult(
     const items = result.items;
     const rows =
       items.length === 0
-        ? "<tr><td colspan=\"5\">未找到匹配会话。</td></tr>"
+        ? "<tr><td colspan=\"5\">未找到匹配會話。</td></tr>"
         : items
             .map(
               (item) =>
@@ -11658,7 +11658,7 @@ function buildDashboardSearchResult(
       limit: query.limit,
       count: result.count,
       returned: result.returned,
-      rows: `<table style="margin-top:8px;"><thead><tr><th>会话</th><th>状态</th><th>助手</th><th>标签</th><th>最后活动</th></tr></thead><tbody>${rows}</tbody></table>`,
+      rows: `<table style="margin-top:8px;"><thead><tr><th>會話</th><th>狀態</th><th>助手</th><th>標籤</th><th>最後活動</th></tr></thead><tbody>${rows}</tbody></table>`,
     };
   }
 
@@ -11684,7 +11684,7 @@ function buildDashboardSearchResult(
     limit: query.limit,
     count: result.count,
     returned: result.returned,
-    rows: `<table style="margin-top:8px;"><thead><tr><th>级别</th><th>代码</th><th>来源</th><th>路由</th><th>信息</th></tr></thead><tbody>${rows}</tbody></table>`,
+    rows: `<table style="margin-top:8px;"><thead><tr><th>級別</th><th>程式碼</th><th>來源</th><th>路由</th><th>資訊</th></tr></thead><tbody>${rows}</tbody></table>`,
   };
 }
 
@@ -11694,7 +11694,7 @@ function renderDashboardSearchResult(
 ): string {
   if (!result) {
     return `<div class="meta" style="margin-top:8px;">${escapeHtml(
-      pickUiText(language, "Enter a keyword to search by scope.", "输入关键词后可按范围搜索。"),
+      pickUiText(language, "Enter a keyword to search by scope.", "輸入關鍵詞後可按範圍搜尋。"),
     )}</div>`;
   }
   const summary =
@@ -11702,12 +11702,12 @@ function renderDashboardSearchResult(
       ? pickUiText(
           language,
           `Scope: ${searchScopeLabel(result.scope, language)} · Keyword: ${result.q} · Showing ${result.returned} of ${result.count} matches`,
-          `范围：${searchScopeLabel(result.scope, language)} · 关键词：${result.q} · 当前显示 ${result.returned}/${result.count} 条命中`,
+          `範圍：${searchScopeLabel(result.scope, language)} · 關鍵詞：${result.q} · 當前顯示 ${result.returned}/${result.count} 條命中`,
         )
       : pickUiText(
           language,
           `Scope: ${searchScopeLabel(result.scope, language)} · Keyword: ${result.q} · Matches: ${result.count}`,
-          `范围：${searchScopeLabel(result.scope, language)} · 关键词：${result.q} · 命中：${result.count}`,
+          `範圍：${searchScopeLabel(result.scope, language)} · 關鍵詞：${result.q} · 命中：${result.count}`,
         );
   return `<div class="meta" style="margin-top:8px;">${escapeHtml(summary)}</div>${result.rows}`;
 }
@@ -11974,7 +11974,7 @@ function toPlainSummary(input: string, maxLength: number): string {
     .replace(/[#>*_\-\[\]\(\)!]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-  if (!compact) return "暂无摘要。";
+  if (!compact) return "暫無摘要。";
   if (compact.length <= maxLength) return compact;
   return `${compact.slice(0, maxLength - 1)}…`;
 }
@@ -12054,30 +12054,30 @@ async function resolveStaffRoleLabel(member: TeamMemberSnapshot, language: UiLan
   const normalized = normalizeEvidenceText(combined);
   const explicitRole =
     roleEvidence
-      .map((entry) => extractLabeledField(entry, ["Role", "职责", "角色"]))
+      .map((entry) => extractLabeledField(entry, ["Role", "職責", "角色"]))
       .find((value) => value && value.trim().length > 0) ?? "";
   const explicitMission =
     roleEvidence
-      .map((entry) => extractLabeledField(entry, ["Mission", "任务", "目标"]))
+      .map((entry) => extractLabeledField(entry, ["Mission", "任務", "目標"]))
       .find((value) => value && value.trim().length > 0) ?? "";
   const key = normalizeLookupKey(member.agentId);
 
   if (
     key === "monkey" &&
     (normalized.includes("youtube-to-article") ||
-      combined.includes("把 YouTube 视频转成增值长文章") ||
-      combined.includes("YouTube 视频转成增值长文章"))
+      combined.includes("把 YouTube 影片轉成增值長文章") ||
+      combined.includes("YouTube 影片轉成增值長文章"))
   ) {
-    return pickUiText(language, "YouTube to article writing", "YouTube 视频转长文");
+    return pickUiText(language, "YouTube to article writing", "YouTube 影片轉長文");
   }
 
   if (
     key === "dolphin" &&
     (normalized.includes("value_add_creator") ||
-      combined.includes("高价值、可直接发布的最终内容") ||
-      combined.includes("增值型创作者"))
+      combined.includes("高價值、可直接釋出的最終內容") ||
+      combined.includes("增值型創作者"))
   ) {
-    return pickUiText(language, "High-value content creation", "高价值内容创作");
+    return pickUiText(language, "High-value content creation", "高價值內容創作");
   }
 
   if (
@@ -12085,30 +12085,30 @@ async function resolveStaffRoleLabel(member: TeamMemberSnapshot, language: UiLan
     (normalized.includes("control-center project end-to-end") ||
       normalized.includes("control center project end to end") ||
       combined.includes("控制中心") ||
-      combined.includes("唯一主任务"))
+      combined.includes("唯一主任務"))
   ) {
-    return pickUiText(language, "Control Center delivery", "控制中心开发与交付");
+    return pickUiText(language, "Control Center delivery", "控制中心開發與交付");
   }
 
   if (
     key === "coq" &&
-    (combined.includes("Coq-每日新闻") ||
+    (combined.includes("Coq-每日新聞") ||
       normalized.includes("morning research") ||
       normalized.includes("trend report") ||
-      combined.includes("每日报告"))
+      combined.includes("每日報告"))
   ) {
-    return pickUiText(language, "Daily news and trend briefings", "每日情报与趋势简报");
+    return pickUiText(language, "Daily news and trend briefings", "每日情報與趨勢簡報");
   }
 
   if (
     key === "otter" &&
-    (combined.includes("晨报") ||
-      combined.includes("邮箱提醒") ||
+    (combined.includes("晨報") ||
+      combined.includes("郵箱提醒") ||
       normalized.includes("calendar") ||
       normalized.includes("weather") ||
       normalized.includes("assistant"))
   ) {
-    return pickUiText(language, "Personal assistance and reminders", "私人助理与提醒");
+    return pickUiText(language, "Personal assistance and reminders", "私人助理與提醒");
   }
 
   if (
@@ -12127,13 +12127,13 @@ async function resolveStaffRoleLabel(member: TeamMemberSnapshot, language: UiLan
     (combined.includes("Lion") ||
       normalized.includes("lion bot account") ||
       normalized.includes("assistant name: lion") ||
-      combined.includes("指挥官"))
+      combined.includes("指揮官"))
   ) {
-    return pickUiText(language, "Main control and coordination", "主控与协调");
+    return pickUiText(language, "Main control and coordination", "主控與協調");
   }
 
   if (key === "codex" || normalized.includes("codex")) {
-    return pickUiText(language, "Coding automation", "自动化编码执行");
+    return pickUiText(language, "Coding automation", "自動化編碼執行");
   }
 
   const explicit = `${explicitRole} ${explicitMission}`.trim();
@@ -12141,16 +12141,16 @@ async function resolveStaffRoleLabel(member: TeamMemberSnapshot, language: UiLan
     explicit &&
     (normalizeEvidenceText(explicit).includes("youtube") || normalizeEvidenceText(explicit).includes("article"))
   ) {
-    return pickUiText(language, "YouTube to article writing", "YouTube 视频转长文");
+    return pickUiText(language, "YouTube to article writing", "YouTube 影片轉長文");
   }
   if (explicit && (normalizeEvidenceText(explicit).includes("control-center") || explicit.includes("控制中心"))) {
-    return pickUiText(language, "Control Center delivery", "控制中心开发与交付");
+    return pickUiText(language, "Control Center delivery", "控制中心開發與交付");
   }
-  if (explicit && (normalizeEvidenceText(explicit).includes("creator") || explicit.includes("创作"))) {
-    return pickUiText(language, "High-value content creation", "高价值内容创作");
+  if (explicit && (normalizeEvidenceText(explicit).includes("creator") || explicit.includes("創作"))) {
+    return pickUiText(language, "High-value content creation", "高價值內容創作");
   }
 
-  return pickUiText(language, "Role not defined in workspace", "工作区未写明职责");
+  return pickUiText(language, "Role not defined in workspace", "工作區未寫明職責");
 }
 
 async function listFileEntries(dir: string): Promise<Array<{ name: string; path: string; updatedAt: string; size: number }>> {
@@ -12260,7 +12260,7 @@ async function listEditableMemoryFiles(): Promise<EditableFileEntry[]> {
     await append(
       await buildEditableFileEntry({
         scope: "memory",
-        category: "Main 长期记忆",
+        category: "Main 長期記憶",
         sourcePath: candidateFile,
         relativeBase: OPENCLAW_WORKSPACE_ROOT,
         facetKey: mainFacetKey,
@@ -12277,7 +12277,7 @@ async function listEditableMemoryFiles(): Promise<EditableFileEntry[]> {
     await append(
       await buildEditableFileEntry({
         scope: "memory",
-        category: "Main 记忆记录",
+        category: "Main 記憶記錄",
         sourcePath: file.path,
         relativeBase: OPENCLAW_WORKSPACE_ROOT,
         facetKey: mainFacetKey,
@@ -12293,7 +12293,7 @@ async function listEditableMemoryFiles(): Promise<EditableFileEntry[]> {
       await append(
         await buildEditableFileEntry({
           scope: "memory",
-          category: `${scope.facetLabel} 长期记忆`,
+          category: `${scope.facetLabel} 長期記憶`,
           sourcePath: join(scope.workspaceRoot, fileName),
           relativeBase: OPENCLAW_WORKSPACE_ROOT,
           facetKey: scope.facetKey,
@@ -12309,7 +12309,7 @@ async function listEditableMemoryFiles(): Promise<EditableFileEntry[]> {
       await append(
         await buildEditableFileEntry({
           scope: "memory",
-          category: `${scope.facetLabel} 记忆记录`,
+          category: `${scope.facetLabel} 記憶記錄`,
           sourcePath: file.path,
           relativeBase: OPENCLAW_WORKSPACE_ROOT,
           facetKey: scope.facetKey,
@@ -12354,7 +12354,7 @@ async function listEditableWorkspaceFiles(): Promise<EditableFileEntry[]> {
     await append(
       await buildEditableFileEntry({
         scope: "workspace",
-        category: "Main 核心文档",
+        category: "Main 核心文件",
         sourcePath: join(OPENCLAW_WORKSPACE_ROOT, relativePath),
         relativeBase: OPENCLAW_WORKSPACE_ROOT,
         facetKey: "main",
@@ -12369,7 +12369,7 @@ async function listEditableWorkspaceFiles(): Promise<EditableFileEntry[]> {
       await append(
         await buildEditableFileEntry({
           scope: "workspace",
-          category: `${scope.facetLabel} 核心文档`,
+          category: `${scope.facetLabel} 核心文件`,
           sourcePath: join(scope.workspaceRoot, fileName),
           relativeBase: OPENCLAW_WORKSPACE_ROOT,
           facetKey: scope.facetKey,
@@ -12643,7 +12643,7 @@ async function loadMemoryEntries(): Promise<{ daily: MemoryEntry[]; longTerm: Me
     const ext = extname(candidateFile).toLowerCase();
     const title = extractMarkdownHeading(raw) || basename(candidateFile, ext) || basename(candidateFile);
     longTerm.push({
-      day: "长期",
+      day: "長期",
       title,
       excerpt: toPlainSummary(raw, 220),
       sourcePath: candidateFile,
@@ -12685,7 +12685,7 @@ async function loadDocHubEntries(chatEntries: StructuredChatDocEntry[] = []): Pr
     output.push({
       title: entry.title,
       excerpt: entry.excerpt,
-      category: `聊天输出 · ${entry.category}`,
+      category: `聊天輸出 · ${entry.category}`,
       sourcePath: `/sessions/${encodeURIComponent(entry.sourceSessionKey)}`,
       updatedAt: entry.updatedAt,
       sourceType: "chat",
@@ -12719,12 +12719,12 @@ async function renderEditableFileWorkbench(input: {
   const localizeCategoryLabel = (value: string): string => {
     const trimmed = value.trim();
     if (!trimmed) return value;
-    if (trimmed === "共享文档") return t("Shared docs", "共享文档");
-    if (trimmed === "Main 长期记忆") return t("Main long-term memory", "Main 长期记忆");
-    if (trimmed === "Main 记忆记录") return t("Main memory log", "Main 记忆记录");
-    if (trimmed.endsWith(" 长期记忆")) return `${trimmed.slice(0, -5)} ${t("long-term memory", "长期记忆")}`;
-    if (trimmed.endsWith(" 记忆记录")) return `${trimmed.slice(0, -5)} ${t("memory log", "记忆记录")}`;
-    if (trimmed.endsWith(" 核心文档")) return `${trimmed.slice(0, -5)} ${t("core docs", "核心文档")}`;
+    if (trimmed === "共享文件") return t("Shared docs", "共享文件");
+    if (trimmed === "Main 長期記憶") return t("Main long-term memory", "Main 長期記憶");
+    if (trimmed === "Main 記憶記錄") return t("Main memory log", "Main 記憶記錄");
+    if (trimmed.endsWith(" 長期記憶")) return `${trimmed.slice(0, -5)} ${t("long-term memory", "長期記憶")}`;
+    if (trimmed.endsWith(" 記憶記錄")) return `${trimmed.slice(0, -5)} ${t("memory log", "記憶記錄")}`;
+    if (trimmed.endsWith(" 核心文件")) return `${trimmed.slice(0, -5)} ${t("core docs", "核心文件")}`;
     return trimmed;
   };
   if (input.entries.length === 0) {
@@ -12789,10 +12789,10 @@ async function renderEditableFileWorkbench(input: {
             .join("")}
         </div>`;
   const tokenHint = !LOCAL_TOKEN_AUTH_REQUIRED
-    ? t("This environment allows direct save.", "当前环境允许直接保存。")
+    ? t("This environment allows direct save.", "當前環境允許直接儲存。")
     : LOCAL_API_TOKEN
-      ? t("Enter the local token when saving.", "保存时输入本地令牌。")
-      : t("LOCAL_API_TOKEN is not configured in this environment. Save will be blocked.", "当前环境未配置 LOCAL_API_TOKEN，保存会被拦截。");
+      ? t("Enter the local token when saving.", "儲存時輸入本地令牌。")
+      : t("LOCAL_API_TOKEN is not configured in this environment. Save will be blocked.", "當前環境未配置 LOCAL_API_TOKEN，儲存會被攔截。");
   const tokenField =
     LOCAL_TOKEN_AUTH_REQUIRED && LOCAL_API_TOKEN
       ? `<input class="file-token-input" type="password" data-file-token placeholder="${escapeHtml(t("Local token", "本地令牌"))}" />`
@@ -12801,12 +12801,12 @@ async function renderEditableFileWorkbench(input: {
   return `<section class="card">
     <h2>${escapeHtml(input.title)}</h2>
     <div class="meta">${escapeHtml(input.description)}</div>
-    <div class="meta">${escapeHtml(t("Files", "文件数"))}${escapeHtml(input.language === "en" ? ": " : "：")}${input.entries.length} · ${escapeHtml(t("Saving writes directly back to the source file.", "保存后直接写回源文件。"))}</div>
+    <div class="meta">${escapeHtml(t("Files", "檔案數"))}${escapeHtml(input.language === "en" ? ": " : "：")}${input.entries.length} · ${escapeHtml(t("Saving writes directly back to the source file.", "儲存後直接寫回原始檔。"))}</div>
     <div class="file-workbench" data-file-editor-root data-scope="${escapeHtml(input.scope)}" data-language="${escapeHtml(input.language)}" data-default-facet="${escapeHtml(defaultFacetKey)}" data-token-required="${LOCAL_TOKEN_AUTH_REQUIRED ? "1" : "0"}" data-local-token-header="${escapeHtml(LOCAL_TOKEN_HEADER)}">
       <aside class="file-sidebar">
         <div class="file-sidebar-tools">
           ${facetSwitcherHtml}
-          <input class="file-filter-input" type="search" data-file-filter placeholder="${escapeHtml(t("Filter by file name or path...", "筛选文件名或路径..."))}" />
+          <input class="file-filter-input" type="search" data-file-filter placeholder="${escapeHtml(t("Filter by file name or path...", "篩選檔名或路徑..."))}" />
           <div class="meta" data-file-filter-state></div>
         </div>
         <div class="file-nav" data-file-nav>
@@ -12825,12 +12825,12 @@ async function renderEditableFileWorkbench(input: {
           <div>
             <div class="file-editor-title" data-file-title>${escapeHtml(firstEntry.title)}</div>
             <div class="meta" data-file-path>${escapeHtml(firstEntry.sourcePath)}</div>
-            <div class="meta" data-file-meta>${escapeHtml(t("Updated", "更新于"))} ${escapeHtml(firstEntry.updatedAt)} · ${formatInt(firstEntry.size)} bytes</div>
+            <div class="meta" data-file-meta>${escapeHtml(t("Updated", "更新於"))} ${escapeHtml(firstEntry.updatedAt)} · ${formatInt(firstEntry.size)} bytes</div>
           </div>
           <div class="toolbar">
             ${tokenField}
-            <button class="btn" type="button" data-file-reload>${escapeHtml(t("Reload", "重新读取"))}</button>
-            <button class="btn" type="button" data-file-save>${escapeHtml(t("Save changes", "保存改动"))}</button>
+            <button class="btn" type="button" data-file-reload>${escapeHtml(t("Reload", "重新讀取"))}</button>
+            <button class="btn" type="button" data-file-save>${escapeHtml(t("Save changes", "儲存改動"))}</button>
           </div>
         </div>
         <textarea class="file-editor-textarea" data-file-text spellcheck="false">${escapeHtml(initialContent)}</textarea>
@@ -12842,19 +12842,19 @@ async function renderEditableFileWorkbench(input: {
 
 function renderStructuredChatDocSummary(entries: StructuredChatDocEntry[]): string {
   if (entries.length === 0) {
-    return '<div class="empty-state">尚无聊天输出结构化入库记录。</div>';
+    return '<div class="empty-state">尚無聊天輸出結構化入庫記錄。</div>';
   }
   return `<ul class="story-list">${entries
     .slice(0, 16)
     .map(
-      (entry) => `<li><strong>${escapeHtml(entry.title)}</strong><div class="meta">${escapeHtml(entry.excerpt)}</div><div class="meta">会话 ${escapeHtml(entry.sourceSessionKey)} · 更新 ${escapeHtml(entry.updatedAt)}</div></li>`,
+      (entry) => `<li><strong>${escapeHtml(entry.title)}</strong><div class="meta">${escapeHtml(entry.excerpt)}</div><div class="meta">會話 ${escapeHtml(entry.sourceSessionKey)} · 更新 ${escapeHtml(entry.updatedAt)}</div></li>`,
     )
     .join("")}</ul>`;
 }
 
 async function loadTeamSnapshot(officeRoster: AgentRosterSnapshot): Promise<TeamSnapshot> {
   const sourcePath = OPENCLAW_CONFIG_PATH;
-  const fallbackMission = "构建可持续自治的 AI 员工体系，持续完成高价值任务。";
+  const fallbackMission = "構建可持續自治的 AI 員工體系，持續完成高價值任務。";
   const missionFromAgentDoc = await safeReadTextFile(join(AGENT_ROOT_DIR, "AGENTS.md"));
   const missionLine = missionFromAgentDoc
     ?.split(/\r?\n/)
@@ -12883,8 +12883,8 @@ async function loadTeamSnapshot(officeRoster: AgentRosterSnapshot): Promise<Team
         localAgentsById.set(id, {
           model:
             (typeof obj.model === "string" && obj.model.trim()) ||
-            (typeof defaultModel === "string" ? defaultModel : "未标注"),
-          workspace: (typeof obj.workspace === "string" && obj.workspace.trim()) || "未标注",
+            (typeof defaultModel === "string" ? defaultModel : "未標註"),
+          workspace: (typeof obj.workspace === "string" && obj.workspace.trim()) || "未標註",
           toolsProfile: (typeof tools.profile === "string" && tools.profile.trim()) || "default",
         });
       }
@@ -12900,8 +12900,8 @@ async function loadTeamSnapshot(officeRoster: AgentRosterSnapshot): Promise<Team
     return {
       agentId: entry.agentId,
       displayName: entry.displayName,
-      model: local?.model ?? (isRemote ? "未标注(remote)" : "未标注"),
-      workspace: local?.workspace ?? (isRemote ? "remote-node" : "未标注"),
+      model: local?.model ?? (isRemote ? "未標註(remote)" : "未標註"),
+      workspace: local?.workspace ?? (isRemote ? "remote-node" : "未標註"),
       toolsProfile: local?.toolsProfile ?? "default",
     };
   });
@@ -12910,7 +12910,7 @@ async function loadTeamSnapshot(officeRoster: AgentRosterSnapshot): Promise<Team
     missionStatement,
     members: members.sort((a, b) => a.agentId.localeCompare(b.agentId, "zh-Hans-CN")),
     sourcePath,
-    detail: `已从 ${officeRoster.detail} 读取 ${members.length} 名员工。`,
+    detail: `已從 ${officeRoster.detail} 讀取 ${members.length} 名員工。`,
   };
 }
 
@@ -12948,7 +12948,7 @@ function renderLanguageToggle(filters: TaskQueryFilters, options: DashboardOptio
   const zhHref = buildHomeHref(filters, options.compactStatusStrip, options.section, "zh", options.usageView);
   const enClass = options.language === "en" ? " class=\"active\"" : "";
   const zhClass = options.language === "zh" ? " class=\"active\"" : "";
-  const label = pickUiText(options.language, "Language:", "语言：");
+  const label = pickUiText(options.language, "Language:", "語言：");
   const zhLabel = pickUiText(options.language, "中文", "中文");
   return `<div class="meta lang-toggle">${label} <a${enClass} href="${escapeHtml(enHref)}">EN</a> / <a${zhClass} href="${escapeHtml(zhHref)}">${zhLabel}</a></div>`;
 }
@@ -13028,31 +13028,31 @@ function renderQuickFilters(
 
 function quickFilterLabel(value: UiQuickFilter, language: UiLanguage = "en"): string {
   if (value === "all") return pickUiText(language, "Everything", "全部");
-  if (value === "attention") return pickUiText(language, "Needs Attention", "需关注");
-  if (value === "todo") return pickUiText(language, "Ready To Start", "可开始");
-  if (value === "in_progress") return pickUiText(language, "In Motion", "进行中");
+  if (value === "attention") return pickUiText(language, "Needs Attention", "需關注");
+  if (value === "todo") return pickUiText(language, "Ready To Start", "可開始");
+  if (value === "in_progress") return pickUiText(language, "In Motion", "進行中");
   if (value === "blocked") return pickUiText(language, "Blocked", "已阻塞");
   return pickUiText(language, "Completed", "已完成");
 }
 
 function taskStateLabel(state: TaskState, language: UiLanguage = "zh"): string {
-  if (state === "todo") return pickUiText(language, "Ready To Start", "待开始");
-  if (state === "in_progress") return pickUiText(language, "In Motion", "进行中");
+  if (state === "todo") return pickUiText(language, "Ready To Start", "待開始");
+  if (state === "in_progress") return pickUiText(language, "In Motion", "進行中");
   if (state === "blocked") return pickUiText(language, "Blocked", "已阻塞");
   return pickUiText(language, "Completed", "已完成");
 }
 
 function projectStateLabel(state: ProjectState, language: UiLanguage = "zh"): string {
-  if (state === "planned") return pickUiText(language, "Planned", "规划中");
-  if (state === "active") return pickUiText(language, "Active", "执行中");
+  if (state === "planned") return pickUiText(language, "Planned", "規劃中");
+  if (state === "active") return pickUiText(language, "Active", "執行中");
   if (state === "blocked") return pickUiText(language, "Blocked", "已阻塞");
   return pickUiText(language, "Completed", "已完成");
 }
 
 function searchScopeLabel(scope: DashboardSearchScope, language: UiLanguage = "zh"): string {
-  if (scope === "tasks") return pickUiText(language, "Tasks", "任务");
-  if (scope === "projects") return pickUiText(language, "Projects", "项目");
-  if (scope === "sessions") return pickUiText(language, "Sessions", "会话");
+  if (scope === "tasks") return pickUiText(language, "Tasks", "任務");
+  if (scope === "projects") return pickUiText(language, "Projects", "專案");
+  if (scope === "sessions") return pickUiText(language, "Sessions", "會話");
   return pickUiText(language, "Alerts", "告警");
 }
 
@@ -13358,13 +13358,13 @@ function officeStatusRank(status: OfficeSpaceCard["status"]): number {
 }
 
 function officeStatusLabel(status: OfficeSpaceCard["status"], language: UiLanguage = "zh"): string {
-  if (status === "running") return pickUiText(language, "Running", "执行中");
-  if (status === "waiting_approval") return pickUiText(language, "Waiting for approval", "等待审批");
+  if (status === "running") return pickUiText(language, "Running", "執行中");
+  if (status === "waiting_approval") return pickUiText(language, "Waiting for approval", "等待審批");
   if (status === "blocked") return pickUiText(language, "Needs support", "需要支援");
-  if (status === "error") return pickUiText(language, "Issue detected", "发现异常");
+  if (status === "error") return pickUiText(language, "Issue detected", "發現異常");
   if (status === "idle") return pickUiText(language, "Standing by", "待命");
-  if (status === "mixed") return pickUiText(language, "Mixed state", "混合状态");
-  return pickUiText(language, "No active load", "无活跃负载");
+  if (status === "mixed") return pickUiText(language, "Mixed state", "混合狀態");
+  return pickUiText(language, "No active load", "無活躍負載");
 }
 
 function officeZoneFromStatus(status: OfficeSpaceCard["status"]): OfficeSpaceCard["officeZone"] {
@@ -13375,26 +13375,26 @@ function officeZoneFromStatus(status: OfficeSpaceCard["status"]): OfficeSpaceCar
 }
 
 function officeZoneLabel(zone: OfficeSpaceCard["officeZone"], language: UiLanguage = "zh"): string {
-  if (zone === "Builder Desks") return pickUiText(language, "Builder Desks", "执行工位");
-  if (zone === "Approval Desk") return pickUiText(language, "Approval Desk", "审批工位");
+  if (zone === "Builder Desks") return pickUiText(language, "Builder Desks", "執行工位");
+  if (zone === "Approval Desk") return pickUiText(language, "Approval Desk", "審批工位");
   if (zone === "Support Bay") return pickUiText(language, "Support Bay", "支援工位");
   return pickUiText(language, "Standby Pods", "待命工位");
 }
 
 function animalLabel(animal: string, language: UiLanguage = "zh"): string {
-  if (animal === "robot") return pickUiText(language, "Robot", "机器人");
-  if (animal === "lion") return pickUiText(language, "Lion", "狮子");
-  if (animal === "panda") return pickUiText(language, "Panda", "熊猫");
+  if (animal === "robot") return pickUiText(language, "Robot", "機器人");
+  if (animal === "lion") return pickUiText(language, "Lion", "獅子");
+  if (animal === "panda") return pickUiText(language, "Panda", "熊貓");
   if (animal === "monkey") return pickUiText(language, "Monkey", "猴子");
   if (animal === "dolphin") return pickUiText(language, "Dolphin", "海豚");
-  if (animal === "owl") return pickUiText(language, "Owl", "猫头鹰");
+  if (animal === "owl") return pickUiText(language, "Owl", "貓頭鷹");
   if (animal === "fox") return pickUiText(language, "Fox", "狐狸");
   if (animal === "bear") return pickUiText(language, "Bear", "棕熊");
-  if (animal === "eagle") return pickUiText(language, "Eagle", "鹰");
+  if (animal === "eagle") return pickUiText(language, "Eagle", "鷹");
   if (animal === "tiger") return pickUiText(language, "Tiger", "老虎");
-  if (animal === "otter") return pickUiText(language, "Otter", "水獭");
-  if (animal === "rooster") return pickUiText(language, "Rooster", "公鸡");
-  return pickUiText(language, "Animal", "动物");
+  if (animal === "otter") return pickUiText(language, "Otter", "水獺");
+  if (animal === "rooster") return pickUiText(language, "Rooster", "公雞");
+  return pickUiText(language, "Animal", "動物");
 }
 
 function buildOfficeSummary(
@@ -13404,22 +13404,22 @@ function buildOfficeSummary(
   language: UiLanguage = "zh",
 ): string {
   if (focusItems.length === 0 && sessionCount === 0) {
-    return pickUiText(language, "No live task right now.", "当前没有实时任务。");
+    return pickUiText(language, "No live task right now.", "當前沒有實時任務。");
   }
   if (status === "running" && focusItems.length > 0) {
-    return pickUiText(language, `Working on: ${focusItems[0]}`, `正在处理：${focusItems[0]}`);
+    return pickUiText(language, `Working on: ${focusItems[0]}`, `正在處理：${focusItems[0]}`);
   }
   if (status === "waiting_approval") {
-    return pickUiText(language, "Waiting for approval before continuing.", "等待审批，暂时暂停。");
+    return pickUiText(language, "Waiting for approval before continuing.", "等待審批，暫時暫停。");
   }
   if (status === "blocked" || status === "error") {
-    return pickUiText(language, "Clear blockers before continuing.", "继续前需要先解决阻塞。");
+    return pickUiText(language, "Clear blockers before continuing.", "繼續前需要先解決阻塞。");
   }
   if (focusItems.length > 0) {
-    return pickUiText(language, `Currently tracking: ${focusItems[0]}`, `当前跟进：${focusItems[0]}`);
+    return pickUiText(language, `Currently tracking: ${focusItems[0]}`, `當前跟進：${focusItems[0]}`);
   }
   if (sessionCount > 0) {
-    return pickUiText(language, "Session is open and waiting for the next instruction.", "会话已开启，等待下一步指令。");
+    return pickUiText(language, "Session is open and waiting for the next instruction.", "會話已開啟，等待下一步指令。");
   }
   return pickUiText(language, "Standing by.", "待命中。");
 }
@@ -13429,13 +13429,13 @@ function staffStatusLabel(status: OfficeSpaceCard["status"] | undefined, languag
     case "running":
       return pickUiText(language, "Working", "工作中");
     case "waiting_approval":
-      return pickUiText(language, "Awaiting review", "等待审核");
+      return pickUiText(language, "Awaiting review", "等待稽核");
     case "blocked":
       return pickUiText(language, "Needs support", "需要支援");
     case "error":
-      return pickUiText(language, "Needs attention", "需要关注");
+      return pickUiText(language, "Needs attention", "需要關注");
     case "mixed":
-      return pickUiText(language, "Handling mixed work", "处理中");
+      return pickUiText(language, "Handling mixed work", "處理中");
     case "idle":
     case "inactive":
     default:
@@ -13449,11 +13449,11 @@ function staffCurrentWorkLabel(input: {
   language: UiLanguage;
 }): { label: string; value: string } {
   const { office, execution, language } = input;
-  const currentLabel = pickUiText(language, "Working on", "正在处理什么");
-  const nextLabel = pickUiText(language, "Next up", "下一项");
+  const currentLabel = pickUiText(language, "Working on", "正在處理什麼");
+  const nextLabel = pickUiText(language, "Next up", "下一項");
   const focus = office?.focusItems[0]?.trim();
   if (office?.status === "waiting_approval") {
-    return { label: currentLabel, value: pickUiText(language, "Waiting for approval", "等待审批") };
+    return { label: currentLabel, value: pickUiText(language, "Waiting for approval", "等待審批") };
   }
   if (office?.status === "blocked" || office?.status === "error") {
     return { label: currentLabel, value: pickUiText(language, "Blocked and waiting for support", "阻塞中，等待支援") };
@@ -13465,15 +13465,15 @@ function staffCurrentWorkLabel(input: {
       return { label: currentLabel, value: safeTruncate(cronName, 72) };
     }
     if ((office?.activeSessions ?? 0) > 0) {
-      return { label: currentLabel, value: pickUiText(language, "Handling a live session", "正在处理实时会话") };
+      return { label: currentLabel, value: pickUiText(language, "Handling a live session", "正在處理實時會話") };
     }
-    return { label: currentLabel, value: pickUiText(language, "Handling active work", "正在处理当前工作") };
+    return { label: currentLabel, value: pickUiText(language, "Handling active work", "正在處理當前工作") };
   }
   if (focus) return { label: nextLabel, value: focus };
   if (cronName) {
     return { label: nextLabel, value: safeTruncate(cronName, 72) };
   }
-  return { label: currentLabel, value: pickUiText(language, "No live work right now", "当前无实时任务") };
+  return { label: currentLabel, value: pickUiText(language, "No live work right now", "當前無實時任務") };
 }
 
 async function loadCachedStaffRecentActivity(
@@ -13559,7 +13559,7 @@ async function loadStaffRecentActivity(
       }
       if (!liveRunningDetected && residualRunningDetected) {
         return [key, {
-          recentOutput: pickUiText(language, "Recently stopped and returned to standby.", "最近已停止当前任务并回到待命。"),
+          recentOutput: pickUiText(language, "Recently stopped and returned to standby.", "最近已停止當前任務並回到待命。"),
           statusOverride: "idle",
         }];
       }
@@ -13600,12 +13600,12 @@ function isExplicitStopSignalMessage(message: SessionHistoryMessage): boolean {
   if (!content) return false;
   const lower = content.toLowerCase();
   return (
-    lower.includes("停止当前任务并进入待命状态") ||
-    lower.includes("立即停止你当前的所有活动") ||
+    lower.includes("停止當前任務並進入待命狀態") ||
+    lower.includes("立即停止你當前的所有活動") ||
     lower.includes("stop current task and enter standby") ||
-    lower.includes("不再继续当前") ||
-    lower.includes("不再处理任何当前任务") ||
-    lower.includes("从现在起进入待命状态") ||
+    lower.includes("不再繼續當前") ||
+    lower.includes("不再處理任何當前任務") ||
+    lower.includes("從現在起進入待命狀態") ||
     lower.includes("enter standby state")
   );
 }
@@ -13645,31 +13645,31 @@ function isStaffVisibleOutputMessage(message: SessionHistoryMessage): boolean {
   if (lower.includes("conversation info (untrusted metadata)")) return false;
   if (lower.includes("internal_write_only")) return false;
   if (lower.includes("read heartbeat.md if it exists")) return false;
-  if (content.includes("继续推进当前目标")) return false;
-  if (content.includes("Alex Finn 流程最终验收")) return false;
+  if (content.includes("繼續推進當前目標")) return false;
+  if (content.includes("Alex Finn 流程最終驗收")) return false;
   return true;
 }
 
 function formatStaffRecentOutput(message: SessionHistoryMessage, language: UiLanguage): string {
   if (message.kind === "tool_event") {
     return message.toolName?.trim()
-      ? pickUiText(language, `Completed tool step: ${message.toolName}.`, `最近完成工具步骤：${message.toolName}。`)
-      : pickUiText(language, "Completed a recent tool step.", "最近完成一次工具步骤。");
+      ? pickUiText(language, `Completed tool step: ${message.toolName}.`, `最近完成工具步驟：${message.toolName}。`)
+      : pickUiText(language, "Completed a recent tool step.", "最近完成一次工具步驟。");
   }
 
   const content = sanitizeStaffOutputContent(message.content);
   if (!content) {
-    return pickUiText(language, "No recent output yet.", "最近暂无产出。");
+    return pickUiText(language, "No recent output yet.", "最近暫無產出。");
   }
 
   if (content === "NOOP") {
-    return pickUiText(language, "Recent check completed with no action needed.", "最近完成一次检查，无需动作。");
+    return pickUiText(language, "Recent check completed with no action needed.", "最近完成一次檢查，無需動作。");
   }
   if (content === "NO_REPLY") {
-    return pickUiText(language, "Recent task completed without a user reply.", "最近完成一次任务，无需额外回复。");
+    return pickUiText(language, "Recent task completed without a user reply.", "最近完成一次任務，無需額外回覆。");
   }
   if (content.toLowerCase().startsWith("successfully wrote ")) {
-    return pickUiText(language, "Updated a memory or workspace file.", "最近更新了一份记忆或工作文件。");
+    return pickUiText(language, "Updated a memory or workspace file.", "最近更新了一份記憶或工作檔案。");
   }
   if (
     content.startsWith("{") ||
@@ -13678,7 +13678,7 @@ function formatStaffRecentOutput(message: SessionHistoryMessage, language: UiLan
     content.includes('{"ok":') ||
     content.includes('"message_id"')
   ) {
-    return pickUiText(language, "Recent task completed and returned a structured result.", "最近完成一次任务，并返回结构化结果。");
+    return pickUiText(language, "Recent task completed and returned a structured result.", "最近完成一次任務，並返回結構化結果。");
   }
   return safeTruncate(content, 88);
 }
@@ -13743,7 +13743,7 @@ export async function buildStaffOverviewCards(input: {
     });
     const recentOutput = recentActivity?.recentOutput
       ? recentActivity.recentOutput
-      : pickUiText(input.language, "No recent output yet.", "最近暂无产出。");
+      : pickUiText(input.language, "No recent output yet.", "最近暫無產出。");
     const scheduledLabel = (execution?.enabledCronJobs ?? 0) > 0
       ? pickUiText(input.language, "Scheduled", "已排班")
       : pickUiText(input.language, "Not scheduled", "未排班");
@@ -13768,7 +13768,7 @@ function renderStaffOverviewCards(
 ): string {
   if (cards.length === 0) {
     return `<div class="empty-state">${escapeHtml(
-      pickUiText(language, "No staff summary is available yet.", "当前没有可显示的员工摘要。"),
+      pickUiText(language, "No staff summary is available yet.", "當前沒有可顯示的員工摘要。"),
     )}</div>`;
   }
 
@@ -13786,7 +13786,7 @@ function renderStaffOverviewCards(
           : `<canvas class="agent-pixel-canvas" width="256" height="256"></canvas>`;
       const avatar = `<div class="staff-avatar" style="--agent-accent:${escapeHtml(card.identity.accent)};" data-agent-id="${escapeHtml(card.agentId)}" data-animal="${escapeHtml(effectiveAnimal)}" data-avatar-mode="${escapeHtml(effective.mode)}" data-avatar-image="${escapeHtml(effective.mode === "custom" ? effective.image : "")}">
         <div class="agent-stage" aria-hidden="true">${stageInner}</div>
-        <button type="button" class="avatar-edit-btn" aria-label="${escapeHtml(pickUiText(language, "Edit avatar", "编辑头像"))}" title="${escapeHtml(pickUiText(language, "Edit avatar", "编辑头像"))}">
+        <button type="button" class="avatar-edit-btn" aria-label="${escapeHtml(pickUiText(language, "Edit avatar", "編輯頭像"))}" title="${escapeHtml(pickUiText(language, "Edit avatar", "編輯頭像"))}">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 20h4l10.6-10.6a2.2 2.2 0 0 0 0-3.1l-0.9-0.9a2.2 2.2 0 0 0-3.1 0L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
             <path d="M13.8 6.2l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -13802,10 +13802,10 @@ function renderStaffOverviewCards(
           </div>
         </div>
         <dl class="staff-brief-list">
-          <div class="staff-brief-row"><dt>${escapeHtml(pickUiText(language, "Status", "当前状态"))}</dt><dd>${escapeHtml(card.statusLabel)}</dd></div>
+          <div class="staff-brief-row"><dt>${escapeHtml(pickUiText(language, "Status", "當前狀態"))}</dt><dd>${escapeHtml(card.statusLabel)}</dd></div>
           <div class="staff-brief-row"><dt>${escapeHtml(card.currentWorkLabel)}</dt><dd>${escapeHtml(card.currentWork)}</dd></div>
-          <div class="staff-brief-row"><dt>${escapeHtml(pickUiText(language, "Recent output", "最近产出"))}</dt><dd>${escapeHtml(card.recentOutput)}</dd></div>
-          <div class="staff-brief-row"><dt>${escapeHtml(pickUiText(language, "In schedule", "是否在排班里"))}</dt><dd>${escapeHtml(card.scheduledLabel)}</dd></div>
+          <div class="staff-brief-row"><dt>${escapeHtml(pickUiText(language, "Recent output", "最近產出"))}</dt><dd>${escapeHtml(card.recentOutput)}</dd></div>
+          <div class="staff-brief-row"><dt>${escapeHtml(pickUiText(language, "In schedule", "是否在排班裡"))}</dt><dd>${escapeHtml(card.scheduledLabel)}</dd></div>
         </dl>
       </article>`;
     })
@@ -13914,7 +13914,7 @@ function buildTaskExecutionChainCards(input: {
       ...item,
       taskTitle: item.latestSnippet?.trim()
         ? safeTruncate(item.latestSnippet.trim(), 64)
-        : pickUiText(input.language, "Isolated execution session", "隔离执行会话"),
+        : pickUiText(input.language, "Isolated execution session", "隔離執行會話"),
       owner: item.agentId ?? pickUiText(input.language, "Unassigned", "未分配"),
       unmapped: true,
     });
@@ -13939,7 +13939,7 @@ function summarizeVisibleSessionSnippet(
 ): string {
   const normalized = normalizeInlineText(rawSnippet ?? "");
   if (!normalized) {
-    return pickUiText(language, "No recent summary yet.", "暂无最近摘要。");
+    return pickUiText(language, "No recent summary yet.", "暫無最近摘要。");
   }
   const structured = summarizeStructuredSessionPayload(normalized, language);
   return safeTruncate(structured ?? normalized, maxLength);
@@ -13981,23 +13981,23 @@ function summarizeStructuredKeyValueText(input: string, language: UiLanguage): s
   if (accepted) {
     segments.push(
       isTruthyFlag(accepted)
-        ? pickUiText(language, "Accepted", "已接单")
-        : pickUiText(language, "Not accepted", "未接单"),
+        ? pickUiText(language, "Accepted", "已接單")
+        : pickUiText(language, "Not accepted", "未接單"),
     );
   }
   const spawned = values.get("spawned");
   if (spawned) {
     segments.push(
       isTruthyFlag(spawned)
-        ? pickUiText(language, "Spawned", "已派发")
-        : pickUiText(language, "Pending spawn", "待派发"),
+        ? pickUiText(language, "Spawned", "已派發")
+        : pickUiText(language, "Pending spawn", "待派發"),
     );
   }
-  const scanned = numericSummarySegment(values.get("scanned"), language, "Scanned", "扫描");
+  const scanned = numericSummarySegment(values.get("scanned"), language, "Scanned", "掃描");
   if (scanned) segments.push(scanned);
-  const sent = numericSummarySegment(values.get("sent"), language, "Sent", "发送");
+  const sent = numericSummarySegment(values.get("sent"), language, "Sent", "傳送");
   if (sent) segments.push(sent);
-  const attempted = numericSummarySegment(values.get("attemptedqueries"), language, "Queries", "查询");
+  const attempted = numericSummarySegment(values.get("attemptedqueries"), language, "Queries", "查詢");
   if (attempted) segments.push(attempted);
   const successful = numericSummarySegment(values.get("successfulqueries"), language, "Successful", "成功");
   if (successful) segments.push(successful);
@@ -14006,15 +14006,15 @@ function summarizeStructuredKeyValueText(input: string, language: UiLanguage): s
     const normalized = normalizeLookupKey(source);
     const sourceLabel =
       normalized === "session_key"
-        ? pickUiText(language, "Session-key inferred", "会话键推断")
+        ? pickUiText(language, "Session-key inferred", "會話鍵推斷")
         : normalized === "history"
-          ? pickUiText(language, "History derived", "历史推导")
+          ? pickUiText(language, "History derived", "歷史推導")
           : safeTruncate(normalizeInlineText(source), 32);
     segments.push(sourceLabel);
   }
   const inferred = values.get("inferred");
   if (inferred && isTruthyFlag(inferred)) {
-    segments.push(pickUiText(language, "Best-effort", "推断值"));
+    segments.push(pickUiText(language, "Best-effort", "推斷值"));
   }
 
   return segments.length > 0 ? segments.slice(0, 5).join(" · ") : undefined;
@@ -14047,16 +14047,16 @@ function summarizeStructuredSessionValue(input: unknown, language: UiLanguage): 
     return String(input);
   }
   if (Array.isArray(input)) {
-    if (input.length === 0) return pickUiText(language, "Empty result", "空结果");
+    if (input.length === 0) return pickUiText(language, "Empty result", "空結果");
     const first = summarizeStructuredSessionValue(input[0], language);
     if (first?.trim()) {
       const suffix =
         input.length > 1
-          ? ` · ${formatInt(input.length)} ${pickUiText(language, "items", "项")}`
+          ? ` · ${formatInt(input.length)} ${pickUiText(language, "items", "項")}`
           : "";
       return `${first}${suffix}`;
     }
-    return `${formatInt(input.length)} ${pickUiText(language, "items", "项")}`;
+    return `${formatInt(input.length)} ${pickUiText(language, "items", "項")}`;
   }
   if (typeof input !== "object") return undefined;
 
@@ -14066,25 +14066,25 @@ function summarizeStructuredSessionValue(input: unknown, language: UiLanguage): 
 
   const segments: string[] = [];
   if (typeof obj.ok === "boolean") {
-    segments.push(pickUiText(language, obj.ok ? "Succeeded" : "Failed", obj.ok ? "成功" : "失败"));
+    segments.push(pickUiText(language, obj.ok ? "Succeeded" : "Failed", obj.ok ? "成功" : "失敗"));
   }
   const errorText = boundedStructuredSessionText(obj.error, 48);
   if (errorText) {
-    segments.push(`${pickUiText(language, "Error", "错误")} ${errorText}`);
+    segments.push(`${pickUiText(language, "Error", "錯誤")} ${errorText}`);
   }
 
   const counters: Array<[string, string, string]> = [
-    ["attemptedQueries", "Queries", "查询"],
+    ["attemptedQueries", "Queries", "查詢"],
     ["successfulQueries", "Successful", "成功"],
-    ["scanned", "Scanned", "扫描"],
-    ["qualified", "Qualified", "入选"],
-    ["sent", "Sent", "发送"],
-    ["candidatesLoaded", "Loaded", "载入"],
+    ["scanned", "Scanned", "掃描"],
+    ["qualified", "Qualified", "入選"],
+    ["sent", "Sent", "傳送"],
+    ["candidatesLoaded", "Loaded", "載入"],
     ["matches", "Matches", "匹配"],
     ["created", "Created", "新建"],
     ["updated", "Updated", "更新"],
-    ["written", "Written", "写入"],
-    ["deleted", "Deleted", "删除"],
+    ["written", "Written", "寫入"],
+    ["deleted", "Deleted", "刪除"],
   ];
   for (const [key, enLabel, zhLabel] of counters) {
     const value = obj[key];
@@ -14117,25 +14117,25 @@ function summarizeStructuredSessionTextFallback(input: string, language: UiLangu
   const segments: string[] = [];
   const okMatch = /"ok"\s*:\s*(true|false)/i.exec(input);
   if (okMatch) {
-    segments.push(pickUiText(language, okMatch[1] === "true" ? "Succeeded" : "Failed", okMatch[1] === "true" ? "成功" : "失败"));
+    segments.push(pickUiText(language, okMatch[1] === "true" ? "Succeeded" : "Failed", okMatch[1] === "true" ? "成功" : "失敗"));
   }
   const errorMatch = /"error"\s*:\s*"([^"]+)"/i.exec(input);
   if (errorMatch?.[1]?.trim()) {
-    segments.push(`${pickUiText(language, "Error", "错误")} ${safeTruncate(normalizeInlineText(errorMatch[1]), 48)}`);
+    segments.push(`${pickUiText(language, "Error", "錯誤")} ${safeTruncate(normalizeInlineText(errorMatch[1]), 48)}`);
   }
 
   const counters: Array<[RegExp, string, string]> = [
-    [/"attemptedQueries"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Queries", "查询"],
+    [/"attemptedQueries"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Queries", "查詢"],
     [/"successfulQueries"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Successful", "成功"],
-    [/"scanned"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Scanned", "扫描"],
-    [/"qualified"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Qualified", "入选"],
-    [/"sent"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Sent", "发送"],
-    [/"candidatesLoaded"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Loaded", "载入"],
+    [/"scanned"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Scanned", "掃描"],
+    [/"qualified"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Qualified", "入選"],
+    [/"sent"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Sent", "傳送"],
+    [/"candidatesLoaded"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Loaded", "載入"],
     [/"matches"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Matches", "匹配"],
     [/"created"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Created", "新建"],
     [/"updated"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Updated", "更新"],
-    [/"written"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Written", "写入"],
-    [/"deleted"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Deleted", "删除"],
+    [/"written"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Written", "寫入"],
+    [/"deleted"\s*:\s*(-?\d+(?:\.\d+)?)/i, "Deleted", "刪除"],
   ];
   for (const [pattern, enLabel, zhLabel] of counters) {
     const match = pattern.exec(input);
@@ -14163,18 +14163,18 @@ function executionChainFallbackTitle(item: TaskExecutionChainCard, language: UiL
   const agentLabel = humanizeOperatorLabel(item.agentId ?? item.owner ?? "main");
   if (item.unmapped) {
     const sessionKind = extractCronJobIdFromSessionKey(item.sessionKey)
-      ? pickUiText(language, "Cron isolated run", "Cron 隔离执行")
-      : pickUiText(language, "Isolated execution session", "隔离执行会话");
+      ? pickUiText(language, "Cron isolated run", "Cron 隔離執行")
+      : pickUiText(language, "Isolated execution session", "隔離執行會話");
     return `${agentLabel} · ${sessionKind}`;
   }
   const projectLabel = normalizeInlineText(item.projectTitle ?? "");
   if (projectLabel) {
-    return `${safeTruncate(projectLabel, 36)} · ${pickUiText(language, "Linked task", "关联任务")}`;
+    return `${safeTruncate(projectLabel, 36)} · ${pickUiText(language, "Linked task", "關聯任務")}`;
   }
   if (item.taskId?.trim()) {
-    return `${pickUiText(language, "Task", "任务")} ${safeTruncate(item.taskId.trim(), 32)}`;
+    return `${pickUiText(language, "Task", "任務")} ${safeTruncate(item.taskId.trim(), 32)}`;
   }
-  return `${agentLabel} · ${pickUiText(language, "Linked task", "关联任务")}`;
+  return `${agentLabel} · ${pickUiText(language, "Linked task", "關聯任務")}`;
 }
 
 function executionChainCardTitle(item: TaskExecutionChainCard, language: UiLanguage): string {
@@ -14209,11 +14209,11 @@ function executionChainStageLabel(
 ): string {
   switch (stage) {
     case "running":
-      return pickUiText(language, "Running", "执行中");
+      return pickUiText(language, "Running", "執行中");
     case "spawned":
-      return pickUiText(language, "Spawned", "已派发");
+      return pickUiText(language, "Spawned", "已派發");
     case "accepted":
-      return pickUiText(language, "Accepted", "已接单");
+      return pickUiText(language, "Accepted", "已接單");
     case "idle":
     default:
       return pickUiText(language, "Idle", "待命");
@@ -14226,10 +14226,10 @@ function executionChainSourceLabel(
 ): string {
   if (chain.source === "history") {
     return chain.inferred
-      ? pickUiText(language, "History signal (best effort)", "历史信号（最佳努力）")
-      : pickUiText(language, "History evidence", "历史证据");
+      ? pickUiText(language, "History signal (best effort)", "歷史訊號（最佳努力）")
+      : pickUiText(language, "History evidence", "歷史證據");
   }
-  return pickUiText(language, "Session-key inference", "会话键推断");
+  return pickUiText(language, "Session-key inference", "會話鍵推斷");
 }
 
 function extractAgentIdFromSessionKey(sessionKey: string): string | undefined {
@@ -14251,7 +14251,7 @@ function renderTaskExecutionChainCards(
       pickUiText(
         language,
         "No accepted/spawn execution chains are visible yet. They will appear once isolated sessions are dispatched.",
-        "当前还没有可见的接单/派发执行链。隔离会话开始派发后会显示。",
+        "當前還沒有可見的接單/派發執行鏈。隔離會話開始派發後會顯示。",
       ),
     )}</div>`;
   }
@@ -14260,16 +14260,16 @@ function renderTaskExecutionChainCards(
     .slice(0, 10)
     .map((item) => {
       const chain = item.executionChain;
-      const acceptedBadge = badge(chain.accepted ? "ok" : "idle", pickUiText(language, "Accepted", "已接单"));
-      const spawnedBadge = badge(chain.spawned ? "info" : "idle", pickUiText(language, "Spawned", "已派发"));
+      const acceptedBadge = badge(chain.accepted ? "ok" : "idle", pickUiText(language, "Accepted", "已接單"));
+      const spawnedBadge = badge(chain.spawned ? "info" : "idle", pickUiText(language, "Spawned", "已派發"));
       const stageBadge = badge(chain.stage, executionChainStageLabel(chain.stage, language));
       const runStateBadge = badge(item.state, sessionStateLabel(item.state));
       const ownerLabel = humanizeOperatorLabel(item.owner);
       const title = executionChainCardTitle(item, language);
       const taskMeta = item.unmapped
-        ? pickUiText(language, "No linked task", "未关联任务")
-        : item.projectTitle ?? pickUiText(language, "Linked task", "已关联任务");
-      const contextLine = [taskMeta, `${pickUiText(language, "Agent", "智能体")} ${ownerLabel}`]
+        ? pickUiText(language, "No linked task", "未關聯任務")
+        : item.projectTitle ?? pickUiText(language, "Linked task", "已關聯任務");
+      const contextLine = [taskMeta, `${pickUiText(language, "Agent", "智慧體")} ${ownerLabel}`]
         .filter(Boolean)
         .join(" · ");
       const sessionFlow = [chain.parentSessionKey, chain.childSessionKey]
@@ -14278,7 +14278,7 @@ function renderTaskExecutionChainCards(
         .join(' <span class="execution-chain-arrow">→</span> ');
       const latestLine = item.latestAt
         ? `${pickUiText(language, "Latest", "最近")} ${escapeHtml(item.latestAt)}`
-        : escapeHtml(pickUiText(language, "No history yet", "暂无历史"));
+        : escapeHtml(pickUiText(language, "No history yet", "暫無歷史"));
       const sourceLine = executionChainSourceLabel(chain, language);
       const summarySource = item.latestSnippet?.trim() ? item.latestSnippet : chain.detail;
       const summaryLine = escapeHtml(summarizeVisibleSessionSnippet(summarySource, language, 96));
@@ -14296,10 +14296,10 @@ function renderTaskExecutionChainCards(
           <div class="execution-chain-summary">${summaryLine}</div>
         </div>
         <div class="execution-chain-actions">
-          <a class="btn" href="${escapeHtml(item.sessionHref)}">${escapeHtml(pickUiText(language, "Open session", "查看会话"))}</a>
+          <a class="btn" href="${escapeHtml(item.sessionHref)}">${escapeHtml(pickUiText(language, "Open session", "檢視會話"))}</a>
           ${
             item.taskHref
-              ? `<a class="btn" href="${escapeHtml(item.taskHref)}">${escapeHtml(pickUiText(language, "Open task", "查看任务"))}</a>`
+              ? `<a class="btn" href="${escapeHtml(item.taskHref)}">${escapeHtml(pickUiText(language, "Open task", "檢視任務"))}</a>`
               : ""
           }
         </div>
@@ -14402,7 +14402,7 @@ function buildCollaborationThreadCards(input: {
       latestAt,
       latestAtLabel: latestAt
         ? pickUiText(input.language, `Updated ${formatTimeAgoFromNow(latestAt, input.language)}`, `最近更新 ${formatTimeAgoFromNow(latestAt, input.language)}`)
-        : pickUiText(input.language, "No visible update yet", "还没有可见更新"),
+        : pickUiText(input.language, "No visible update yet", "還沒有可見更新"),
       participants,
       routeJoiner: "→",
       multiAgent,
@@ -14467,13 +14467,13 @@ function foldCollaborationThreadCards(
       latestAt: item.latestAt,
     }));
     const ownerLabel = latest.currentOwnerLabel;
-    const countLabel = pickUiText(language, `${group.length} similar runs`, `${group.length} 条相近协作`);
+    const countLabel = pickUiText(language, `${group.length} similar runs`, `${group.length} 條相近協作`);
     folded.push({
       ...latest,
       summary: pickUiText(
         language,
         `${ownerLabel} finished ${group.length} similar collaboration runs recently. The latest timeline stays expanded here, and the rest are folded into this card.`,
-        `${ownerLabel} 最近完成了 ${group.length} 条相近协作。这里保留最新一条时间线，其余同类线程已折叠到这张卡里。`,
+        `${ownerLabel} 最近完成了 ${group.length} 條相近協作。這裡保留最新一條時間線，其餘同類執行緒已摺疊到這張卡里。`,
       ),
       latestAtLabel: latest.latestAt
         ? pickUiText(
@@ -14481,13 +14481,13 @@ function foldCollaborationThreadCards(
             `Updated ${formatTimeAgoFromNow(latest.latestAt, language)} · ${countLabel}`,
             `最近更新 ${formatTimeAgoFromNow(latest.latestAt, language)} · ${countLabel}`,
           )
-        : pickUiText(language, `No visible update yet · ${countLabel}`, `还没有可见更新 · ${countLabel}`),
+        : pickUiText(language, `No visible update yet · ${countLabel}`, `還沒有可見更新 · ${countLabel}`),
       aggregateCount: group.length,
       aggregateItems,
       sourceLabel: pickUiText(
         language,
         `Showing the latest representative thread. ${group.length} similar completed runs are folded together.`,
-        `当前展示最新一条代表线程；另有 ${group.length} 条相近的已完成协作已折叠显示。`,
+        `當前展示最新一條代表執行緒；另有 ${group.length} 條相近的已完成協作已摺疊顯示。`,
       ),
     });
   }
@@ -14586,14 +14586,14 @@ function buildInterSessionCollaborationCards(input: {
         label: humanizeOperatorLabel(sourceAgentId),
         identity: deriveAgentAnimalIdentity(sourceAgentId),
         current: normalizeLookupKey(sourceAgentId) === normalizeLookupKey(currentOwnerAgentId),
-        roleLabel: pickUiText(input.language, "Sending session", "发送会话"),
+        roleLabel: pickUiText(input.language, "Sending session", "傳送會話"),
       },
       {
         agentId: targetAgentId,
         label: humanizeOperatorLabel(targetAgentId),
         identity: deriveAgentAnimalIdentity(targetAgentId),
         current: normalizeLookupKey(targetAgentId) === normalizeLookupKey(currentOwnerAgentId),
-        roleLabel: pickUiText(input.language, "Receiving session", "接收会话"),
+        roleLabel: pickUiText(input.language, "Receiving session", "接收會話"),
       },
     ];
     cards.push({
@@ -14618,7 +14618,7 @@ function buildInterSessionCollaborationCards(input: {
       latestAt,
       latestAtLabel: latestAt
         ? pickUiText(input.language, `Updated ${formatTimeAgoFromNow(latestAt, input.language)}`, `最近更新 ${formatTimeAgoFromNow(latestAt, input.language)}`)
-        : pickUiText(input.language, "No visible update yet", "还没有可见更新"),
+        : pickUiText(input.language, "No visible update yet", "還沒有可見更新"),
       participants,
       routeJoiner: "⇄",
       multiAgent: normalizeLookupKey(sourceAgentId) !== normalizeLookupKey(targetAgentId),
@@ -14645,7 +14645,7 @@ function buildInterSessionCollaborationCards(input: {
       sourceLabel: pickUiText(
         input.language,
         `Verified via inter-session message (${latest.sourceTool ?? "inter-session"}).`,
-        `已通过跨会话消息验证（${latest.sourceTool ?? "inter-session"}）。`,
+        `已透過跨會話訊息驗證（${latest.sourceTool ?? "inter-session"}）。`,
       ),
       parentSessionKey: latest.sourceSessionKey,
       childSessionKey: latest.targetSessionKey,
@@ -14692,9 +14692,9 @@ function collaborationThreadKindLabel(
   language: UiLanguage = "zh",
 ): string {
   if (kind === "inter_session") {
-    return pickUiText(language, "Cross-session communication", "跨会话通信");
+    return pickUiText(language, "Cross-session communication", "跨會話通訊");
   }
-  return pickUiText(language, "Parent-child relay", "父子协作");
+  return pickUiText(language, "Parent-child relay", "父子協作");
 }
 
 function deriveInterSessionTaskTitle(input: {
@@ -14716,7 +14716,7 @@ function deriveInterSessionTaskTitle(input: {
     const derived = extractCollaborationTaskLabel(candidate ?? "", input.language);
     if (derived?.trim()) return derived;
   }
-  return pickUiText(input.language, "Cross-session communication", "跨会话沟通");
+  return pickUiText(input.language, "Cross-session communication", "跨會話溝通");
 }
 
 function resolveInterSessionCollaborationStatus(input: {
@@ -14752,7 +14752,7 @@ function collaborationInterSessionRouteLabel(
   targetAgentId: string,
   language: UiLanguage = "zh",
 ): string {
-  return `${pickUiText(language, "Sending session", "发送会话")} ${humanizeOperatorLabel(sourceAgentId)} ⇄ ${pickUiText(language, "Receiving session", "接收会话")} ${humanizeOperatorLabel(targetAgentId)}`;
+  return `${pickUiText(language, "Sending session", "傳送會話")} ${humanizeOperatorLabel(sourceAgentId)} ⇄ ${pickUiText(language, "Receiving session", "接收會話")} ${humanizeOperatorLabel(targetAgentId)}`;
 }
 
 function collaborationInterSessionSummary(input: {
@@ -14768,7 +14768,7 @@ function collaborationInterSessionSummary(input: {
     return pickUiText(
       input.language,
       `${targetLabel} did not finish the latest cross-session reply and needs follow-up.`,
-      `${targetLabel} 没有顺利完成最近一轮跨会话回复，当前需要跟进。`,
+      `${targetLabel} 沒有順利完成最近一輪跨會話回覆，當前需要跟進。`,
     );
   }
   if (input.status === "active") {
@@ -14776,31 +14776,31 @@ function collaborationInterSessionSummary(input: {
       ? pickUiText(
           input.language,
           `${sourceLabel} and ${targetLabel} are actively exchanging messages between existing sessions.`,
-          `${sourceLabel} 和 ${targetLabel} 正在已有会话之间来回通信。`,
+          `${sourceLabel} 和 ${targetLabel} 正在已有會話之間來回通訊。`,
         )
       : pickUiText(
           input.language,
           `${sourceLabel} has sent a message into ${targetLabel}'s existing session, and the visible reply is still in progress.`,
-          `${sourceLabel} 已向 ${targetLabel} 的既有会话发出消息，当前还在等待这轮可见回复继续回来。`,
+          `${sourceLabel} 已向 ${targetLabel} 的既有會話發出訊息，當前還在等待這輪可見回覆繼續回來。`,
         );
   }
   if (input.status === "handoff") {
     return pickUiText(
       input.language,
       `${sourceLabel} has sent a message into ${targetLabel}'s existing session. The next visible reply has not returned yet.`,
-      `${sourceLabel} 已把消息投递到 ${targetLabel} 的既有会话，下一条可见回复还没有回来。`,
+      `${sourceLabel} 已把訊息投遞到 ${targetLabel} 的既有會話，下一條可見回覆還沒有回來。`,
     );
   }
   return input.bidirectional
     ? pickUiText(
         input.language,
         `${targetLabel} has already replied through its existing session. The latest visible exchange is complete.`,
-        `${targetLabel} 已经通过自己的既有会话回了信，最近一轮可见通信已经完成。`,
+        `${targetLabel} 已經透過自己的既有會話回了信，最近一輪可見通訊已經完成。`,
       )
     : pickUiText(
         input.language,
         `${sourceLabel} finished the latest visible cross-session exchange with ${targetLabel}.`,
-        `${sourceLabel} 和 ${targetLabel} 最近一轮可见跨会话通信已经结束。`,
+        `${sourceLabel} 和 ${targetLabel} 最近一輪可見跨會話通訊已經結束。`,
       );
 }
 
@@ -14811,7 +14811,7 @@ function collaborationInterSessionCurrentOwnerLabel(
   return pickUiText(
     language,
     `Now with ${humanizeOperatorLabel(currentOwnerAgentId)}`,
-    `当前在 ${humanizeOperatorLabel(currentOwnerAgentId)}`,
+    `當前在 ${humanizeOperatorLabel(currentOwnerAgentId)}`,
   );
 }
 
@@ -14835,8 +14835,8 @@ function buildInterSessionCollaborationTimelineSteps(input: {
     steps.push({
       id: `${firstSignal.sourceSessionKey}:${firstSignal.targetSessionKey}:send`,
       agentId: input.sourceAgentId,
-      roleLabel: pickUiText(input.language, "Sending session", "发送会话"),
-      title: pickUiText(input.language, "Sent a cross-session message", "发起跨会话消息"),
+      roleLabel: pickUiText(input.language, "Sending session", "傳送會話"),
+      title: pickUiText(input.language, "Sent a cross-session message", "發起跨會話訊息"),
       detail: summarizeVisibleSessionSnippet(firstSignal.snippet, input.language, 120),
       at: firstSignal.at ?? input.sourceSession?.latestHistoryAt ?? input.sourceSession?.lastMessageAt,
       tone: "info",
@@ -14853,12 +14853,12 @@ function buildInterSessionCollaborationTimelineSteps(input: {
       roleLabel: pickUiText(
         input.language,
         isReply ? "Replying session" : "Sending session",
-        isReply ? "回复会话" : "发送会话",
+        isReply ? "回覆會話" : "傳送會話",
       ),
       title: pickUiText(
         input.language,
         isReply ? "Replied through its existing session" : "Sent another cross-session message",
-        isReply ? "通过既有会话回信" : "继续发送跨会话消息",
+        isReply ? "透過既有會話回信" : "繼續傳送跨會話訊息",
       ),
       detail: summarizeVisibleSessionSnippet(signal.snippet, input.language, 120),
       at: signal.at,
@@ -14873,8 +14873,8 @@ function buildInterSessionCollaborationTimelineSteps(input: {
     steps.push({
       id: `${latestSignal.sourceSessionKey}:${latestSignal.targetSessionKey}:latest`,
       agentId: latestAgentId,
-      roleLabel: pickUiText(input.language, "Latest visible reply", "最近可见回复"),
-      title: pickUiText(input.language, "Latest visible message", "最近可见消息"),
+      roleLabel: pickUiText(input.language, "Latest visible reply", "最近可見回覆"),
+      title: pickUiText(input.language, "Latest visible message", "最近可見訊息"),
       detail: summarizeVisibleSessionSnippet(latestSignal.snippet, input.language, 120),
       at: latestSignal.at ?? input.targetSession?.latestHistoryAt ?? input.targetSession?.lastMessageAt,
       tone: "ok",
@@ -14885,12 +14885,12 @@ function buildInterSessionCollaborationTimelineSteps(input: {
     steps.push({
       id: `${input.sourceAgentId}:${input.targetAgentId}:fallback`,
       agentId: input.targetAgentId,
-      roleLabel: pickUiText(input.language, "Receiving session", "接收会话"),
-      title: pickUiText(input.language, "Visible communication only", "仅有跨会话通信信号"),
+      roleLabel: pickUiText(input.language, "Receiving session", "接收會話"),
+      title: pickUiText(input.language, "Visible communication only", "僅有跨會話通訊訊號"),
       detail: pickUiText(
         input.language,
         "The cross-session route is visible, but there is not enough recent text to summarize it yet.",
-        "当前能看到跨会话通信关系，但最近的文本还不够生成摘要。",
+        "當前能看到跨會話通訊關係，但最近的文字還不夠生成摘要。",
       ),
       at: pickLatestTimestamp([
         input.sourceSession?.latestHistoryAt,
@@ -14936,8 +14936,8 @@ function collaborationParticipantRoleLabel(
   language: UiLanguage = "zh",
 ): string {
   return position === "parent"
-    ? pickUiText(language, "Parent session", "父会话")
-    : pickUiText(language, "Child session", "子会话");
+    ? pickUiText(language, "Parent session", "父會話")
+    : pickUiText(language, "Child session", "子會話");
 }
 
 function collaborationRoleAgentLabel(
@@ -14947,8 +14947,8 @@ function collaborationRoleAgentLabel(
 ): string {
   const agentLabel = humanizeOperatorLabel(agentId);
   return position === "parent"
-    ? pickUiText(language, `Parent ${agentLabel}`, `父会话 ${agentLabel}`)
-    : pickUiText(language, `Child ${agentLabel}`, `子会话 ${agentLabel}`);
+    ? pickUiText(language, `Parent ${agentLabel}`, `父會話 ${agentLabel}`)
+    : pickUiText(language, `Child ${agentLabel}`, `子會話 ${agentLabel}`);
 }
 
 function collaborationRouteLabel(
@@ -14965,7 +14965,7 @@ function extractCollaborationTaskLabel(input: string, language: UiLanguage): str
   const normalized = normalizeInlineText(input);
   if (!normalized) return undefined;
 
-  const explicitTaskMatch = /(?:任务|目标|task|objective)\s*[:：]\s*([^。；\n]+)/i.exec(normalized);
+  const explicitTaskMatch = /(?:任務|目標|task|objective)\s*[:：]\s*([^。；\n]+)/i.exec(normalized);
   if (explicitTaskMatch?.[1]?.trim()) return safeTruncate(explicitTaskMatch[1].trim(), 88);
 
   const cronTaskMatch = /^\[[^\]]+\s+([^\]\s][^\]]*?)\]\s/.exec(normalized);
@@ -14996,9 +14996,9 @@ function deriveCollaborationTaskTitle(input: {
 }): string {
   const mappedTitle = executionChainCardTitle(input.card, input.language);
   const mappedLooksGeneric =
-    /隔离执行|关联任务|linked task|isolated execution|cron isolated run/i.test(mappedTitle) ||
-    /^(成功|失败|Succeeded|Failed)\b/.test(mappedTitle) ||
-    /(查询|成功|扫描|入选|发送|Queries|Successful|Scanned|Qualified|Sent)\s+\d+/i.test(mappedTitle);
+    /隔離執行|關聯任務|linked task|isolated execution|cron isolated run/i.test(mappedTitle) ||
+    /^(成功|失敗|Succeeded|Failed)\b/.test(mappedTitle) ||
+    /(查詢|成功|掃描|入選|傳送|Queries|Successful|Scanned|Qualified|Sent)\s+\d+/i.test(mappedTitle);
   if (!mappedLooksGeneric) return mappedTitle;
 
   const candidates = [
@@ -15024,7 +15024,7 @@ function collaborationThreadStatusLabel(
   status: CollaborationThreadStatus,
   language: UiLanguage = "zh",
 ): string {
-  if (status === "active") return pickUiText(language, "In progress", "进行中");
+  if (status === "active") return pickUiText(language, "In progress", "進行中");
   if (status === "handoff") return pickUiText(language, "Waiting handoff", "等待交接");
   if (status === "blocked") return pickUiText(language, "Blocked", "卡住");
   return pickUiText(language, "Completed", "已完成");
@@ -15051,20 +15051,20 @@ function collaborationThreadSummary(input: {
       return pickUiText(
         input.language,
         `${childLabel} is waiting for approval before the handoff can continue.`,
-        `${childLabel} 正在等待审批，这条交接要等这一段通过后才能继续。`,
+        `${childLabel} 正在等待審批，這條交接要等這一段透過後才能繼續。`,
       );
     }
     if (input.card.state === "error") {
       return pickUiText(
         input.language,
         `${childLabel} hit an error after the latest handoff.`,
-        `${childLabel} 在最近一次交接后出现了错误。`,
+        `${childLabel} 在最近一次交接後出現了錯誤。`,
       );
     }
     return pickUiText(
       input.language,
       `${childLabel} is blocked and needs follow-up before the thread can move again.`,
-      `${childLabel} 当前卡住了，需要先跟进处理，这条协作线程才能继续。`,
+      `${childLabel} 當前卡住了，需要先跟進處理，這條協作執行緒才能繼續。`,
     );
   }
   if (input.status === "active") {
@@ -15072,13 +15072,13 @@ function collaborationThreadSummary(input: {
       return pickUiText(
         input.language,
         `${childLabel} is working after ${parentLabel} handed the task over.`,
-        `${childLabel} 正在继续执行，前一步由 ${parentLabel} 完成交接。`,
+        `${childLabel} 正在繼續執行，前一步由 ${parentLabel} 完成交接。`,
       );
     }
     return pickUiText(
       input.language,
       `${childLabel} is continuing the isolated run after ${parentLabel} opened it.`,
-      `${childLabel} 正在继续执行，前一步由 ${parentLabel} 在同一智能体里发起。`,
+      `${childLabel} 正在繼續執行，前一步由 ${parentLabel} 在同一智慧體裡發起。`,
     );
   }
   if (input.status === "handoff") {
@@ -15086,26 +15086,26 @@ function collaborationThreadSummary(input: {
       return pickUiText(
         input.language,
         `${parentLabel} handed the task to ${childLabel}. The next visible reply has not arrived yet.`,
-        `${parentLabel} 已把任务交给 ${childLabel}，下一条可见回复还没有回来。`,
+        `${parentLabel} 已把任務交給 ${childLabel}，下一條可見回覆還沒有回來。`,
       );
     }
     return pickUiText(
       input.language,
       `${parentLabel} opened a child run in the same agent. The next visible reply is still pending.`,
-      `${parentLabel} 已在同一智能体里发起子会话，但下一条可见回复还没出现。`,
+      `${parentLabel} 已在同一智慧體裡發起子會話，但下一條可見回覆還沒出現。`,
     );
   }
   if (normalizeLookupKey(input.parentAgentId) !== normalizeLookupKey(input.childAgentId)) {
     return pickUiText(
       input.language,
       `${childLabel} finished the latest visible handoff from ${parentLabel}.`,
-      `${childLabel} 已完成最近一轮由 ${parentLabel} 交接过来的工作。`,
+      `${childLabel} 已完成最近一輪由 ${parentLabel} 交接過來的工作。`,
     );
   }
   return pickUiText(
     input.language,
     `${childLabel} finished the latest visible isolated run after ${parentLabel} handed it off.`,
-    `${childLabel} 已完成最近一轮由 ${parentLabel} 发起的隔离执行。`,
+    `${childLabel} 已完成最近一輪由 ${parentLabel} 發起的隔離執行。`,
   );
 }
 
@@ -15127,11 +15127,11 @@ function buildCollaborationTimelineSteps(input: {
       id: `${input.card.sessionKey}:accepted`,
       agentId: input.parentAgentId,
       roleLabel: collaborationParticipantRoleLabel("parent", input.language),
-      title: pickUiText(input.language, "Parent accepted work", "父会话接到任务"),
+      title: pickUiText(input.language, "Parent accepted work", "父會話接到任務"),
       detail: pickUiText(
         input.language,
         `${parentLabel} accepted the work in the parent session.`,
-        `${parentLabel} 在父会话里接下了这件事。`,
+        `${parentLabel} 在父會話裡接下了這件事。`,
       ),
       at: chain.acceptedAt ?? input.parentSession?.latestHistoryAt ?? input.parentSession?.lastMessageAt,
       tone: "info",
@@ -15143,17 +15143,17 @@ function buildCollaborationTimelineSteps(input: {
       id: `${input.card.sessionKey}:spawned`,
       agentId: input.parentAgentId,
       roleLabel: collaborationParticipantRoleLabel("parent", input.language),
-      title: pickUiText(input.language, "Parent opened child session", "父会话发起子会话"),
+      title: pickUiText(input.language, "Parent opened child session", "父會話發起子會話"),
       detail: normalizeLookupKey(input.parentAgentId) === normalizeLookupKey(input.childAgentId)
         ? pickUiText(
             input.language,
             `${parentLabel} opened a child run in the same agent.`,
-            `${parentLabel} 在同一智能体里开了一条子会话来继续执行。`,
+            `${parentLabel} 在同一智慧體裡開了一條子會話來繼續執行。`,
           )
         : pickUiText(
             input.language,
             `${parentLabel} handed the work to ${childLabel}.`,
-            `${parentLabel} 把这件事交给了 ${childLabel}。`,
+            `${parentLabel} 把這件事交給了 ${childLabel}。`,
           ),
       at: chain.spawnedAt ?? input.childSession?.latestHistoryAt ?? input.childSession?.lastMessageAt,
       tone: "info",
@@ -15165,7 +15165,7 @@ function buildCollaborationTimelineSteps(input: {
       id: `${input.card.sessionKey}:parent-note`,
       agentId: input.parentAgentId,
       roleLabel: collaborationParticipantRoleLabel("parent", input.language),
-      title: pickUiText(input.language, "Parent session note", "父会话说明"),
+      title: pickUiText(input.language, "Parent session note", "父會話說明"),
       detail: summarizeVisibleSessionSnippet(
         input.parentSession?.taskSnippet ?? input.parentSession?.latestSnippet ?? "",
         input.language,
@@ -15181,7 +15181,7 @@ function buildCollaborationTimelineSteps(input: {
       id: `${input.card.sessionKey}:child-note`,
       agentId: input.childAgentId,
       roleLabel: collaborationParticipantRoleLabel("child", input.language),
-      title: pickUiText(input.language, "Child session reply", "子会话最近回复"),
+      title: pickUiText(input.language, "Child session reply", "子會話最近回覆"),
       detail: summarizeVisibleSessionSnippet(input.childSession.latestSnippet, input.language, 120),
       at: input.childSession.latestHistoryAt ?? input.childSession.lastMessageAt,
       tone: input.card.state === "blocked" || input.card.state === "error" || input.card.state === "waiting_approval" ? "blocked" : "ok",
@@ -15196,11 +15196,11 @@ function buildCollaborationTimelineSteps(input: {
         normalizeLookupKey(input.parentAgentId) === normalizeLookupKey(input.childAgentId) ? "parent" : "child",
         input.language,
       ),
-      title: pickUiText(input.language, "Visible chain only", "仅有执行链信号"),
+      title: pickUiText(input.language, "Visible chain only", "僅有執行鏈訊號"),
       detail: pickUiText(
         input.language,
         "The handoff relationship is visible, but there is not enough recent session text to summarize it yet.",
-        "当前能看到交接关系，但最近的会话文本还不够生成摘要。",
+        "當前能看到交接關係，但最近的會話文字還不夠生成摘要。",
       ),
       at: input.card.latestAt,
       tone: "warn",
@@ -15221,7 +15221,7 @@ function renderCollaborationThreadCards(
       pickUiText(
         language,
         "No collaboration threads are visible yet. They will appear once parent-child relays or cross-session messages show up.",
-        "当前还没有可见的协作线程。父子接力或跨会话消息出现后，这里就会开始显示。",
+        "當前還沒有可見的協作執行緒。父子接力或跨會話訊息出現後，這裡就會開始顯示。",
       ),
     )}</div>`;
   }
@@ -15256,7 +15256,7 @@ function renderCollaborationThreadCards(
             <div class="collaboration-step-copy">
               <div class="collaboration-step-head">
                 <strong>${escapeHtml(step.title)}</strong>
-                <span>${escapeHtml(step.at ? formatTimeAgoFromNow(step.at, language) : pickUiText(language, "time unavailable", "时间未知"))}</span>
+                <span>${escapeHtml(step.at ? formatTimeAgoFromNow(step.at, language) : pickUiText(language, "time unavailable", "時間未知"))}</span>
               </div>
               <div class="meta">${escapeHtml(step.detail)}</div>
             </div>
@@ -15268,8 +15268,8 @@ function renderCollaborationThreadCards(
           ? {
               label:
                 card.kind === "inter_session"
-                  ? pickUiText(language, "Sending session", "发送会话")
-                  : pickUiText(language, "Parent session", "父会话"),
+                  ? pickUiText(language, "Sending session", "傳送會話")
+                  : pickUiText(language, "Parent session", "父會話"),
               value: card.parentSessionKey,
             }
           : undefined,
@@ -15277,8 +15277,8 @@ function renderCollaborationThreadCards(
           ? {
               label:
                 card.kind === "inter_session"
-                  ? pickUiText(language, "Receiving session", "接收会话")
-                  : pickUiText(language, "Child session", "子会话"),
+                  ? pickUiText(language, "Receiving session", "接收會話")
+                  : pickUiText(language, "Child session", "子會話"),
               value: card.childSessionKey,
             }
           : undefined,
@@ -15296,7 +15296,7 @@ function renderCollaborationThreadCards(
                   `<li><a href="${escapeHtml(item.sessionHref)}"><code>${escapeHtml(item.sessionKey)}</code></a> · ${escapeHtml(
                     item.latestAt
                       ? formatTimeAgoFromNow(item.latestAt, language)
-                      : pickUiText(language, "time unavailable", "时间未知"),
+                      : pickUiText(language, "time unavailable", "時間未知"),
                   )}</li>`,
               )
               .join("")}${
@@ -15305,7 +15305,7 @@ function renderCollaborationThreadCards(
                       pickUiText(
                         language,
                         `${card.aggregateItems.length - 6} more runs are folded here.`,
-                        `其余 ${card.aggregateItems.length - 6} 条相近协作也已经折叠在这里。`,
+                        `其餘 ${card.aggregateItems.length - 6} 條相近協作也已經摺疊在這裡。`,
                       ),
                     )}</li>`
                   : ""
@@ -15326,7 +15326,7 @@ function renderCollaborationThreadCards(
               ${badge(card.status === "completed" ? "ok" : card.status === "blocked" ? "warn" : "info", card.statusBadge)}
               ${
                 card.aggregateCount > 1
-                  ? badge("idle", pickUiText(language, `${card.aggregateCount} runs`, `${card.aggregateCount} 条`))
+                  ? badge("idle", pickUiText(language, `${card.aggregateCount} runs`, `${card.aggregateCount} 條`))
                   : ""
               }
               <span class="collaboration-current-owner">${escapeHtml(card.currentOwnerLabel)}</span>
@@ -15346,12 +15346,12 @@ function renderCollaborationThreadCards(
                     ? pickUiText(
                         language,
                         `${card.aggregateCount} similar cross-session exchanges are folded into this card. The newest timeline stays visible here.`,
-                        `这张卡里折叠了 ${card.aggregateCount} 条相近的跨会话通信，当前保留的是最新一条时间线。`,
+                        `這張卡里摺疊了 ${card.aggregateCount} 條相近的跨會話通訊，當前保留的是最新一條時間線。`,
                       )
                     : pickUiText(
                         language,
                         `${card.aggregateCount} similar parent-child relays are folded into this card. The newest timeline stays visible here.`,
-                        `这张卡里折叠了 ${card.aggregateCount} 条相近的父子会话接力，当前保留的是最新一条时间线。`,
+                        `這張卡里摺疊了 ${card.aggregateCount} 條相近的父子會話接力，當前保留的是最新一條時間線。`,
                       ),
                 )}</div>`
               : ""
@@ -15360,19 +15360,19 @@ function renderCollaborationThreadCards(
             <div class="meta">${escapeHtml(card.sourceLabel)}</div>
             <div class="collaboration-thread-actions">
               <a class="btn" href="${escapeHtml(card.sessionHref)}">${escapeHtml(
-                pickUiText(language, "Open session", "查看会话"),
+                pickUiText(language, "Open session", "檢視會話"),
               )}</a>
               ${
                 card.taskHref
                   ? `<a class="btn" href="${escapeHtml(card.taskHref)}">${escapeHtml(
-                      pickUiText(language, "Open task", "查看任务"),
+                      pickUiText(language, "Open task", "檢視任務"),
                     )}</a>`
                   : ""
               }
             </div>
           </div>
           <details class="compact-table-details collaboration-technical-details">
-            <summary>${escapeHtml(pickUiText(language, "Technical details", "技术细节"))}</summary>
+            <summary>${escapeHtml(pickUiText(language, "Technical details", "技術細節"))}</summary>
             <div class="fold-body">
               <ul class="story-list">${technicalDetails}</ul>
               ${foldedRunsList}
@@ -15391,7 +15391,7 @@ function renderOfficeCards(
 ): string {
   if (cards.length === 0) {
     return `<div class="empty-state">${escapeHtml(
-      pickUiText(language, "No staff roster signal yet. It will appear after config or runtime data is connected.", "暂无助手名录信号。连接配置或运行态后会显示。"),
+      pickUiText(language, "No staff roster signal yet. It will appear after config or runtime data is connected.", "暫無助手名錄訊號。連線配置或執行態後會顯示。"),
     )}</div>`;
   }
 
@@ -15399,8 +15399,8 @@ function renderOfficeCards(
     .map((card) => {
       const focus =
         card.focusItems.length === 0
-          ? "<div class=\"meta\">当前重点：暂无</div>"
-          : `<div class="meta">当前重点：</div><ul class="office-focus">${card.focusItems
+          ? "<div class=\"meta\">當前重點：暫無</div>"
+          : `<div class="meta">當前重點：</div><ul class="office-focus">${card.focusItems
               .map((item) => `<li>${escapeHtml(item)}</li>`)
               .join("")}</ul>`;
       const effective = resolveEffectiveAvatar({
@@ -15416,7 +15416,7 @@ function renderOfficeCards(
       const avatar = `<div class="agent-avatar" style="--agent-accent:${escapeHtml(card.identity.accent)};" data-agent-id="${escapeHtml(card.agentId)}" data-animal="${escapeHtml(effectiveAnimal)}" data-avatar-mode="${escapeHtml(effective.mode)}" data-avatar-image="${escapeHtml(effective.mode === "custom" ? effective.image : "")}">
         <div class="agent-stage" aria-hidden="true">${stageInner}</div>
         <div class="agent-animal-label">${escapeHtml(animalLabel(card.identity.animal, language))}</div>
-        <button type="button" class="avatar-edit-btn" aria-label="${escapeHtml(pickUiText(language, "Edit avatar", "编辑头像"))}" title="${escapeHtml(pickUiText(language, "Edit avatar", "编辑头像"))}">
+        <button type="button" class="avatar-edit-btn" aria-label="${escapeHtml(pickUiText(language, "Edit avatar", "編輯頭像"))}" title="${escapeHtml(pickUiText(language, "Edit avatar", "編輯頭像"))}">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 20h4l10.6-10.6a2.2 2.2 0 0 0 0-3.1l-0.9-0.9a2.2 2.2 0 0 0-3.1 0L4 16v4Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
             <path d="M13.8 6.2l4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -15429,12 +15429,12 @@ function renderOfficeCards(
           <div class="office-info">
             <div class="topline"><strong>${escapeHtml(humanizeOperatorLabel(card.agentId))}</strong>${badge(card.status)}</div>
             <div class="meta"><strong>${escapeHtml(card.statusLabel)}</strong> · ${escapeHtml(card.summary)}</div>
-            <div class="meta">${escapeHtml(pickUiText(language, "Active sessions", "活跃会话"))}：${card.activeSessions} · ${escapeHtml(
-              pickUiText(language, "Active tasks", "活跃任务"),
+            <div class="meta">${escapeHtml(pickUiText(language, "Active sessions", "活躍會話"))}：${card.activeSessions} · ${escapeHtml(
+              pickUiText(language, "Active tasks", "活躍任務"),
             )}：${card.activeTasks}</div>
           </div>
         </div>
-        ${focus.replace("当前重点：", `${pickUiText(language, "Current focus", "当前重点")}：`).replace("当前重点：暂无", `${pickUiText(language, "Current focus", "当前重点")}：${pickUiText(language, "None", "暂无")}`)}
+        ${focus.replace("當前重點：", `${pickUiText(language, "Current focus", "當前重點")}：`).replace("當前重點：暫無", `${pickUiText(language, "Current focus", "當前重點")}：${pickUiText(language, "None", "暫無")}`)}
       </article>`;
     })
     .join("")}</div>`;
@@ -15452,7 +15452,7 @@ function renderOfficeFloor(cards: OfficeSpaceCard[], language: UiLanguage = "zh"
       const items = cards.filter((card) => card.officeZone === zone);
       const rows =
         items.length === 0
-          ? '<li class="desk-chip">当前没有分配。</li>'
+          ? '<li class="desk-chip">當前沒有分配。</li>'
           : items
               .map(
                 (card) =>
@@ -15460,7 +15460,7 @@ function renderOfficeFloor(cards: OfficeSpaceCard[], language: UiLanguage = "zh"
               )
               .join("");
       return `<section class="zone"><h3>${escapeHtml(officeZoneLabel(zone, language))}</h3><div class="meta">${escapeHtml(
-        pickUiText(language, "Occupied", "占用数"),
+        pickUiText(language, "Occupied", "佔用數"),
       )}：${items.length}</div><ul class="desk-list">${rows}</ul></section>`;
     })
     .join("")}</div>`;
@@ -15483,7 +15483,7 @@ function renderNativeMotionScript(language: UiLanguage = "zh"): string {
   const applyInspectorLabel = () => {
     if (!(inspectorToggle instanceof HTMLButtonElement)) return;
     const collapsed = body.classList.contains('inspector-collapsed');
-    inspectorToggle.textContent = collapsed ? '${escapeHtml(pickUiText(language, "Expand inspector", "展开检视栏"))}' : '${escapeHtml(pickUiText(language, "Collapse inspector", "收起检视栏"))}';
+    inspectorToggle.textContent = collapsed ? '${escapeHtml(pickUiText(language, "Expand inspector", "展開檢視欄"))}' : '${escapeHtml(pickUiText(language, "Collapse inspector", "收起檢視欄"))}';
     inspectorToggle.setAttribute('aria-pressed', collapsed ? 'true' : 'false');
   };
   if (inspectorToggle instanceof HTMLButtonElement) {
@@ -15655,12 +15655,12 @@ function renderCollaborationFilterScript(language: UiLanguage = "zh"): string {
   if (roots.length === 0) return;
 
   const copy = {
-    all: '${escapeHtml(pickUiText(language, "Showing all visible threads", "当前显示全部可见线程"))}',
-    active: '${escapeHtml(pickUiText(language, "Showing in-progress collaboration", "当前显示进行中的协作"))}',
-    blocked: '${escapeHtml(pickUiText(language, "Showing blocked collaboration", "当前显示卡住的协作"))}',
-    completed: '${escapeHtml(pickUiText(language, "Showing completed collaboration", "当前显示已完成的协作"))}',
-    multiAgent: '${escapeHtml(pickUiText(language, "Showing multi-agent collaboration only", "当前只看多智能体协作"))}',
-    mainDispatched: '${escapeHtml(pickUiText(language, "Showing collaboration dispatched by Main", "当前只看 Main 派发的协作"))}',
+    all: '${escapeHtml(pickUiText(language, "Showing all visible threads", "當前顯示全部可見執行緒"))}',
+    active: '${escapeHtml(pickUiText(language, "Showing in-progress collaboration", "當前顯示進行中的協作"))}',
+    blocked: '${escapeHtml(pickUiText(language, "Showing blocked collaboration", "當前顯示卡住的協作"))}',
+    completed: '${escapeHtml(pickUiText(language, "Showing completed collaboration", "當前顯示已完成的協作"))}',
+    multiAgent: '${escapeHtml(pickUiText(language, "Showing multi-agent collaboration only", "當前只看多智慧體協作"))}',
+    mainDispatched: '${escapeHtml(pickUiText(language, "Showing collaboration dispatched by Main", "當前只看 Main 派發的協作"))}',
   };
 
   roots.forEach((root) => {
@@ -15776,7 +15776,7 @@ function renderHeaderControlsScript(language: UiLanguage = "zh"): string {
     }
   };
 
-  // 确保在DOM加载完成后设置主题切换
+  // 確保在DOM載入完成後設定主題切換
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupThemeToggle);
   } else {
@@ -15864,7 +15864,7 @@ function renderHeaderControlsScript(language: UiLanguage = "zh"): string {
     }
   };
 
-  // 确保在DOM加载完成后设置刷新按钮
+  // 確保在DOM載入完成後設定重新整理按鈕
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', setupRefreshButton);
   } else {
@@ -15894,24 +15894,24 @@ function renderHeaderControlsScript(language: UiLanguage = "zh"): string {
 
 function renderAvatarEditorScript(language: UiLanguage = "zh", importMutationEnabled: boolean = false): string {
   const labels = {
-    pixel: pickUiText(language, "Pixel", "像素画"),
-    custom: pickUiText(language, "Custom", "自定义"),
-    agentConfig: pickUiText(language, "Current agent config", "当前Agent配置"),
-    editAvatar: pickUiText(language, "Edit avatar", "编辑头像"),
-    upload: pickUiText(language, "Upload avatar", "上传头像"),
-    apply: pickUiText(language, "Apply", "应用"),
-    delete: pickUiText(language, "Delete", "删除"),
-    recrop: pickUiText(language, "Edit", "编辑"),
-    loading: pickUiText(language, "Loading…", "加载中…"),
-    emptyUploads: pickUiText(language, "No uploaded avatars yet.", "还没有上传头像。"),
-    chooseFile: pickUiText(language, "Choose file", "选择文件"),
-    saving: pickUiText(language, "Saving…", "保存中…"),
-    save: pickUiText(language, "Save", "保存"),
-    saveOk: pickUiText(language, "Saved successfully", "保存成功"),
-    failed: pickUiText(language, "Operation failed.", "操作失败。"),
-    needToken: pickUiText(language, "This action requires LOCAL_API_TOKEN.", "这个动作需要 LOCAL_API_TOKEN。"),
-    tokenPrompt: pickUiText(language, "Enter LOCAL_API_TOKEN to save avatar changes.", "请输入 LOCAL_API_TOKEN 以保存头像改动。"),
-    tokenRetryPrompt: pickUiText(language, "The local token was rejected. Enter LOCAL_API_TOKEN again to retry.", "本地令牌验证失败，请重新输入 LOCAL_API_TOKEN 以重试。"),
+    pixel: pickUiText(language, "Pixel", "畫素畫"),
+    custom: pickUiText(language, "Custom", "自定義"),
+    agentConfig: pickUiText(language, "Current agent config", "當前Agent配置"),
+    editAvatar: pickUiText(language, "Edit avatar", "編輯頭像"),
+    upload: pickUiText(language, "Upload avatar", "上傳頭像"),
+    apply: pickUiText(language, "Apply", "應用"),
+    delete: pickUiText(language, "Delete", "刪除"),
+    recrop: pickUiText(language, "Edit", "編輯"),
+    loading: pickUiText(language, "Loading…", "載入中…"),
+    emptyUploads: pickUiText(language, "No uploaded avatars yet.", "还没有上傳頭像。"),
+    chooseFile: pickUiText(language, "Choose file", "選擇檔案"),
+    saving: pickUiText(language, "Saving…", "儲存中…"),
+    save: pickUiText(language, "Save", "儲存"),
+    saveOk: pickUiText(language, "Saved successfully", "儲存成功"),
+    failed: pickUiText(language, "Operation failed.", "操作失敗。"),
+    needToken: pickUiText(language, "This action requires LOCAL_API_TOKEN.", "此操作需要 LOCAL_API_TOKEN。"),
+    tokenPrompt: pickUiText(language, "Enter LOCAL_API_TOKEN to save avatar changes.", "请输入 LOCAL_API_TOKEN 以儲存头像改动。"),
+    tokenRetryPrompt: pickUiText(language, "The local token was rejected. Enter LOCAL_API_TOKEN again to retry.", "本機令牌驗證失敗，請重新輸入 LOCAL_API_TOKEN 以重試。"),
   };
   const animalLabels: Record<string, string> = {
     robot: animalLabel("robot", language),
@@ -16089,11 +16089,11 @@ function renderAvatarEditorScript(language: UiLanguage = "zh", importMutationEna
     avatarEl.dataset.avatarMode = 'pixel';
     avatarEl.dataset.avatarImage = '';
     avatarEl.dataset.animal = next.animal;
-    // 使用 updateAvatar 更新动画循环中的 actor，确保头像持续更新
+    // 使用 updateAvatar 更新動畫迴圈中的 actor，確保頭像持續更新
     if (window.__openclawPixelAvatar && typeof window.__openclawPixelAvatar.updateAvatar === 'function') {
       window.__openclawPixelAvatar.updateAvatar(avatarEl, next);
     }
-    // 立即渲染一次，确保头像立即显示
+    // 立即渲染一次，確保頭像立即顯示
     renderStaticPixel(avatarEl);
   };
 
@@ -16520,30 +16520,30 @@ function renderFileWorkbenchScript(): string {
     let activeFacet = defaultFacet;
     const l = {
       all: language === 'en' ? 'All' : '全部',
-      currentGroup: language === 'en' ? 'Current group' : '当前分组',
-      files: language === 'en' ? 'files' : '文件',
+      currentGroup: language === 'en' ? 'Current group' : '當前分組',
+      files: language === 'en' ? 'files' : '檔案',
       fileUnit: language === 'en' ? 'files' : '份',
-      noMatches: language === 'en' ? 'No matching files' : '没有匹配文件',
-      unsavedBeforeSwitch: language === 'en' ? 'This file has unsaved changes. Save or restore it before switching.' : '当前文件有未保存改动，请先保存或恢复后再切换。',
-      switchedTo: language === 'en' ? 'Switched to' : '已切换到',
-      availableFiles: language === 'en' ? 'available files' : '可选文件',
-      noFilesForFilter: language === 'en' ? 'No files match the current filter.' : '当前筛选下没有文件。',
-      showing: language === 'en' ? 'Showing' : '当前显示',
-      chooseLeft: language === 'en' ? 'Pick a file from the left.' : '可在左侧选择具体文件。',
-      untitled: language === 'en' ? 'Untitled file' : '未命名文件',
-      updatedAt: language === 'en' ? 'Updated' : '更新于',
-      reading: language === 'en' ? 'Reading source file...' : '正在读取源文件...',
-      readFailed: language === 'en' ? 'Read failed' : '读取失败',
-      unsavedSwitchConfirm: language === 'en' ? 'This file has unsaved changes. Continue switching?' : '当前文件有未保存改动，仍要切换吗？',
-      loaded: language === 'en' ? 'File loaded.' : '已载入文件。',
-      unsavedFacetConfirm: language === 'en' ? 'This file has unsaved changes. Continue switching groups?' : '当前文件有未保存改动，仍要切换分组吗？',
-      sameAsSource: language === 'en' ? 'Content matches the source file.' : '内容与源文件一致。',
-      unsaved: language === 'en' ? 'You have unsaved changes.' : '有未保存改动。',
-      reloadConfirm: language === 'en' ? 'This will discard current unsaved changes. Continue reloading?' : '将放弃当前未保存改动，继续重新读取吗？',
-      reloaded: language === 'en' ? 'Source file reloaded.' : '已重新读取源文件。',
-      saving: language === 'en' ? 'Saving to the source file...' : '正在保存到源文件...',
-      saveFailed: language === 'en' ? 'Save failed' : '保存失败',
-      saved: language === 'en' ? 'Saved to the source file.' : '已保存到源文件。',
+      noMatches: language === 'en' ? 'No matching files' : '沒有匹配檔案',
+      unsavedBeforeSwitch: language === 'en' ? 'This file has unsaved changes. Save or restore it before switching.' : '當前檔案有未儲存改動，請先儲存或恢復後再切換。',
+      switchedTo: language === 'en' ? 'Switched to' : '已切換到',
+      availableFiles: language === 'en' ? 'available files' : '可選檔案',
+      noFilesForFilter: language === 'en' ? 'No files match the current filter.' : '當前篩選下沒有檔案。',
+      showing: language === 'en' ? 'Showing' : '當前顯示',
+      chooseLeft: language === 'en' ? 'Pick a file from the left.' : '可在左側選擇具體檔案。',
+      untitled: language === 'en' ? 'Untitled file' : '未命名檔案',
+      updatedAt: language === 'en' ? 'Updated' : '更新於',
+      reading: language === 'en' ? 'Reading source file...' : '正在讀取原始檔...',
+      readFailed: language === 'en' ? 'Read failed' : '讀取失敗',
+      unsavedSwitchConfirm: language === 'en' ? 'This file has unsaved changes. Continue switching?' : '當前檔案有未儲存改動，仍要切換嗎？',
+      loaded: language === 'en' ? 'File loaded.' : '已載入檔案。',
+      unsavedFacetConfirm: language === 'en' ? 'This file has unsaved changes. Continue switching groups?' : '當前檔案有未儲存改動，仍要切換分組嗎？',
+      sameAsSource: language === 'en' ? 'Content matches the source file.' : '內容與原始檔一致。',
+      unsaved: language === 'en' ? 'You have unsaved changes.' : '有未儲存改動。',
+      reloadConfirm: language === 'en' ? 'This will discard current unsaved changes. Continue reloading?' : '將放棄當前未儲存改動，繼續重新讀取嗎？',
+      reloaded: language === 'en' ? 'Source file reloaded.' : '已重新讀取原始檔。',
+      saving: language === 'en' ? 'Saving to the source file...' : '正在儲存到原始檔...',
+      saveFailed: language === 'en' ? 'Save failed' : '儲存失敗',
+      saved: language === 'en' ? 'Saved to the source file.' : '已儲存到原始檔。',
     };
 
     const facetLabel = (key) => {
@@ -16615,7 +16615,7 @@ function renderFileWorkbenchScript(): string {
       }
       setStatus(language === 'en'
         ? l.showing + ' ' + facetLabel(activeFacet) + ' files. ' + l.chooseLeft
-        : l.showing + ' ' + facetLabel(activeFacet) + ' 的文件。' + l.chooseLeft);
+        : l.showing + ' ' + facetLabel(activeFacet) + ' 的檔案。' + l.chooseLeft);
     };
 
     const applyPayload = (payload, message) => {
@@ -17511,80 +17511,80 @@ function buildParitySurfaceRows(input: {
   return [
     {
       id: "sessions",
-      name: "会话可见性",
+      name: "會話可見性",
       route: "/sessions",
       status: input.sessionCount > 0 ? "enabled" : "warn",
       detail:
         input.sessionCount > 0
-          ? `可见会话 ${input.sessionCount} 条。`
-          : "页面可用，等待实时会话数据。",
+          ? `可見會話 ${input.sessionCount} 條。`
+          : "頁面可用，等待實時會話資料。",
     },
     {
       id: "approvals",
-      name: "审批与决策队列",
+      name: "審批與決策佇列",
       route: "/?section=projects-tasks&quick=attention#tracked-task-view",
       status: "enabled",
-      detail: `待审批 ${input.pendingApprovals} 条，决策队列可用。`,
+      detail: `待審批 ${input.pendingApprovals} 條，決策佇列可用。`,
     },
     {
       id: "cron",
-      name: "定时调度",
+      name: "定時排程",
       route: "/cron",
       status: input.cronCount > 0 ? "enabled" : "warn",
-      detail: input.cronCount > 0 ? `已追踪 ${input.cronCount} 个定时任务。` : "调度页面可用，但尚未上报任务。",
+      detail: input.cronCount > 0 ? `已追蹤 ${input.cronCount} 個定時任務。` : "排程頁面可用，但尚未上報任務。",
     },
     {
       id: "projects_tasks",
-      name: "项目与任务",
+      name: "專案與任務",
       route: "/?section=projects-tasks",
       status: input.projectCount + input.taskCount > 0 ? "enabled" : "warn",
-      detail: `${input.projectCount} 个项目，${input.taskCount} 个任务。`,
+      detail: `${input.projectCount} 個專案，${input.taskCount} 個任務。`,
     },
     {
       id: "usage",
-      name: "用量与费用",
+      name: "用量與費用",
       route: "/?section=usage-cost",
       status: input.usageConnected ? "enabled" : "warn",
-      detail: input.usageConnected ? "运行时用量信号已连接。" : "页面可用，但数据源未连接。",
+      detail: input.usageConnected ? "執行時用量訊號已連線。" : "頁面可用，但資料來源未連線。",
     },
     {
       id: "replay",
-      name: "回放与审计",
+      name: "回放與審計",
       route: "/audit",
       status: input.replayCount > 0 ? "enabled" : "warn",
-      detail: input.replayCount > 0 ? `可用时间线事件 ${input.replayCount} 条。` : "页面可用，但暂无时间线事件。",
+      detail: input.replayCount > 0 ? `可用時間線事件 ${input.replayCount} 條。` : "頁面可用，但暫無時間線事件。",
     },
     {
       id: "health_digest",
-      name: "健康与日报",
+      name: "健康與日報",
       route: "/digest/latest",
       status: input.digestConnected ? "enabled" : "warn",
       detail: input.digestConnected
-        ? "健康与日报入口均可用。"
-        : "健康入口可用，日报将在监控周期后生成。",
+        ? "健康與日報入口均可用。"
+        : "健康入口可用，日報將在監控週期後生成。",
     },
     {
       id: "export_import",
-      name: "导出 / 导入演练",
+      name: "匯出 / 匯入演練",
       route: "/?section=settings",
       status: input.importGuard.defaultMode === "blocked" ? "warn" : "enabled",
-      detail: `导入默认模式：${input.importGuard.defaultMode}，导出入口可用。`,
+      detail: `匯入預設模式：${input.importGuard.defaultMode}，匯出入口可用。`,
     },
     {
       id: "pixel",
-      name: "像素画布适配",
+      name: "畫素畫布適配",
       route: "/view/pixel-state.json",
       status: "enabled",
-      detail: "像素场景接口可用。",
+      detail: "畫素場景介面可用。",
     },
     {
       id: "subscription",
-      name: "订阅用量与余量",
+      name: "訂閱用量與餘量",
       route: "/?section=usage-cost",
       status: input.subscriptionConnected ? "enabled" : "warn",
       detail: input.subscriptionConnected
-        ? `订阅数据已连接${input.budgetConnected ? "，预算预测已启用。" : "。"}`
-        : "订阅页面可用，本地账单快照尚未连接。",
+        ? `訂閱資料已連線${input.budgetConnected ? "，預算預測已啟用。" : "。"}`
+        : "訂閱頁面可用，本地賬單快照尚未連線。",
     },
   ];
 }
@@ -17650,13 +17650,13 @@ function renderQuotaWindowRow(
   const resetAt = input.resetAt?.trim();
   const resetText =
     !resetAt
-      ? pickUiText(language, "Reset not provided", "重置时间未提供")
-      : `${escapeHtml(pickUiText(language, "Reset", "重置"))} <span data-quota-reset-at="${escapeHtml(resetAt)}" data-quota-window="${escapeHtml(input.label)}">${escapeHtml(pickUiText(language, "Loading...", "加载中..."))}</span>`;
+      ? pickUiText(language, "Reset not provided", "重置時間未提供")
+      : `${escapeHtml(pickUiText(language, "Reset", "重置"))} <span data-quota-reset-at="${escapeHtml(resetAt)}" data-quota-window="${escapeHtml(input.label)}">${escapeHtml(pickUiText(language, "Loading...", "載入中..."))}</span>`;
   return `<div class="quota-row">
     <div class="quota-head">
       <span class="quota-label">${escapeHtml(input.label)}</span>
       <span class="quota-value">${escapeHtml(pickUiText(language, "Used", "已用"))} ${escapeHtml(usedText)} · ${escapeHtml(
-        pickUiText(language, "Remaining", "剩余"),
+        pickUiText(language, "Remaining", "剩餘"),
       )} ${escapeHtml(remainingText)}</span>
     </div>
     <div class="quota-track"><div class="quota-fill" style="width:${fillWidth.toFixed(1)}%;"></div></div>
@@ -17699,7 +17699,7 @@ function renderSubscriptionSidebarSummary(
       ? `<div class="meta">${subscription.status === "connected" ? pickUiText(language, "Used", "已用") : pickUiText(language, "Estimated used", "估算已用")}：${escapeHtml(formatSubscriptionNumericField(subscription.consumed, subscription.unit, subscription.status === "connected" ? "used" : "estimated_used", language))}</div>`
       : "",
     typeof subscription.remaining === "number"
-      ? `<div class="meta">${subscription.status === "connected" ? pickUiText(language, "Remaining", "剩余") : pickUiText(language, "Estimated remaining", "估算剩余")}：${escapeHtml(formatSubscriptionNumericField(subscription.remaining, subscription.unit, subscription.status === "connected" ? "remaining" : "estimated_remaining", language))}</div>`
+      ? `<div class="meta">${subscription.status === "connected" ? pickUiText(language, "Remaining", "剩餘") : pickUiText(language, "Estimated remaining", "估算剩餘")}：${escapeHtml(formatSubscriptionNumericField(subscription.remaining, subscription.unit, subscription.status === "connected" ? "remaining" : "estimated_remaining", language))}</div>`
       : "",
   ]
     .filter((item) => item.length > 0)
@@ -17712,10 +17712,10 @@ function renderSubscriptionStatusCard(
 ): string {
   const statusLabel =
     subscription.status === "connected"
-      ? pickUiText(language, "Connected", "已连接")
+      ? pickUiText(language, "Connected", "已連線")
       : subscription.status === "partial"
-        ? pickUiText(language, "Partially connected", "部分连接")
-        : pickUiText(language, "Not connected", "未连接");
+        ? pickUiText(language, "Partially connected", "部分連線")
+        : pickUiText(language, "Not connected", "未連線");
   if (subscription.status === "not_connected") {
     const hasEstimatedWindow =
       typeof subscription.consumed === "number" ||
@@ -17727,23 +17727,23 @@ function renderSubscriptionStatusCard(
             ? `<div class="meta">${escapeHtml(pickUiText(language, "Estimated used", "估算已用"))}：${escapeHtml(formatSubscriptionNumericField(subscription.consumed, subscription.unit, "consumed", language))}</div>`
             : "",
           typeof subscription.remaining === "number"
-            ? `<div class="meta">${escapeHtml(pickUiText(language, "Estimated remaining", "估算剩余"))}：${escapeHtml(formatSubscriptionNumericField(subscription.remaining, subscription.unit, "remaining", language))}</div>`
+            ? `<div class="meta">${escapeHtml(pickUiText(language, "Estimated remaining", "估算剩餘"))}：${escapeHtml(formatSubscriptionNumericField(subscription.remaining, subscription.unit, "remaining", language))}</div>`
             : "",
           typeof subscription.limit === "number"
-            ? `<div class="meta">${escapeHtml(pickUiText(language, "Estimated total", "估算总额"))}：${escapeHtml(formatSubscriptionNumericField(subscription.limit, subscription.unit, "limit", language))}</div>`
+            ? `<div class="meta">${escapeHtml(pickUiText(language, "Estimated total", "估算總額"))}：${escapeHtml(formatSubscriptionNumericField(subscription.limit, subscription.unit, "limit", language))}</div>`
             : "",
         ]
           .filter((item) => item.length > 0)
           .join("")
       : "";
     return `<div class="empty-state">
-      <div><strong>${escapeHtml(pickUiText(language, "Subscription data is not connected.", "订阅数据未接通。"))}</strong> ${escapeHtml(
-        pickUiText(language, "Current balance is estimated.", "当前余额为估算值。"),
+      <div><strong>${escapeHtml(pickUiText(language, "Subscription data is not connected.", "訂閱資料未接通。"))}</strong> ${escapeHtml(
+        pickUiText(language, "Current balance is estimated.", "當前餘額為估算值。"),
       )}</div>
       ${estimateRows}
       <div class="toolbar">
         <a class="btn" href="/?section=settings#tool-connectors">${escapeHtml(
-          pickUiText(language, "Open data connection settings", "前往数据连接设置"),
+          pickUiText(language, "Open data connection settings", "前往資料連線設定"),
         )}</a>
       </div>
     </div>`;
@@ -17760,15 +17760,15 @@ function renderSubscriptionStatusCard(
       subscription.secondaryRemainingPercent ??
         (typeof secondaryUsed === "number" ? 100 - secondaryUsed : undefined),
     );
-    const primarySummary = `${pickUiText(language, "Primary window", "主窗口")} ${normalizeQuotaWindowLabel(subscription.primaryWindowLabel, "5h")} · ${pickUiText(language, "Used", "已用")} ${typeof primaryUsed === "number" ? `${primaryUsed.toFixed(1)}%` : "—"} · ${pickUiText(language, "Remaining", "剩余")} ${typeof primaryRemaining === "number" ? `${primaryRemaining.toFixed(1)}%` : "—"}`;
+    const primarySummary = `${pickUiText(language, "Primary window", "主視窗")} ${normalizeQuotaWindowLabel(subscription.primaryWindowLabel, "5h")} · ${pickUiText(language, "Used", "已用")} ${typeof primaryUsed === "number" ? `${primaryUsed.toFixed(1)}%` : "—"} · ${pickUiText(language, "Remaining", "剩餘")} ${typeof primaryRemaining === "number" ? `${primaryRemaining.toFixed(1)}%` : "—"}`;
     const primaryReset =
       subscription.primaryResetAt?.trim()
-        ? `<span>${escapeHtml(pickUiText(language, "Reset", "重置"))} <span data-quota-reset-at="${escapeHtml(subscription.primaryResetAt)}" data-quota-window="${escapeHtml(normalizeQuotaWindowLabel(subscription.primaryWindowLabel, "5h"))}">${escapeHtml(pickUiText(language, "Loading...", "加载中..."))}</span></span>`
+        ? `<span>${escapeHtml(pickUiText(language, "Reset", "重置"))} <span data-quota-reset-at="${escapeHtml(subscription.primaryResetAt)}" data-quota-window="${escapeHtml(normalizeQuotaWindowLabel(subscription.primaryWindowLabel, "5h"))}">${escapeHtml(pickUiText(language, "Loading...", "載入中..."))}</span></span>`
         : "";
     return `<div class="subscription-pill">
-      <div><strong>${escapeHtml(pickUiText(language, "Quota windows", "额度窗口"))}</strong> ${badge(subscription.status, statusLabel)}</div>
+      <div><strong>${escapeHtml(pickUiText(language, "Quota windows", "額度視窗"))}</strong> ${badge(subscription.status, statusLabel)}</div>
       <div class="meta">${escapeHtml(primarySummary)}${primaryReset ? ` · ${primaryReset}` : ""}</div>
-      <div class="meta">${escapeHtml(pickUiText(language, "Only the key windows are shown: 5h and Week.", "仅显示关键额度：5h 与 Week。"))}</div>
+      <div class="meta">${escapeHtml(pickUiText(language, "Only the key windows are shown: 5h and Week.", "僅顯示關鍵額度：5h 與 Week。"))}</div>
       <div class="quota-compact">
         ${renderQuotaWindowRow({
           label: normalizeQuotaWindowLabel(subscription.primaryWindowLabel, "5h"),
@@ -17796,12 +17796,12 @@ function renderSubscriptionStatusCard(
   return `<div class="subscription-pill">
     <div><strong>${escapeHtml(subscription.planLabel)}</strong> ${badge(subscription.status, statusLabel)}</div>
     <div class="meta">${escapeHtml(pickUiText(language, "Used", "已用"))} ${escapeHtml(used)} · ${escapeHtml(
-      pickUiText(language, "Remaining", "剩余"),
+      pickUiText(language, "Remaining", "剩餘"),
     )} ${escapeHtml(remaining)}</div>
-    <div class="meta">${escapeHtml(pickUiText(language, "Limit", "总额"))}：${escapeHtml(limit)} · ${escapeHtml(
+    <div class="meta">${escapeHtml(pickUiText(language, "Limit", "總額"))}：${escapeHtml(limit)} · ${escapeHtml(
       pickUiText(language, "Usage", "使用率"),
     )}：${escapeHtml(usagePercent)}</div>
-    <div class="meta">${escapeHtml(pickUiText(language, "Cycle", "周期"))}：${escapeHtml(cycleStart)} → ${escapeHtml(cycleEnd)}</div>
+    <div class="meta">${escapeHtml(pickUiText(language, "Cycle", "週期"))}：${escapeHtml(cycleStart)} → ${escapeHtml(cycleEnd)}</div>
   </div>`;
 }
 
@@ -17835,55 +17835,55 @@ export function renderGlobalVisibilityCardForSmoke(language: UiLanguage): string
     tasks: [
       {
         taskType: "cron",
-        taskTypeLabel: pickUiText(language, "Timed jobs", "定时任务"),
-        taskName: pickUiText(language, "Timed jobs", "定时任务"),
-        executor: pickUiText(language, "System service", "系统服务"),
-        currentAction: pickUiText(language, "Timed jobs are on.", "定时任务正在运行。"),
+        taskTypeLabel: pickUiText(language, "Timed jobs", "定時任務"),
+        taskName: pickUiText(language, "Timed jobs", "定時任務"),
+        executor: pickUiText(language, "System service", "系統服務"),
+        currentAction: pickUiText(language, "Timed jobs are on.", "定時任務正在執行。"),
         nextRun: "2026-03-05T13:30:00.000Z",
-        latestResult: pickUiText(language, "Active timed jobs: 1.", "已开启定时任务：1 个。"),
+        latestResult: pickUiText(language, "Active timed jobs: 1.", "已開啟定時任務：1 個。"),
         status: "done",
-        nextAction: pickUiText(language, "Keep timed jobs on and keep each job goal clear.", "保持定时任务开启，并确认每个任务目标清楚。"),
+        nextAction: pickUiText(language, "Keep timed jobs on and keep each job goal clear.", "保持定時任務開啟，並確認每個任務目標清楚。"),
         detailsHref: buildGlobalVisibilityDetailHref("cron", language),
-        detailsLabel: pickUiText(language, "See timed jobs", "查看定时任务"),
+        detailsLabel: pickUiText(language, "See timed jobs", "檢視定時任務"),
       },
       {
         taskType: "heartbeat",
-        taskTypeLabel: pickUiText(language, "Heartbeat", "任务心跳"),
-        taskName: pickUiText(language, "Heartbeat", "任务心跳"),
-        executor: pickUiText(language, "System service", "系统服务"),
-        currentAction: pickUiText(language, "Heartbeat is on.", "任务心跳已开启。"),
+        taskTypeLabel: pickUiText(language, "Heartbeat", "任務心跳"),
+        taskName: pickUiText(language, "Heartbeat", "任務心跳"),
+        executor: pickUiText(language, "System service", "系統服務"),
+        currentAction: pickUiText(language, "Heartbeat is on.", "任務心跳已開啟。"),
         nextRun: "2026-03-05T13:35:00.000Z",
-        latestResult: pickUiText(language, "Active heartbeat checks: 1.", "已开启任务心跳：1 个。"),
+        latestResult: pickUiText(language, "Active heartbeat checks: 1.", "已開啟任務心跳：1 個。"),
         status: "done",
-        nextAction: pickUiText(language, "Check picked tasks and confirm the choices look right.", "查看挑出的任务，确认挑选结果是否合理。"),
+        nextAction: pickUiText(language, "Check picked tasks and confirm the choices look right.", "檢視挑出的任務，確認挑選結果是否合理。"),
         detailsHref: buildGlobalVisibilityDetailHref("heartbeat", language),
-        detailsLabel: pickUiText(language, "See heartbeat checks", "查看任务心跳"),
+        detailsLabel: pickUiText(language, "See heartbeat checks", "檢視任務心跳"),
       },
       {
         taskType: "current_task",
-        taskTypeLabel: pickUiText(language, "Current tasks", "当前任务"),
-        taskName: pickUiText(language, "Current tasks", "当前任务"),
-        executor: pickUiText(language, "Task owners", "任务智能体"),
-        currentAction: pickUiText(language, "Tasks are moving.", "任务正在推进。"),
-        nextRun: pickUiText(language, "Live update", "实时更新"),
-        latestResult: pickUiText(language, "2 tasks moving.", "2 个任务在进行中。"),
+        taskTypeLabel: pickUiText(language, "Current tasks", "當前任務"),
+        taskName: pickUiText(language, "Current tasks", "當前任務"),
+        executor: pickUiText(language, "Task owners", "任務智慧體"),
+        currentAction: pickUiText(language, "Tasks are moving.", "任務正在推進。"),
+        nextRun: pickUiText(language, "Live update", "實時更新"),
+        latestResult: pickUiText(language, "2 tasks moving.", "2 個任務在進行中。"),
         status: "done",
-        nextAction: pickUiText(language, "Keep progress updated.", "持续更新任务进度。"),
+        nextAction: pickUiText(language, "Keep progress updated.", "持續更新任務進度。"),
         detailsHref: buildGlobalVisibilityDetailHref("current_task", language),
-        detailsLabel: pickUiText(language, "See current tasks", "查看当前任务"),
+        detailsLabel: pickUiText(language, "See current tasks", "檢視當前任務"),
       },
       {
         taskType: "tool_call",
-        taskTypeLabel: pickUiText(language, "Tool calls", "工具调用"),
-        taskName: pickUiText(language, "Tool calls", "工具调用"),
-        executor: pickUiText(language, "Active sessions", "活跃会话"),
+        taskTypeLabel: pickUiText(language, "Tool calls", "工具呼叫"),
+        taskName: pickUiText(language, "Tool calls", "工具呼叫"),
+        executor: pickUiText(language, "Active sessions", "活躍會話"),
         currentAction: pickUiText(language, "Tools were used recently.", "最近有工具在使用。"),
-        nextRun: pickUiText(language, "Live update", "实时更新"),
-        latestResult: pickUiText(language, "Tool calls in recent activity: 3.", "最近工具调用：3 次。"),
+        nextRun: pickUiText(language, "Live update", "實時更新"),
+        latestResult: pickUiText(language, "Tool calls in recent activity: 3.", "最近工具呼叫：3 次。"),
         status: "done",
-        nextAction: pickUiText(language, "Review results and keep going.", "看下结果后继续。"),
+        nextAction: pickUiText(language, "Review results and keep going.", "看下結果後繼續。"),
         detailsHref: buildGlobalVisibilityDetailHref("tool_call", language),
-        detailsLabel: pickUiText(language, "See tool calls", "查看工具调用"),
+        detailsLabel: pickUiText(language, "See tool calls", "檢視工具呼叫"),
       },
     ],
     doneCount: 4,
@@ -17891,7 +17891,7 @@ export function renderGlobalVisibilityCardForSmoke(language: UiLanguage): string
     noTaskMessage: pickUiText(
       language,
       "No timed jobs, heartbeat, current tasks, or tool calls yet.",
-      "暂无定时任务、任务心跳、当前任务或工具调用。",
+      "暫無定時任務、任務心跳、當前任務或工具呼叫。",
     ),
     signalCounts: {
       schedule: 1,
@@ -17909,32 +17909,32 @@ export function renderInformationCertaintyCardForSmoke(language: UiLanguage): st
     {
       score: 82,
       badgeStatus: "ok",
-      badgeLabel: pickUiText(language, "High certainty", "高确定性"),
-      headline: pickUiText(language, "This picture is trustworthy enough for day-to-day decisions.", "这张画面已经足够支撑日常判断。"),
-      summary: pickUiText(language, "Most key signals are connected, so you can judge OpenClaw from one screen with relatively high confidence.", "大部分关键信号都已连上，可以比较放心地用这一屏判断 OpenClaw 的当前状态。"),
+      badgeLabel: pickUiText(language, "High certainty", "高確定性"),
+      headline: pickUiText(language, "This picture is trustworthy enough for day-to-day decisions.", "這張畫面已經足夠支撐日常判斷。"),
+      summary: pickUiText(language, "Most key signals are connected, so you can judge OpenClaw from one screen with relatively high confidence.", "大部分關鍵訊號都已連上，可以比較放心地用這一屏判斷 OpenClaw 的當前狀態。"),
       strengths: [
-        pickUiText(language, "The home picture is fresh enough for current-state decisions.", "首页画面够新，可以直接拿来判断当前状态。"),
-        pickUiText(language, "Current execution is visible, not just task records on a board.", "现在能看到真实执行中的会话，而不只是任务板上的记录。"),
+        pickUiText(language, "The home picture is fresh enough for current-state decisions.", "首頁畫面夠新，可以直接拿來判斷當前狀態。"),
+        pickUiText(language, "Current execution is visible, not just task records on a board.", "現在能看到真實執行中的會話，而不只是任務板上的記錄。"),
       ],
-      gaps: [pickUiText(language, "Remaining package room is still unconfirmed.", "套餐剩余额度目前还没有被完全确认。")],
+      gaps: [pickUiText(language, "Remaining package room is still unconfirmed.", "套餐剩餘額度目前還沒有被完全確認。")],
       signals: [
         {
           key: "freshness",
-          label: pickUiText(language, "Live picture", "实时画面"),
+          label: pickUiText(language, "Live picture", "實時畫面"),
           status: "connected",
-          detail: pickUiText(language, "Updated just now; suitable for deciding what is happening now.", "刚刚更新，适合直接判断现在发生了什么。"),
+          detail: pickUiText(language, "Updated just now; suitable for deciding what is happening now.", "剛剛更新，適合直接判斷現在發生了什麼。"),
         },
         {
           key: "live_sessions",
-          label: pickUiText(language, "Live execution", "实时执行"),
+          label: pickUiText(language, "Live execution", "實時執行"),
           status: "connected",
-          detail: pickUiText(language, "3 live sessions are visible right now.", "当前可见 3 个实时执行中的会话。"),
+          detail: pickUiText(language, "3 live sessions are visible right now.", "當前可見 3 個實時執行中的會話。"),
         },
         {
           key: "subscription",
-          label: pickUiText(language, "Subscription room", "订阅额度"),
+          label: pickUiText(language, "Subscription room", "訂閱額度"),
           status: "partial",
-          detail: pickUiText(language, "Subscription data exists, but part of the billing picture is missing.", "订阅数据已经有了，但账单画面还不完整。"),
+          detail: pickUiText(language, "Subscription data exists, but part of the billing picture is missing.", "訂閱資料已經有了，但賬單畫面還不完整。"),
         },
       ],
     },
@@ -17947,31 +17947,31 @@ export function renderTaskCertaintySectionForSmoke(language: UiLanguage): string
     [
       {
         taskId: "task-1",
-        title: pickUiText(language, "Stabilize Mission Control dashboard", "稳定 Mission Control 看板"),
+        title: pickUiText(language, "Stabilize Mission Control dashboard", "穩定 Mission Control 看板"),
         projectTitle: "control-center",
         owner: "Panda",
         score: 84,
         tone: "ok",
-        toneLabel: pickUiText(language, "Evidence is strong", "证据充分"),
-        summary: pickUiText(language, "This task already has enough execution evidence for normal follow-up.", "这个任务已经有足够的执行证据，正常跟进即可。"),
+        toneLabel: pickUiText(language, "Evidence is strong", "證據充分"),
+        summary: pickUiText(language, "This task already has enough execution evidence for normal follow-up.", "這個任務已經有足夠的執行證據，正常跟進即可。"),
         evidence: [
-          pickUiText(language, "Owner: Panda", "负责人：Panda"),
-          pickUiText(language, "2 linked sessions", "已关联 2 个会话"),
+          pickUiText(language, "Owner: Panda", "負責人：Panda"),
+          pickUiText(language, "2 linked sessions", "已關聯 2 個會話"),
         ],
         gaps: [],
         detailHref: buildTaskDetailHref("task-1", language),
       },
       {
         taskId: "task-2",
-        title: pickUiText(language, "Reconnect billing visibility", "补齐账单可见性"),
+        title: pickUiText(language, "Reconnect billing visibility", "補齊賬單可見性"),
         projectTitle: "control-center",
         owner: "Otter",
         score: 41,
         tone: "blocked",
-        toneLabel: pickUiText(language, "Evidence is weak", "证据偏弱"),
-        summary: pickUiText(language, "Right now there is not enough evidence to say this task is truly moving.", "目前还没有足够证据证明这个任务真的在推进。"),
-        evidence: [pickUiText(language, "Owner: Otter", "负责人：Otter")],
-        gaps: [pickUiText(language, "No execution session is linked yet.", "还没有关联执行会话。")],
+        toneLabel: pickUiText(language, "Evidence is weak", "證據偏弱"),
+        summary: pickUiText(language, "Right now there is not enough evidence to say this task is truly moving.", "目前還沒有足夠證據證明這個任務真的在推進。"),
+        evidence: [pickUiText(language, "Owner: Otter", "負責人：Otter")],
+        gaps: [pickUiText(language, "No execution session is linked yet.", "還沒有關聯執行會話。")],
         detailHref: buildTaskDetailHref("task-2", language),
       },
     ],
@@ -18061,7 +18061,7 @@ function stableHashIndex(input: string): number {
 function renderUsagePeriodCards(periods: UsageCostSnapshot["periods"], language: UiLanguage = "zh"): string {
   if (periods.length === 0) {
     return `<div class="empty-state">${escapeHtml(
-      pickUiText(language, "No period snapshot yet because the data source is not connected.", "数据源未连接，暂无周期用量快照。"),
+      pickUiText(language, "No period snapshot yet because the data source is not connected.", "資料來源未連線，暫無週期用量快照。"),
     )}</div>`;
   }
 
@@ -18070,22 +18070,22 @@ function renderUsagePeriodCards(periods: UsageCostSnapshot["periods"], language:
       const periodLabel = usagePeriodLabel(period.key, period.label, language);
       const tokenLabel =
         period.sourceStatus === "not_connected"
-          ? pickUiText(language, "Not connected", "数据源未连接")
+          ? pickUiText(language, "Not connected", "資料來源未連線")
           : formatInt(period.tokens);
       const costLabel =
         period.sourceStatus === "not_connected"
-          ? pickUiText(language, "Not connected", "数据源未连接")
+          ? pickUiText(language, "Not connected", "資料來源未連線")
           : formatCurrency(period.estimatedCost);
       const requestLabel =
         period.requestCountStatus !== "not_connected" && typeof period.requestCount === "number"
           ? String(period.requestCount)
-          : pickUiText(language, "Not connected", "数据源未连接");
+          : pickUiText(language, "Not connected", "資料來源未連線");
       return `<div class="status-chip usage-chip"><span>${escapeHtml(periodLabel)}</span><strong>${escapeHtml(
         pickUiText(language, "AI usage", "AI 用量"),
-      )}：${escapeHtml(tokenLabel)}</strong><span>${escapeHtml(pickUiText(language, "Estimated cost", "预估费用"))}：${escapeHtml(
+      )}：${escapeHtml(tokenLabel)}</strong><span>${escapeHtml(pickUiText(language, "Estimated cost", "預估費用"))}：${escapeHtml(
         costLabel,
-      )}</span><span>${escapeHtml(pickUiText(language, "Requests", "请求数"))}：${escapeHtml(requestLabel)}</span><span>${escapeHtml(
-        pickUiText(language, "Pace", "节奏"),
+      )}</span><span>${escapeHtml(pickUiText(language, "Requests", "請求數"))}：${escapeHtml(requestLabel)}</span><span>${escapeHtml(
+        pickUiText(language, "Pace", "節奏"),
       )}：${escapeHtml(period.pace.label)}</span></div>`;
     })
     .join("");
@@ -18108,7 +18108,7 @@ function renderUsageContextRows(rows: UsageCostSnapshot["contextWindows"], langu
       const usage =
         typeof item.usagePercent === "number"
           ? `${formatInt(item.usedTokens)} / ${formatInt(item.contextLimitTokens ?? 0)} (${item.usagePercent.toFixed(1)}%)`
-          : `${formatInt(item.usedTokens)} / ${pickUiText(language, "Data source not connected", "数据源未连接")}`;
+          : `${formatInt(item.usedTokens)} / ${pickUiText(language, "Data source not connected", "資料來源未連線")}`;
       return `<tr><td>${escapeHtml(item.agentId)}</td><td><code>${escapeHtml(item.sessionKey)}</code></td><td>${escapeHtml(item.model)}<div class="meta">${escapeHtml(item.provider)}</div></td><td>${usage}</td><td>${escapeHtml(item.paceLabel)} ${badge(item.thresholdState)}</td><td>${escapeHtml(item.warningThresholds)}</td></tr>`;
     })
     .join("");
@@ -18194,29 +18194,29 @@ function renderTokenPieChart(
 
 function renderUsageConnectorTodos(todos: UsageCostSnapshot["connectors"]["todos"], language: UiLanguage = "zh"): string {
   if (todos.length === 0) {
-    return `<li>${escapeHtml(pickUiText(language, "All usage connectors are enabled.", "所有用量连接器均已启用。"))}</li>`;
+    return `<li>${escapeHtml(pickUiText(language, "All usage connectors are enabled.", "所有用量聯結器均已啟用。"))}</li>`;
   }
   const simplifyTitle = (raw: string): string => {
     const text = normalizeInlineText(raw);
     const lower = text.toLowerCase();
-    if (lower.includes("context")) return pickUiText(language, "Model context data", "模型上下文数据");
-    if (lower.includes("digest")) return pickUiText(language, "Trend history data", "趋势历史数据");
-    if (lower.includes("request")) return pickUiText(language, "Request count data", "请求计数数据");
-    if (lower.includes("budget")) return pickUiText(language, "Budget limit data", "预算限额数据");
-    if (lower.includes("provider")) return pickUiText(language, "Provider mapping data", "供应商映射数据");
-    if (lower.includes("subscription")) return pickUiText(language, "Subscription billing data", "订阅账单数据");
-    return pickUiText(language, "Data connector item", "数据连接项");
+    if (lower.includes("context")) return pickUiText(language, "Model context data", "模型上下文資料");
+    if (lower.includes("digest")) return pickUiText(language, "Trend history data", "趨勢歷史資料");
+    if (lower.includes("request")) return pickUiText(language, "Request count data", "請求計數資料");
+    if (lower.includes("budget")) return pickUiText(language, "Budget limit data", "預算限額資料");
+    if (lower.includes("provider")) return pickUiText(language, "Provider mapping data", "供應商對映資料");
+    if (lower.includes("subscription")) return pickUiText(language, "Subscription billing data", "訂閱賬單資料");
+    return pickUiText(language, "Data connector item", "資料連線項");
   };
   const simplifyDetail = (raw: string): string => {
     const text = normalizeInlineText(raw);
     const lower = text.toLowerCase();
-    if (lower.includes("subscription")) return pickUiText(language, "Connect the subscription billing data.", "请连接订阅账单数据。");
-    if (lower.includes("digest") || lower.includes("history")) return pickUiText(language, "Keep monitoring running so trend history stays complete.", "请保持监控持续运行，确保趋势数据完整。");
-    if (lower.includes("request")) return pickUiText(language, "Connect the request count source.", "请连接请求计数数据源。");
-    if (lower.includes("provider")) return pickUiText(language, "Complete the model-to-provider mapping.", "请补全模型到供应商的映射。");
-    if (lower.includes("context")) return pickUiText(language, "Connect model context capacity data.", "请连接模型上下文容量信息。");
-    if (lower.includes("budget")) return pickUiText(language, "Configure budget limits so the system can warn early.", "请配置预算限额，便于风险预警。");
-    return pickUiText(language, "Finish the data connection in Settings.", "请在设置页完成数据连接。");
+    if (lower.includes("subscription")) return pickUiText(language, "Connect the subscription billing data.", "請連線訂閱賬單資料。");
+    if (lower.includes("digest") || lower.includes("history")) return pickUiText(language, "Keep monitoring running so trend history stays complete.", "請保持監控持續執行，確保趨勢資料完整。");
+    if (lower.includes("request")) return pickUiText(language, "Connect the request count source.", "請連線請求計數資料來源。");
+    if (lower.includes("provider")) return pickUiText(language, "Complete the model-to-provider mapping.", "請補全模型到供應商的對映。");
+    if (lower.includes("context")) return pickUiText(language, "Connect model context capacity data.", "請連線模型上下文容量資訊。");
+    if (lower.includes("budget")) return pickUiText(language, "Configure budget limits so the system can warn early.", "請配置預算限額，便於風險預警。");
+    return pickUiText(language, "Finish the data connection in Settings.", "請在設定頁完成資料連線。");
   };
   return todos
     .map((item) => `<li><strong>${escapeHtml(simplifyTitle(item.title))}：</strong>${escapeHtml(simplifyDetail(item.detail))}</li>`)
@@ -18240,9 +18240,9 @@ function formatPercent(value: number): string {
 
 function dataConnectionLabel(status: string, language: UiLanguage = "zh"): string {
   const normalized = status.trim().toLowerCase();
-  if (normalized === "connected") return pickUiText(language, "Connected", "已连接");
-  if (normalized === "partial") return pickUiText(language, "Partially connected", "部分连接");
-  if (normalized === "not_connected") return pickUiText(language, "Not connected", "未连接");
+  if (normalized === "connected") return pickUiText(language, "Connected", "已連線");
+  if (normalized === "partial") return pickUiText(language, "Partially connected", "部分連線");
+  if (normalized === "not_connected") return pickUiText(language, "Not connected", "未連線");
   return status;
 }
 
@@ -18258,17 +18258,17 @@ function formatSubscriptionNumericField(value: number | undefined, unit: string,
     if (unit.trim() === "%") return `${value.toFixed(1)}%`;
     return `${formatInt(value)} ${unit}`;
   }
-  return pickUiText(language, `Unavailable: subscription data is missing "${field}"`, `不可用：订阅数据缺少「${field}」`);
+  return pickUiText(language, `Unavailable: subscription data is missing "${field}"`, `不可用：訂閱資料缺少「${field}」`);
 }
 
 function formatSubscriptionTextField(value: string | undefined, field: string, language: UiLanguage = "zh"): string {
   if (typeof value === "string" && value.trim()) return value.trim();
-  return pickUiText(language, `Unavailable: subscription data is missing "${field}"`, `不可用：订阅数据缺少「${field}」`);
+  return pickUiText(language, `Unavailable: subscription data is missing "${field}"`, `不可用：訂閱資料缺少「${field}」`);
 }
 
 function formatSubscriptionPercentField(value: number | undefined, language: UiLanguage = "zh"): string {
   if (typeof value === "number") return `${value.toFixed(1)}%`;
-  return pickUiText(language, "Unavailable: subscription data is missing usage percent", "不可用：订阅数据缺少使用率");
+  return pickUiText(language, "Unavailable: subscription data is missing usage percent", "不可用：訂閱資料缺少使用率");
 }
 
 function normalizeOptionalPatchString(
@@ -18315,13 +18315,13 @@ function isControlCenterMappingUsageTaskLabel(value: string): boolean {
 
 function renderTaskBoard(tasks: TaskListItem[], language: UiLanguage = "zh"): string {
   if (tasks.length === 0) {
-    return `<div class="empty-state">${escapeHtml(pickUiText(language, "No tasks yet. New tasks will enter the board automatically.", "暂无任务。创建任务后会自动进入泳道。"))}</div>`;
+    return `<div class="empty-state">${escapeHtml(pickUiText(language, "No tasks yet. New tasks will enter the board automatically.", "暫無任務。建立任務後會自動進入泳道。"))}</div>`;
   }
   const lanes = TASK_STATES.map((state) => {
     const laneTasks = tasks.filter((task) => task.status === state);
     const cards =
       laneTasks.length === 0
-        ? `<div class="meta" style="margin-top:8px;">${escapeHtml(pickUiText(language, "None", "暂无"))}</div>`
+        ? `<div class="meta" style="margin-top:8px;">${escapeHtml(pickUiText(language, "None", "暫無"))}</div>`
         : laneTasks
             .map(
               (task) =>
@@ -18329,7 +18329,7 @@ function renderTaskBoard(tasks: TaskListItem[], language: UiLanguage = "zh"): st
             )
             .join("");
 
-    return `<div class="lane"><h3>${escapeHtml(taskStateLabel(state, language))}</h3><div class="lane-count">${laneTasks.length} ${escapeHtml(pickUiText(language, "tasks", "个任务"))}</div>${cards}</div>`;
+    return `<div class="lane"><h3>${escapeHtml(taskStateLabel(state, language))}</h3><div class="lane-count">${laneTasks.length} ${escapeHtml(pickUiText(language, "tasks", "個任務"))}</div>${cards}</div>`;
   });
 
   return `<div class="board">${lanes.join("")}</div>`;
@@ -18337,21 +18337,21 @@ function renderTaskBoard(tasks: TaskListItem[], language: UiLanguage = "zh"): st
 
 function renderProjectBoard(projects: ReadModelSnapshot["projectSummaries"], language: UiLanguage = "zh"): string {
   if (projects.length === 0) {
-    return `<div class="empty-state">${escapeHtml(pickUiText(language, "No projects yet. They will appear after project data is connected.", "暂无项目。连接项目数据后会显示。"))}</div>`;
+    return `<div class="empty-state">${escapeHtml(pickUiText(language, "No projects yet. They will appear after project data is connected.", "暫無專案。連線專案資料後會顯示。"))}</div>`;
   }
   const lanes = PROJECT_STATES.map((state) => {
     const laneProjects = projects.filter((project) => project.status === state);
     const cards =
       laneProjects.length === 0
-        ? `<div class="meta" style="margin-top:8px;">${escapeHtml(pickUiText(language, "None", "暂无"))}</div>`
+        ? `<div class="meta" style="margin-top:8px;">${escapeHtml(pickUiText(language, "None", "暫無"))}</div>`
         : laneProjects
             .map(
               (project) =>
-                `<div class="project-chip"><div><code>${escapeHtml(project.projectId)}</code> ${badge(project.status, projectStateLabel(project.status, language))}</div><div>${escapeHtml(project.title)}</div><div class="meta">${escapeHtml(pickUiText(language, "Agent", "智能体"))}：${escapeHtml(project.owner)} | ${escapeHtml(pickUiText(language, "Done", "完成"))}：${project.done}/${project.totalTasks} | ${escapeHtml(pickUiText(language, "Due soon", "即将到期"))}：${project.due}</div></div>`,
+                `<div class="project-chip"><div><code>${escapeHtml(project.projectId)}</code> ${badge(project.status, projectStateLabel(project.status, language))}</div><div>${escapeHtml(project.title)}</div><div class="meta">${escapeHtml(pickUiText(language, "Agent", "智慧體"))}：${escapeHtml(project.owner)} | ${escapeHtml(pickUiText(language, "Done", "完成"))}：${project.done}/${project.totalTasks} | ${escapeHtml(pickUiText(language, "Due soon", "即將到期"))}：${project.due}</div></div>`,
             )
             .join("");
 
-    return `<div class="lane"><h3>${escapeHtml(projectStateLabel(state, language))}</h3><div class="lane-count">${laneProjects.length} ${escapeHtml(pickUiText(language, "projects", "个项目"))}</div>${cards}</div>`;
+    return `<div class="lane"><h3>${escapeHtml(projectStateLabel(state, language))}</h3><div class="lane-count">${laneProjects.length} ${escapeHtml(pickUiText(language, "projects", "個專案"))}</div>${cards}</div>`;
   });
 
   return `<div class="board">${lanes.join("")}</div>`;
@@ -18359,19 +18359,19 @@ function renderProjectBoard(projects: ReadModelSnapshot["projectSummaries"], lan
 
 function renderActionQueue(center: NotificationCenterSnapshot): string {
   if (center.queue.length === 0) {
-    return "<div class=\"empty-state\">暂无决策队列。出现需处理告警后会显示。</div>";
+    return "<div class=\"empty-state\">暫無決策佇列。出現需處理告警後會顯示。</div>";
   }
 
   const items = center.queue
     .slice(0, 20)
     .map((item) => {
       const ackMeta = item.acknowledged
-        ? `<span class="meta">已确认于 ${escapeHtml(item.ackedAt ?? "暂无")}${item.ackExpiresAt ? ` · 到期 ${escapeHtml(item.ackExpiresAt)}` : ""}</span>`
-        : `<form method="POST" action="/action-queue/ack" class="inline-form"><input type="hidden" name="itemId" value="${escapeHtml(item.itemId)}" /><input type="password" name="localToken" placeholder="本地令牌" style="max-width:150px;" /><button class="btn" type="submit">确认</button></form>`;
+        ? `<span class="meta">已確認於 ${escapeHtml(item.ackedAt ?? "暫無")}${item.ackExpiresAt ? ` · 到期 ${escapeHtml(item.ackExpiresAt)}` : ""}</span>`
+        : `<form method="POST" action="/action-queue/ack" class="inline-form"><input type="hidden" name="itemId" value="${escapeHtml(item.itemId)}" /><input type="password" name="localToken" placeholder="本地令牌" style="max-width:150px;" /><button class="btn" type="submit">確認</button></form>`;
       const links =
         item.links.length === 0
           ? ""
-          : `<div class="meta">相关链接：${item.links
+          : `<div class="meta">相關連結：${item.links
               .map((link) => `<a href="${escapeHtml(link.href)}">${escapeHtml(link.label)}</a>`)
               .join(" | ")}</div>`;
       return `<li class="queue-item"><div>${badge(item.level)} <code>${escapeHtml(item.itemId)}</code></div><div class="meta">${escapeHtml(item.message)}</div>${links}<div class="queue-actions">${ackMeta}</div></li>`;
@@ -18383,7 +18383,7 @@ function renderActionQueue(center: NotificationCenterSnapshot): string {
 
 function renderSessionPreviewRows(items: SessionConversationListItem[], language: UiLanguage = "zh"): string {
   if (items.length === 0) {
-    return `<tr><td colspan="6">${escapeHtml(pickUiText(language, "No session data yet.", "暂无会话数据"))}</td></tr>`;
+    return `<tr><td colspan="6">${escapeHtml(pickUiText(language, "No session data yet.", "暫無會話資料"))}</td></tr>`;
   }
 
   return items
@@ -18392,7 +18392,7 @@ function renderSessionPreviewRows(items: SessionConversationListItem[], language
       const latestLabel = item.latestToolName ? `${latestKind}:${item.latestToolName}` : latestKind;
       const latestTime = item.latestHistoryAt ? ` @ ${item.latestHistoryAt}` : "";
       const historyState = item.historyError
-        ? pickUiText(language, `Error: ${item.historyError}`, `错误: ${item.historyError}`)
+        ? pickUiText(language, `Error: ${item.historyError}`, `錯誤: ${item.historyError}`)
         : `${item.historyCount}`;
       const agent = item.agentId ?? "-";
 
@@ -18412,23 +18412,23 @@ function renderSessionDrilldownPage(
   const homeHref = buildHomeHref({ quick: "all" }, true, "overview", language);
   const executionChainCard = executionChain
     ? `<div class="card" id="session-execution-chain">
-    <h2 style="font-size:15px;">${escapeHtml(t("Execution Chain", "执行链"))}</h2>
-    <div class="meta">${badge(executionChain.stage, executionChainStageLabel(executionChain.stage, language))} ${badge(executionChain.accepted ? "accepted" : "idle", t("Accepted", "已接单"))} ${badge(executionChain.spawned ? "spawn" : "idle", t("Spawned", "已派发"))}</div>
+    <h2 style="font-size:15px;">${escapeHtml(t("Execution Chain", "執行鏈"))}</h2>
+    <div class="meta">${badge(executionChain.stage, executionChainStageLabel(executionChain.stage, language))} ${badge(executionChain.accepted ? "accepted" : "idle", t("Accepted", "已接單"))} ${badge(executionChain.spawned ? "spawn" : "idle", t("Spawned", "已派發"))}</div>
     <div class="meta">source=${escapeHtml(executionChain.source)} inferred=${executionChain.inferred ? "yes" : "no"}</div>
     <div class="meta">parent=${escapeHtml(executionChain.parentSessionKey ?? "-")} child=${escapeHtml(executionChain.childSessionKey ?? "-")}</div>
     <div class="meta">acceptedAt=${escapeHtml(executionChain.acceptedAt ?? "-")} spawnedAt=${escapeHtml(executionChain.spawnedAt ?? "-")}</div>
     <div class="meta">${escapeHtml(executionChain.detail)}</div>
   </div>`
     : `<div class="card" id="session-execution-chain">
-    <h2 style="font-size:15px;">${escapeHtml(t("Execution Chain", "执行链"))}</h2>
-    <div class="meta">${escapeHtml(t("No accepted/spawn evidence found yet. If this is a child run session, it will still appear once the session key or history provides a chain signal.", "当前还没有接单/派发证据。如果这是子执行会话，待会话 key 或历史记录补齐链路信号后会显示。"))}</div>
+    <h2 style="font-size:15px;">${escapeHtml(t("Execution Chain", "執行鏈"))}</h2>
+    <div class="meta">${escapeHtml(t("No accepted/spawn evidence found yet. If this is a child run session, it will still appear once the session key or history provides a chain signal.", "當前還沒有接單/派發證據。如果這是子執行會話，待會話 key 或歷史記錄補齊鏈路訊號後會顯示。"))}</div>
   </div>`;
 
   return `<!doctype html>
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>${escapeHtml(t("OpenClaw Control Center Session Drilldown", "OpenClaw 控制中心会话详情"))}</title>
+  <title>${escapeHtml(t("OpenClaw Control Center Session Drilldown", "OpenClaw 控制中心會話詳情"))}</title>
   <style>
     body { font-family: "SF Mono", Menlo, monospace; background: #0b1016; color: #d6e7f9; padding: 16px; margin: 0; }
     a { color: #7dd3fc; }
@@ -18447,7 +18447,7 @@ function renderSessionDrilldownPage(
   </style>
 </head>
 <body>
-  <h1>${escapeHtml(t("Session Drilldown", "会话详情"))}</h1>
+  <h1>${escapeHtml(t("Session Drilldown", "會話詳情"))}</h1>
   <div class="meta"><code>${escapeHtml(detail.session.sessionKey)}</code> | state=${escapeHtml(detail.session.state)} | generatedAt=${escapeHtml(detail.generatedAt)}</div>
 
   <div class="card">
@@ -18461,14 +18461,14 @@ function renderSessionDrilldownPage(
   ${executionChainCard}
 
   <div class="card">
-    <h2 style="font-size:15px;">${escapeHtml(t("Latest Messages / Tool Events", "最近消息 / 工具事件"))}</h2>
+    <h2 style="font-size:15px;">${escapeHtml(t("Latest Messages / Tool Events", "最近訊息 / 工具事件"))}</h2>
     <table>
-      <thead><tr><th>${escapeHtml(t("timestamp", "时间"))}</th><th>${escapeHtml(t("kind", "类型"))}</th><th>${escapeHtml(t("role", "角色"))}</th><th>${escapeHtml(t("tool", "工具"))}</th><th>${escapeHtml(t("status", "状态"))}</th><th>${escapeHtml(t("content", "内容"))}</th></tr></thead>
+      <thead><tr><th>${escapeHtml(t("timestamp", "時間"))}</th><th>${escapeHtml(t("kind", "型別"))}</th><th>${escapeHtml(t("role", "角色"))}</th><th>${escapeHtml(t("tool", "工具"))}</th><th>${escapeHtml(t("status", "狀態"))}</th><th>${escapeHtml(t("content", "內容"))}</th></tr></thead>
       <tbody>${rows}</tbody>
     </table>
   </div>
 
-  <p class="meta"><a href="${escapeHtml(homeHref)}">${escapeHtml(t("Back to overview", "返回总览"))}</a> | <a href="/api/sessions/${encodeURIComponent(detail.session.sessionKey)}?historyLimit=120">${escapeHtml(t("Session JSON API", "会话 JSON 接口"))}</a></p>
+  <p class="meta"><a href="${escapeHtml(homeHref)}">${escapeHtml(t("Back to overview", "返回總覽"))}</a> | <a href="/api/sessions/${encodeURIComponent(detail.session.sessionKey)}?historyLimit=120">${escapeHtml(t("Session JSON API", "會話 JSON 介面"))}</a></p>
 </body>
 </html>`;
 }
@@ -18482,7 +18482,7 @@ export function renderSessionDrilldownPageForSmoke(
 
 function renderSessionHistoryRows(items: SessionHistoryMessage[], language: UiLanguage = "en"): string {
   if (items.length === 0) {
-    return `<tr><td colspan="6">${escapeHtml(pickUiText(language, "Not activated yet", "尚未激活"))}</td></tr>`;
+    return `<tr><td colspan="6">${escapeHtml(pickUiText(language, "Not activated yet", "尚未啟用"))}</td></tr>`;
   }
 
   const newestFirst = [...items].reverse().slice(0, 160);
@@ -18593,7 +18593,7 @@ function renderTaskDetailPage(input: {
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>${escapeHtml(t("Task detail", "任务详情"))} · ${escapeHtml(task.taskId)}</title>
+  <title>${escapeHtml(t("Task detail", "任務詳情"))} · ${escapeHtml(task.taskId)}</title>
   <style>
     body { font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; margin:0; padding:20px; background:#f5f5f7; color:#1d1d1f; }
     .page { max-width: 860px; margin: 0 auto; display:grid; gap:12px; }
@@ -18611,42 +18611,42 @@ function renderTaskDetailPage(input: {
   <div class="page">
     <div class="card">
       <h1>${escapeHtml(task.title)}</h1>
-      <div class="meta">${escapeHtml(t("Task detail page", "任务详情页"))} · ${escapeHtml(t("Generated at", "生成于"))} ${escapeHtml(input.generatedAt)}</div>
+      <div class="meta">${escapeHtml(t("Task detail page", "任務詳情頁"))} · ${escapeHtml(t("Generated at", "生成於"))} ${escapeHtml(input.generatedAt)}</div>
     </div>
     <div class="card">
-      <h2>${escapeHtml(t("Key facts", "关键信息"))}</h2>
+      <h2>${escapeHtml(t("Key facts", "關鍵資訊"))}</h2>
       <div class="meta"><code>${escapeHtml(task.taskId)}</code> ${badge(task.status, taskStateLabel(task.status, language))}</div>
-      <div class="meta">${escapeHtml(t("Project", "项目"))}：${escapeHtml(task.projectTitle)}（${escapeHtml(task.projectId)}）</div>
-      <div class="meta">${escapeHtml(t("Owner", "负责人"))}：${escapeHtml(task.owner)}</div>
-      <div class="meta">${escapeHtml(t("Due time", "截止时间"))}：${escapeHtml(task.dueAt ?? t("Not set", "未设置"))}</div>
-      <div class="meta">${escapeHtml(t("Updated at", "更新时间"))}：${escapeHtml(task.updatedAt)}</div>
-      <div class="meta">${escapeHtml(t("Sessions", "会话"))}：${task.sessionKeys.length > 0 ? task.sessionKeys.map((id) => `<a href="${escapeHtml(buildSessionDetailHref(id, language))}"><code>${escapeHtml(id)}</code></a>`).join(" · ") : escapeHtml(t("None yet", "暂无"))}</div>
+      <div class="meta">${escapeHtml(t("Project", "專案"))}：${escapeHtml(task.projectTitle)}（${escapeHtml(task.projectId)}）</div>
+      <div class="meta">${escapeHtml(t("Owner", "負責人"))}：${escapeHtml(task.owner)}</div>
+      <div class="meta">${escapeHtml(t("Due time", "截止時間"))}：${escapeHtml(task.dueAt ?? t("Not set", "未設定"))}</div>
+      <div class="meta">${escapeHtml(t("Updated at", "更新時間"))}：${escapeHtml(task.updatedAt)}</div>
+      <div class="meta">${escapeHtml(t("Sessions", "會話"))}：${task.sessionKeys.length > 0 ? task.sessionKeys.map((id) => `<a href="${escapeHtml(buildSessionDetailHref(id, language))}"><code>${escapeHtml(id)}</code></a>`).join(" · ") : escapeHtml(t("None yet", "暫無"))}</div>
     </div>
     <div class="card">
-      <h2>${escapeHtml(t("Execution certainty", "确定性判断"))}</h2>
+      <h2>${escapeHtml(t("Execution certainty", "確定性判斷"))}</h2>
       ${
         certaintyCard
           ? `<div class="meta">${badge(certaintyCard.tone, certaintyCard.toneLabel)} · ${certaintyCard.score} ${escapeHtml(t("points", "分"))}</div>
              <div class="meta">${escapeHtml(certaintyCard.summary)}</div>
-             <div class="meta">${escapeHtml(t("Confirmed", "已确认"))}：${escapeHtml(certaintyCard.evidence.join(" · ") || t("No direct evidence yet.", "暂时没有直接证据。"))}</div>
-             <div class="meta">${escapeHtml(t("Still missing", "仍待确认"))}：${escapeHtml(certaintyCard.gaps.join(" · ") || t("No obvious gap right now.", "当前没有明显缺口。"))}</div>`
-          : `<div class="meta">${escapeHtml(t("There is not enough data to judge execution certainty yet.", "当前没有足够数据生成确定性判断。"))}</div>`
+             <div class="meta">${escapeHtml(t("Confirmed", "已確認"))}：${escapeHtml(certaintyCard.evidence.join(" · ") || t("No direct evidence yet.", "暫時沒有直接證據。"))}</div>
+             <div class="meta">${escapeHtml(t("Still missing", "仍待確認"))}：${escapeHtml(certaintyCard.gaps.join(" · ") || t("No obvious gap right now.", "當前沒有明顯缺口。"))}</div>`
+          : `<div class="meta">${escapeHtml(t("There is not enough data to judge execution certainty yet.", "當前沒有足夠資料生成確定性判斷。"))}</div>`
       }
     </div>
     <div class="card">
-      <h2>${escapeHtml(t("Session evidence", "会话证据"))}</h2>
+      <h2>${escapeHtml(t("Session evidence", "會話證據"))}</h2>
       ${
         linkedSessions.length > 0
           ? `<ul class="story-list">${linkedSessions
               .map(
                 (session) =>
-                  `<li><a href="${escapeHtml(session.sessionHref)}"><code>${escapeHtml(session.sessionKey)}</code></a> ${badge(session.state, sessionStateLabel(session.state))}<div class="meta">${escapeHtml(pickUiText(language, "Agent", "智能体"))}：${escapeHtml(session.agentId ?? pickUiText(language, "Unassigned", "未分配"))} · ${escapeHtml(pickUiText(language, "Latest activity", "最近活动"))}：${escapeHtml(session.latestAt ? formatTimeAgoFromNow(session.latestAt, language) : pickUiText(language, "unknown", "未知"))}</div><div class="meta">${escapeHtml(summarizeVisibleSessionSnippet(session.latestSnippet, language, 120))}</div></li>`,
+                  `<li><a href="${escapeHtml(session.sessionHref)}"><code>${escapeHtml(session.sessionKey)}</code></a> ${badge(session.state, sessionStateLabel(session.state))}<div class="meta">${escapeHtml(pickUiText(language, "Agent", "智慧體"))}：${escapeHtml(session.agentId ?? pickUiText(language, "Unassigned", "未分配"))} · ${escapeHtml(pickUiText(language, "Latest activity", "最近活動"))}：${escapeHtml(session.latestAt ? formatTimeAgoFromNow(session.latestAt, language) : pickUiText(language, "unknown", "未知"))}</div><div class="meta">${escapeHtml(summarizeVisibleSessionSnippet(session.latestSnippet, language, 120))}</div></li>`,
               )
               .join("")}</ul>`
-          : `<div class="meta">${escapeHtml(pickUiText(language, "No session evidence is visible yet.", "当前还没有可显示的会话证据。"))}</div>`
+          : `<div class="meta">${escapeHtml(pickUiText(language, "No session evidence is visible yet.", "當前還沒有可顯示的會話證據。"))}</div>`
       }
     </div>
-    <div class="meta"><a href="${escapeHtml(buildHomeHref({ quick: "all" }, true, "projects-tasks", language))}#tracked-task-view">${escapeHtml(pickUiText(language, "Back to tracked tasks", "返回跟踪任务"))}</a></div>
+    <div class="meta"><a href="${escapeHtml(buildHomeHref({ quick: "all" }, true, "projects-tasks", language))}#tracked-task-view">${escapeHtml(pickUiText(language, "Back to tracked tasks", "返回跟蹤任務"))}</a></div>
   </div>
 </body>
 </html>`;
@@ -18670,7 +18670,7 @@ function renderCronJobDetailPage(
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>${escapeHtml(pickUiText(language, "Cron detail", "Cron 详情"))} · ${escapeHtml(job.jobId)}</title>
+  <title>${escapeHtml(pickUiText(language, "Cron detail", "Cron 詳情"))} · ${escapeHtml(job.jobId)}</title>
   <style>
     body { font-family: "SF Pro Text", -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; margin:0; padding:20px; background:#f5f5f7; color:#1d1d1f; }
     .page { max-width: 860px; margin: 0 auto; display:grid; gap:12px; }
@@ -18687,15 +18687,15 @@ function renderCronJobDetailPage(
   <div class="page">
     <div class="card">
       <h1>${escapeHtml(job.name)}</h1>
-      <div class="meta">${escapeHtml(pickUiText(language, "Cron detail page", "Cron 任务详情页"))} · ${escapeHtml(pickUiText(language, "Generated at", "生成于"))} ${escapeHtml(generatedAt)}</div>
+      <div class="meta">${escapeHtml(pickUiText(language, "Cron detail page", "Cron 任務詳情頁"))} · ${escapeHtml(pickUiText(language, "Generated at", "生成於"))} ${escapeHtml(generatedAt)}</div>
     </div>
     <div class="card">
-      <h2>${escapeHtml(pickUiText(language, "Key facts", "关键信息"))}</h2>
+      <h2>${escapeHtml(pickUiText(language, "Key facts", "關鍵資訊"))}</h2>
       <div class="meta"><code>${escapeHtml(job.jobId)}</code> ${badge(job.status, cronHealthLabel(job.status, language))}</div>
-      <div class="meta">${escapeHtml(pickUiText(language, "Agent", "执行智能体"))}：${escapeHtml(job.owner)}</div>
-      <div class="meta">${escapeHtml(pickUiText(language, "Purpose", "任务目的"))}：${escapeHtml(job.purpose)}</div>
-      <div class="meta">${escapeHtml(pickUiText(language, "Schedule", "调度"))}：${escapeHtml(job.schedule)}</div>
-      <div class="meta">${escapeHtml(pickUiText(language, "Next run", "下次运行"))}：${escapeHtml(job.nextRunAt)} · ${escapeHtml(formatSeconds(job.dueInSeconds, language))}</div>
+      <div class="meta">${escapeHtml(pickUiText(language, "Agent", "執行智慧體"))}：${escapeHtml(job.owner)}</div>
+      <div class="meta">${escapeHtml(pickUiText(language, "Purpose", "任務目的"))}：${escapeHtml(job.purpose)}</div>
+      <div class="meta">${escapeHtml(pickUiText(language, "Schedule", "排程"))}：${escapeHtml(job.schedule)}</div>
+      <div class="meta">${escapeHtml(pickUiText(language, "Next run", "下次執行"))}：${escapeHtml(job.nextRunAt)} · ${escapeHtml(formatSeconds(job.dueInSeconds, language))}</div>
     </div>
     <div class="meta"><a href="${escapeHtml(buildHomeHref({ quick: "all" }, true, "overview", language))}#cron-health">${escapeHtml(pickUiText(language, "Back to cron board", "返回 Cron 看板"))}</a></div>
   </div>
@@ -18738,7 +18738,7 @@ function pickPrimaryMetric(metrics: BudgetMetricEvaluation[]): BudgetMetricEvalu
 }
 
 function renderBudgetBars(items: BudgetBarModel[]): string {
-  if (items.length === 0) return "<div class=\"meta\">暂无数据</div>";
+  if (items.length === 0) return "<div class=\"meta\">暫無資料</div>";
 
   return items
     .map((item) => {
@@ -18766,7 +18766,7 @@ function uniqueSorted(values: string[]): string[] {
 
 function renderExceptionsList(feed: CommanderExceptionsFeed): string {
   const top = feed.items.slice(0, 12);
-  if (top.length === 0) return "<li>暂无异常</li>";
+  if (top.length === 0) return "<li>暫無異常</li>";
 
   return top
     .map(
@@ -18779,7 +18779,7 @@ function renderExceptionsList(feed: CommanderExceptionsFeed): string {
 function renderReadinessRows(checklist: DoneChecklistSnapshot): string {
   return checklist.readiness.categories
     .map((item) => {
-      return `<div class="readiness-chip"><div class="label">${escapeHtml(item.category)}</div><div class="score">${item.score}</div><div class="meta">通过=${item.passed} 关注=${item.warn} 失败=${item.failed}</div></div>`;
+      return `<div class="readiness-chip"><div class="label">${escapeHtml(item.category)}</div><div class="score">${item.score}</div><div class="meta">透過=${item.passed} 關注=${item.warn} 失敗=${item.failed}</div></div>`;
     })
     .join("");
 }
@@ -18787,7 +18787,7 @@ function renderReadinessRows(checklist: DoneChecklistSnapshot): string {
 function renderChecklistRows(checklist: DoneChecklistSnapshot): string {
   const top = checklist.items.slice(0, 16);
   if (top.length === 0) {
-    return "<tr><td colspan=\"5\">暂无检查项</td></tr>";
+    return "<tr><td colspan=\"5\">暫無檢查項</td></tr>";
   }
   return top
     .map((item) => {
@@ -18849,7 +18849,7 @@ function renderMetricSummary(item: BudgetEvaluation): string {
 function formatSeconds(value: number | undefined, language: UiLanguage = "en"): string {
   if (!Number.isFinite(value)) return "-";
   const seconds = Math.round(value as number);
-  if (seconds === 0) return language === "zh" ? "现在" : "now";
+  if (seconds === 0) return language === "zh" ? "現在" : "now";
   const abs = Math.abs(seconds);
   const sign = seconds < 0 ? "-" : "";
   if (language === "zh") {
@@ -18859,7 +18859,7 @@ function formatSeconds(value: number | undefined, language: UiLanguage = "en"): 
     if (minutes < 60) return rem === 0 ? `${sign}${minutes}分` : `${sign}${minutes}分${rem}秒`;
     const hours = Math.floor(minutes / 60);
     const remMinutes = minutes % 60;
-    return remMinutes === 0 ? `${sign}${hours}小时` : `${sign}${hours}小时${remMinutes}分`;
+    return remMinutes === 0 ? `${sign}${hours}小時` : `${sign}${hours}小時${remMinutes}分`;
   }
   if (abs < 60) return `${sign}${abs}s`;
   const minutes = Math.floor(abs / 60);
