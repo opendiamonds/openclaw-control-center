@@ -1,6 +1,8 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { randomUUID } from "node:crypto";
 import { existsSync } from "node:fs";
+import { execSync } from "node:child_process";
+import { readFileSync } from "node:fs";
 import { mkdir, readdir, readFile, stat, unlink, writeFile } from "node:fs/promises";
 import { homedir } from "node:os";
 import { basename, dirname, extname, join, relative, resolve } from "node:path";
@@ -545,6 +547,7 @@ interface EditableAgentScope {
   facetKey: string;
   facetLabel: string;
   workspaceRoot: string;
+  node: string;  // "local" | IP address of remote node
 }
 
 type EditableAgentScopeConfigStatus = "configured" | "config_missing" | "config_invalid";
@@ -11988,7 +11991,70 @@ function extractMarkdownHeading(input: string): string | undefined {
   return line.replace(/^#+\s*/, "").trim() || undefined;
 }
 
+
+// ── Multi-node SSH helpers ───────────────────────────────────────────────────
+const ADDITIONAL_OPENCLAW_CONFIGS_NODES = (
+  process.env.ADDITIONAL_OPENCLAW_CONFIGS?.trim() || ""
+)
+  .split(";")
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+function isRemoteWorkspacePath(path: string): boolean {
+  return ADDITIONAL_OPENCLAW_CONFIGS_NODES.some((node) => path.includes(node.split(":")[0]));
+}
+
+function resolveHostFromPath(path: string): string | undefined {
+  return ADDITIONAL_OPENCLAW_CONFIGS_NODES.find((node) => path.includes(node.split(":")[0]));
+}
+
+async function sshReadTextFile(host: string, remotePath: string): Promise<string | undefined> {
+  try {
+    const result = execSync(
+      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} "cat ${remotePath}"`,
+      { timeout: 12000, encoding: "utf8" }
+    );
+    return result as string;
+  } catch {
+    return undefined;
+  }
+}
+
+async function sshWriteTextFile(host: string, remotePath: string, content: string): Promise<boolean> {
+  try {
+    // Use heredoc via SSH to avoid shell escaping issues
+    const lines = content.split("\n");
+    const escaped = lines.map((line) => line.replace(/'/g, "'\\''")).join("\n");
+    execSync(
+      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} 'mkdir -p "$(dirname '${remotePath}')" && cat > '${remotePath}' << 'OPENCLAW_EOF'\n${escaped}\nOPENCLAW_EOF'`,
+      { timeout: 12000 }
+    );
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function sshStatFile(host: string, remotePath: string): Promise<{ mtime: Date; size: number } | undefined> {
+  try {
+    const out = execSync(
+      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} "stat -c '%Y %s' ${remotePath}"`,
+      { timeout: 12000, encoding: "utf8" }
+    ).trim() as string;
+    const [mtimeEpoch, size] = out.split(" ").map(Number);
+    return { mtime: new Date(mtimeEpoch * 1000), size };
+  } catch {
+    return undefined;
+  }
+}
+
+// ── End multi-node SSH helpers ───────────────────────────────────────────────
+
 async function safeReadTextFile(path: string): Promise<string | undefined> {
+  const host = resolveHostFromPath(path);
+  if (host) {
+    return sshReadTextFile(host, path);
+  }
   try {
     return await readFile(path, "utf8");
   } catch {
@@ -12192,9 +12258,22 @@ async function buildEditableFileEntry(input: {
   facetLabel?: string;
 }): Promise<EditableFileEntry | undefined> {
   try {
-    const meta = await stat(input.sourcePath);
-    if (!meta.isFile() || meta.size > EDITABLE_TEXT_FILE_MAX_BYTES) return undefined;
-    const raw = await safeReadTextFile(input.sourcePath);
+    const host = resolveHostFromPath(input.sourcePath);
+    let meta: { mtime: Date; size: number } | undefined;
+    let raw: string | undefined;
+    if (host) {
+      // Remote path: use SSH
+      const statResult = await sshStatFile(host, input.sourcePath);
+      if (!statResult || statResult.size > EDITABLE_TEXT_FILE_MAX_BYTES) return undefined;
+      meta = statResult;
+      raw = await sshReadTextFile(host, input.sourcePath);
+    } else {
+      // Local path: use filesystem
+      const localMeta = await stat(input.sourcePath);
+      if (!localMeta.isFile() || localMeta.size > EDITABLE_TEXT_FILE_MAX_BYTES) return undefined;
+      meta = { mtime: localMeta.mtime, size: localMeta.size };
+      raw = await safeReadTextFile(input.sourcePath);
+    }
     if (raw === undefined) return undefined;
     const relativePath = input.relativeBase
       ? relative(input.relativeBase, input.sourcePath) || basename(input.sourcePath)
@@ -12437,16 +12516,49 @@ async function loadEditableAgentScopesFromConfig(): Promise<{
   scopes: EditableAgentScope[];
 }> {
   const raw = await safeReadTextFile(OPENCLAW_CONFIG_PATH);
-  if (!raw?.trim()) return { status: "config_missing", scopes: [] };
-  try {
-    const scopes = resolveEditableAgentScopesFromConfig(JSON.parse(raw) as unknown);
-    return {
-      status: scopes.length > 0 ? "configured" : "config_invalid",
-      scopes: scopes.length > 0 ? scopes : [buildMainEditableAgentScope()],
-    };
-  } catch {
-    return { status: "config_invalid", scopes: [buildMainEditableAgentScope()] };
+  let allScopes: EditableAgentScope[] = [];
+
+  // Parse local config
+  if (raw?.trim()) {
+    try {
+      const localScopes = resolveEditableAgentScopesFromConfig(JSON.parse(raw) as unknown);
+      if (localScopes.length > 0) allScopes = localScopes;
+    } catch {
+      // ignore
+    }
   }
+
+  // SSH read remote openclaw.json configs from ADDITIONAL_OPENCLAW_CONFIGS_NODES
+  for (const nodeSpec of ADDITIONAL_OPENCLAW_CONFIGS_NODES) {
+    const parts = nodeSpec.split(":");
+    const sshTarget = parts[0];
+    const configPath = parts.length > 1 ? parts[1] : "/home/danniel-c/.openclaw/openclaw.json";
+    try {
+      const remoteRaw = execSync(
+        `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${sshTarget} "cat ${configPath}"`,
+        { timeout: 12000, encoding: "utf8" }
+      ) as string;
+      if (remoteRaw?.trim()) {
+        const remoteScopes = resolveEditableAgentScopesFromRemote(sshTarget, JSON.parse(remoteRaw as string) as unknown);
+        for (const scope of remoteScopes) {
+          const key = normalizeLookupKey(scope.agentId);
+          if (!allScopes.some((s) => normalizeLookupKey(s.agentId) === key)) {
+            allScopes.push(scope);
+          }
+        }
+      }
+    } catch {
+      // ignore SSH failures for this node
+    }
+  }
+
+  if (allScopes.length === 0) {
+    return { status: "config_missing", scopes: [] };
+  }
+  return {
+    status: "configured",
+    scopes: ensureMainEditableAgentScope(allScopes),
+  };
 }
 
 async function loadEditableAgentScopesFromWorkspaceDirs(): Promise<EditableAgentScope[]> {
@@ -12466,6 +12578,7 @@ async function loadEditableAgentScopesFromWorkspaceDirs(): Promise<EditableAgent
         facetKey,
         facetLabel: humanizeOperatorLabel(agentId),
         workspaceRoot: join(agentsRoot, agentId),
+        node: "local",
       });
     }
   } catch {
@@ -12497,11 +12610,44 @@ function resolveEditableAgentScopesFromConfig(input: unknown): EditableAgentScop
       facetKey,
       facetLabel: facetKey === "main" ? "Main" : humanizeOperatorLabel(rawId),
       workspaceRoot,
+      node: "local",
     });
   }
 
   return ensureMainEditableAgentScope(output).sort(compareEditableAgentScopes);
 }
+
+
+// ── Remote config resolver ────────────────────────────────────────────────────
+function resolveEditableAgentScopesFromRemote(sshTarget: string, input: unknown): EditableAgentScope[] {
+  const root = asObject(input);
+  const agents = asObject(root?.agents);
+  const list = asArray(agents?.list);
+  const output: EditableAgentScope[] = [];
+  const seen = new Set<string>();
+
+  for (const item of list) {
+    const row = asObject(item);
+    if (!row) continue;
+    const rawId = asString(row.id)?.trim() ?? asString(row.name)?.trim() ?? "";
+    const facetKey = normalizeLookupKey(rawId);
+    if (!rawId || !facetKey || seen.has(facetKey)) continue;
+    seen.add(facetKey);
+    const workspaceRoot = facetKey === "main"
+      ? `/home/danniel-c/.openclaw`
+      : resolveConfiguredWorkspaceRoot(asString(row.workspace)?.trim(), rawId) ||
+        `/home/danniel-c/.openclaw/workspaces/${rawId}`;
+    output.push({
+      agentId: rawId,
+      facetKey,
+      facetLabel: facetKey === "main" ? "Main" : humanizeOperatorLabel(rawId),
+      workspaceRoot,
+      node: sshTarget,
+    });
+  }
+  return ensureMainEditableAgentScope(output);
+}
+// ── End remote config resolver ──────────────────────────────────────────────
 
 export function resolveEditableAgentScopesFromConfigForSmoke(input: unknown): EditableAgentScope[] {
   return resolveEditableAgentScopesFromConfig(input);
@@ -12533,6 +12679,7 @@ function buildMainEditableAgentScope(): EditableAgentScope {
     facetKey: "main",
     facetLabel: "Main",
     workspaceRoot: OPENCLAW_WORKSPACE_ROOT,
+    node: "local",
   };
 }
 
@@ -12570,6 +12717,7 @@ function resolveEditableAgentScopesFromWorkspaceAgentIds(agentIds: string[]): Ed
       facetKey,
       facetLabel: humanizeOperatorLabel(agentId),
       workspaceRoot: join(OPENCLAW_WORKSPACE_ROOT, "agents", agentId),
+      node: "local",
     });
   }
   return scopes.sort(compareEditableAgentScopes);
@@ -12612,7 +12760,13 @@ async function writeEditableFileContent(
 ): Promise<{ entry: EditableFileEntry; content: string } | undefined> {
   const entry = await resolveEditableFileEntry(scope, sourcePath);
   if (!entry) return undefined;
-  await writeFile(entry.sourcePath, content, "utf8");
+  const host = resolveHostFromPath(entry.sourcePath);
+  if (host) {
+    const ok = await sshWriteTextFile(host, entry.sourcePath, content);
+    if (!ok) return undefined;
+  } else {
+    await writeFile(entry.sourcePath, content, "utf8");
+  }
   return readEditableFile(scope, entry.sourcePath);
 }
 
