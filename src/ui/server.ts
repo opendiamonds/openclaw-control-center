@@ -12758,13 +12758,36 @@ async function writeEditableFileContent(
   sourcePath: string,
   content: string,
 ): Promise<{ entry: EditableFileEntry; content: string } | undefined> {
-  const entry = await resolveEditableFileEntry(scope, sourcePath);
-  if (!entry) return undefined;
+  let entry = await resolveEditableFileEntry(scope, sourcePath);
+
+  // File doesn't exist yet: synthesize a placeholder entry so we can create it
+  if (!entry) {
+    const scopes = await loadEditableAgentScopes();
+    const fileName = basename(sourcePath);
+    const fileDir = dirname(sourcePath);
+    const matchedScope = scopes.find((s) =>
+      fileDir === s.workspaceRoot || fileDir.startsWith(s.workspaceRoot + "/")
+    );
+    entry = {
+      scope,
+      title: fileName,
+      excerpt: "",
+      category: `${matchedScope?.facetLabel ?? "Main"} 核心文件`,
+      sourcePath,
+      relativePath: fileName,
+      updatedAt: new Date().toISOString(),
+      size: 0,
+      facetKey: matchedScope?.facetKey ?? "main",
+      facetLabel: matchedScope?.facetLabel ?? "Main",
+    };
+  }
+
   const host = resolveHostFromPath(entry.sourcePath);
   if (host) {
     const ok = await sshWriteTextFile(host, entry.sourcePath, content);
     if (!ok) return undefined;
   } else {
+    await mkdir(dirname(entry.sourcePath), { recursive: true });
     await writeFile(entry.sourcePath, content, "utf8");
   }
   return readEditableFile(scope, entry.sourcePath);
