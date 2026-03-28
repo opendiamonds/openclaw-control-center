@@ -12864,68 +12864,54 @@ async function loadTeamSnapshot(officeRoster: AgentRosterSnapshot): Promise<Team
     .trim();
   const missionStatement = missionLine && missionLine.length > 8 ? missionLine : fallbackMission;
 
+  // Load local openclaw.json for detailed agent info (model, workspace, tools)
   const raw = await safeReadTextFile(sourcePath);
-  if (!raw) {
-    return {
-      missionStatement,
-      members: officeRoster.entries.map((entry) => ({
-        agentId: entry.agentId,
-        displayName: entry.displayName,
-        model: "未标注",
-        workspace: "未标注",
-        toolsProfile: "default",
-      })),
-      sourcePath,
-      detail: "openclaw.json 未找到，已回退为运行时员工名录。",
-    };
-  }
-  try {
-    const parsed = JSON.parse(raw) as Record<string, unknown>;
-    const agentsRoot = parsed.agents as Record<string, unknown> | undefined;
-    const defaults = (agentsRoot?.defaults ?? {}) as Record<string, unknown>;
-    const defaultModel =
-      (defaults.model as Record<string, unknown> | undefined)?.primary;
-    const list = Array.isArray(agentsRoot?.list) ? agentsRoot?.list : [];
-    const members: TeamMemberSnapshot[] = [];
-    for (const item of list) {
-      if (!item || typeof item !== "object") continue;
-      const obj = item as Record<string, unknown>;
-      const id = typeof obj.id === "string" ? obj.id.trim() : "";
-      if (!id) continue;
-      const tools = (obj.tools ?? {}) as Record<string, unknown>;
-      members.push({
-        agentId: id,
-        displayName:
-          (typeof obj.name === "string" && obj.name.trim()) || id,
-        model:
-          (typeof obj.model === "string" && obj.model.trim()) ||
-          (typeof defaultModel === "string" ? defaultModel : "未标注"),
-        workspace:
-          (typeof obj.workspace === "string" && obj.workspace.trim()) || "未标注",
-        toolsProfile:
-          (typeof tools.profile === "string" && tools.profile.trim()) || "default",
-      });
+  let localAgentsById = new Map<string, { model: string; workspace: string; toolsProfile: string }>();
+  if (raw) {
+    try {
+      const parsed = JSON.parse(raw) as Record<string, unknown>;
+      const agentsRoot = parsed.agents as Record<string, unknown> | undefined;
+      const defaults = (agentsRoot?.defaults ?? {}) as Record<string, unknown>;
+      const defaultModel = (defaults.model as Record<string, unknown> | undefined)?.primary as string | undefined;
+      const list = Array.isArray(agentsRoot?.list) ? agentsRoot?.list : [];
+      for (const item of list) {
+        if (!item || typeof item !== "object") continue;
+        const obj = item as Record<string, unknown>;
+        const id = typeof obj.id === "string" ? obj.id.trim() : "";
+        if (!id) continue;
+        const tools = (obj.tools ?? {}) as Record<string, unknown>;
+        localAgentsById.set(id, {
+          model:
+            (typeof obj.model === "string" && obj.model.trim()) ||
+            (typeof defaultModel === "string" ? defaultModel : "未标注"),
+          workspace: (typeof obj.workspace === "string" && obj.workspace.trim()) || "未标注",
+          toolsProfile: (typeof tools.profile === "string" && tools.profile.trim()) || "default",
+        });
+      }
+    } catch {
+      // ignore parse errors
     }
-    return {
-      missionStatement,
-      members: members.sort((a, b) => a.agentId.localeCompare(b.agentId, "zh-Hans-CN")),
-      sourcePath,
-      detail: `已从 openclaw.json 读取 ${members.length} 名员工。`,
-    };
-  } catch {
-    return {
-      missionStatement,
-      members: officeRoster.entries.map((entry) => ({
-        agentId: entry.agentId,
-        displayName: entry.displayName,
-        model: "未标注",
-        workspace: "未标注",
-        toolsProfile: "default",
-      })),
-      sourcePath,
-      detail: "openclaw.json 解析失败，已回退为运行时员工名录。",
-    };
   }
+
+  // Build members from officeRoster.entries (includes remote nodes) + local detail enrichment
+  const members: TeamMemberSnapshot[] = officeRoster.entries.map((entry) => {
+    const local = localAgentsById.get(entry.agentId);
+    const isRemote = !localAgentsById.has(entry.agentId);
+    return {
+      agentId: entry.agentId,
+      displayName: entry.displayName,
+      model: local?.model ?? (isRemote ? "未标注(remote)" : "未标注"),
+      workspace: local?.workspace ?? (isRemote ? "remote-node" : "未标注"),
+      toolsProfile: local?.toolsProfile ?? "default",
+    };
+  });
+
+  return {
+    missionStatement,
+    members: members.sort((a, b) => a.agentId.localeCompare(b.agentId, "zh-Hans-CN")),
+    sourcePath,
+    detail: `已从 ${officeRoster.detail} 读取 ${members.length} 名员工。`,
+  };
 }
 
 function summarizeFilters(filters: TaskQueryFilters): string {

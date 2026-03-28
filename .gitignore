@@ -32,8 +32,12 @@ docs/assets/*-inspect*.png
 docs/assets/_wk-*.png
 docs/assets/_usage-*.png
 .tmp_*
-1440m
-180m
-720m
-alexfinn-gap-checklist.md
-i18n-missing-list.md
+*.pid
+daemon.log
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+*.temp
+/tmp/
