@@ -12010,8 +12010,10 @@ function resolveHostFromPath(path: string): string | undefined {
 
 async function sshReadTextFile(host: string, remotePath: string): Promise<string | undefined> {
   try {
+    // Strip remote: prefix so SSH gets a clean filesystem path
+    const cleanPath = remotePath.replace(/^remote:[^/]+\//, "/");
     const result = execSync(
-      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} "cat ${remotePath}"`,
+      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} "cat ${cleanPath}"`,
       { timeout: 12000, encoding: "utf8" }
     );
     return result as string;
@@ -12022,11 +12024,12 @@ async function sshReadTextFile(host: string, remotePath: string): Promise<string
 
 async function sshWriteTextFile(host: string, remotePath: string, content: string): Promise<boolean> {
   try {
-    // Use heredoc via SSH to avoid shell escaping issues
+    // Strip remote: prefix so SSH gets a clean filesystem path
+    const cleanPath = remotePath.replace(/^remote:[^/]+\//, "/");
     const lines = content.split("\n");
     const escaped = lines.map((line) => line.replace(/'/g, "'\\''")).join("\n");
     execSync(
-      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} 'mkdir -p "$(dirname '${remotePath}')" && cat > '${remotePath}' << 'OPENCLAW_EOF'\n${escaped}\nOPENCLAW_EOF'`,
+      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} 'mkdir -p "$(dirname '${cleanPath}')" && cat > '${cleanPath}' << 'OPENCLAW_EOF'\n${escaped}\nOPENCLAW_EOF'`,
       { timeout: 12000 }
     );
     return true;
@@ -12037,8 +12040,10 @@ async function sshWriteTextFile(host: string, remotePath: string, content: strin
 
 async function sshStatFile(host: string, remotePath: string): Promise<{ mtime: Date; size: number } | undefined> {
   try {
+    // Strip remote: prefix so SSH gets a clean filesystem path
+    const cleanPath = remotePath.replace(/^remote:[^/]+\//, "/");
     const out = execSync(
-      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} "stat -c '%Y %s' ${remotePath}"`,
+      `ssh -o BatchMode=yes -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no -o ConnectTimeout=8000 ${host} "stat -c '%Y %s' ${cleanPath}"`,
       { timeout: 12000, encoding: "utf8" }
     ).trim() as string;
     const [mtimeEpoch, size] = out.split(" ").map(Number);
@@ -12264,12 +12269,50 @@ async function buildEditableFileEntry(input: {
     if (host) {
       // Remote path: use SSH
       const statResult = await sshStatFile(host, input.sourcePath);
-      if (!statResult || statResult.size > EDITABLE_TEXT_FILE_MAX_BYTES) return undefined;
+      if (!statResult) {
+        // File doesn't exist — return placeholder entry so the UI shows it and user can create it
+        const relativePath = input.relativeBase
+          ? relative(input.relativeBase, input.sourcePath) || basename(input.sourcePath)
+          : basename(input.sourcePath);
+        return {
+          scope: input.scope,
+          title: basename(input.sourcePath) || relativePath,
+          excerpt: "",
+          category: input.category,
+          sourcePath: input.sourcePath,
+          relativePath,
+          updatedAt: "",
+          size: 0,
+          facetKey: input.facetKey,
+          facetLabel: input.facetLabel,
+        };
+      }
+      if (statResult.size > EDITABLE_TEXT_FILE_MAX_BYTES) return undefined;
       meta = statResult;
       raw = await sshReadTextFile(host, input.sourcePath);
     } else {
       // Local path: use filesystem
-      const localMeta = await stat(input.sourcePath);
+      let localMeta;
+      try {
+        localMeta = await stat(input.sourcePath);
+      } catch {
+        // File doesn't exist — return placeholder entry so the UI shows it and user can create it
+        const relativePath = input.relativeBase
+          ? relative(input.relativeBase, input.sourcePath) || basename(input.sourcePath)
+          : basename(input.sourcePath);
+        return {
+          scope: input.scope,
+          title: basename(input.sourcePath) || relativePath,
+          excerpt: "",
+          category: input.category,
+          sourcePath: input.sourcePath,
+          relativePath,
+          updatedAt: "",
+          size: 0,
+          facetKey: input.facetKey,
+          facetLabel: input.facetLabel,
+        };
+      }
       if (!localMeta.isFile() || localMeta.size > EDITABLE_TEXT_FILE_MAX_BYTES) return undefined;
       meta = { mtime: localMeta.mtime, size: localMeta.size };
       raw = await safeReadTextFile(input.sourcePath);
