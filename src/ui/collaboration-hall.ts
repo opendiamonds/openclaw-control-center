@@ -47,10 +47,10 @@ export interface RenderCollaborationHallInput {
 export function renderCollaborationHall(input: RenderCollaborationHallInput): string {
   const t = (en: string, zh: string) => pickUiText(input.language, en, zh);
   const hallHeadline = hallHeadlineText(input.hallSummary.headline, input.language, Boolean(input.selectedTaskCard));
-  const threadTitle = input.selectedTaskCard?.title ?? t("Hall chat", "大厅群聊");
+  const threadTitle = input.selectedTaskCard?.title ?? t("Hall chat", "大廳群聊");
   const threadSubtitle = input.selectedTaskCard
     ? `${input.selectedTaskCard.currentOwnerLabel ?? t("Waiting for owner", "等待 owner")} · ${stageLabel(input.selectedTaskCard.stage, input.language)}`
-    : t("Discussion, execution, handoff, and review should feel like one continuous chat.", "讨论、执行、交接和审核都应该像一条连续的群聊。");
+    : t("Discussion, execution, handoff, and review should feel like one continuous chat.", "討論、執行、交接和稽核都應該像一條連續的群聊。");
   const bootstrap = {
     hallId: input.hall.hallId,
     selectedTaskCardId: input.selectedTaskCard?.taskCardId,
@@ -79,27 +79,27 @@ export function renderCollaborationHall(input: RenderCollaborationHallInput): st
         }
       : null,
     labels: {
-      sendTask: t("Create task", "创建任务"),
-      reply: t("Send reply", "发送回复"),
-      archiveThread: t("Archive thread", "归档线程"),
-      deleteThread: t("Delete thread", "删除线程"),
-      approve: t("Approve", "通过"),
+      sendTask: t("Create task", "建立任務"),
+      reply: t("Send reply", "傳送回覆"),
+      archiveThread: t("Archive thread", "歸檔執行緒"),
+      deleteThread: t("Delete thread", "刪除執行緒"),
+      approve: t("Approve", "透過"),
       reject: t("Request changes", "打回修改"),
       handoff: t("Handoff", "交接"),
-      loading: t("Loading hall…", "正在加载大厅…"),
-      emptyTasks: t("No task cards yet. Start by posting the first task in the hall.", "还没有任务卡。先在大厅里发出第一个任务。"),
-      emptyThread: t("No hall messages yet.", "大厅里还没有消息。"),
-      composerPlaceholder: t("Describe the task, ask a specific agent, or update the current owner…", "描述任务、点名某个 agent，或者补充当前执行反馈…"),
-      approveNote: t("Optional review note", "可选审核备注"),
-      rejectNote: t("Why should it change?", "为什么要打回？"),
-      handoffGoal: t("Handoff goal", "交接目标"),
-      handoffCurrent: t("Current result", "当前结果"),
-      handoffDoneWhen: t("Done when", "完成标准"),
-      handoffBlockers: t("Blockers (comma separated)", "阻塞项（逗号分隔）"),
-      handoffRequires: t("Needs input from (comma separated)", "需要谁配合（逗号分隔）"),
-      showContext: t("Show context", "展开上下文"),
+      loading: t("Loading hall…", "正在載入大廳…"),
+      emptyTasks: t("No task cards yet. Start by posting the first task in the hall.", "還沒有任務卡。先在大廳裡發出第一個任務。"),
+      emptyThread: t("No hall messages yet.", "大廳裡還沒有訊息。"),
+      composerPlaceholder: t("Describe the task, ask a specific agent, or update the current owner…", "描述任務、點名某個 agent，或者補充當前執行反饋…"),
+      approveNote: t("Optional review note", "可選稽核備註"),
+      rejectNote: t("Why should it change?", "為什麼要打回？"),
+      handoffGoal: t("Handoff goal", "交接目標"),
+      handoffCurrent: t("Current result", "當前結果"),
+      handoffDoneWhen: t("Done when", "完成標準"),
+      handoffBlockers: t("Blockers (comma separated)", "阻塞項（逗號分隔）"),
+      handoffRequires: t("Needs input from (comma separated)", "需要誰配合（逗號分隔）"),
+      showContext: t("Show context", "展開上下文"),
       hideContext: t("Hide context", "收起上下文"),
-      stop: t("Stop current", "停止当前"),
+      stop: t("Stop current", "停止當前"),
     },
   };
 
@@ -112,23 +112,23 @@ export function renderCollaborationHall(input: RenderCollaborationHallInput): st
             ${renderHallPixelAvatar(input.hall.title, "hall-room-avatar")}
             <div class="hall-toolbar-copy">
               <div class="hall-room-label">${escapeHtml(t("Shared group chat", "共享群聊"))}</div>
-              <h2>${escapeHtml(t("Collaboration Hall", "协作大厅"))}</h2>
+              <h2>${escapeHtml(t("Collaboration Hall", "協作大廳"))}</h2>
               <p data-hall-headline>${escapeHtml(hallHeadline)}</p>
             </div>
           </div>
           <div class="hall-toolbar-meta">
             <div class="hall-member-strip" data-hall-member-strip>${renderParticipantMiniList(input.hall.participants, input.language)}</div>
-            <div class="hall-toolbar-meta-note" data-hall-toolbar-note>${escapeHtml(t(`${input.hall.participants.length} agents live in this hall.`, `${input.hall.participants.length} 个 agent 正在大厅里。`))}</div>
+            <div class="hall-toolbar-meta-note" data-hall-toolbar-note>${escapeHtml(t(`${input.hall.participants.length} agents live in this hall.`, `${input.hall.participants.length} 個 agent 正在大廳裡。`))}</div>
           </div>
         </div>
         <div class="hall-layout">
           <aside class="hall-pane hall-pane--sidebar">
             <div class="hall-pane-head">
               <div>
-                <h3>${escapeHtml(t("Threads", "线程"))}</h3>
-                <div class="meta">${escapeHtml(t("Each task lives like a chat thread.", "每个任务都像一个聊天线程。"))}</div>
+                <h3>${escapeHtml(t("Threads", "執行緒"))}</h3>
+                <div class="meta">${escapeHtml(t("Each task lives like a chat thread.", "每個任務都像一個聊天執行緒。"))}</div>
               </div>
-              <button type="button" class="hall-secondary-button hall-secondary-button--compact" data-hall-compose-task aria-pressed="false" onclick="return window.__openclawHallOpenNewTaskComposer ? window.__openclawHallOpenNewTaskComposer() : true">${escapeHtml(t("New task", "新任务"))}</button>
+              <button type="button" class="hall-secondary-button hall-secondary-button--compact" data-hall-compose-task aria-pressed="false" onclick="return window.__openclawHallOpenNewTaskComposer ? window.__openclawHallOpenNewTaskComposer() : true">${escapeHtml(t("New task", "新任務"))}</button>
             </div>
             <div class="hall-task-list" data-hall-task-list>${renderTaskCards(input.taskCards, input.selectedTaskCard?.taskCardId, input.language)}</div>
           </aside>
@@ -137,20 +137,20 @@ export function renderCollaborationHall(input: RenderCollaborationHallInput): st
               <div class="hall-thread-identity">
                 ${renderHallPixelAvatar(input.selectedTaskCard?.currentOwnerLabel ?? input.hall.title, "hall-thread-avatar")}
                 <div>
-                  <div class="hall-thread-label" data-hall-thread-label>${escapeHtml(input.selectedTaskCard ? t("Task thread", "任务线程") : t("Shared group chat", "共享群聊"))}</div>
+                  <div class="hall-thread-label" data-hall-thread-label>${escapeHtml(input.selectedTaskCard ? t("Task thread", "任務執行緒") : t("Shared group chat", "共享群聊"))}</div>
                   <h3 data-hall-thread-title>${escapeHtml(threadTitle)}</h3>
                   <div class="hall-thread-subtitle" data-hall-thread-subtitle>${escapeHtml(threadSubtitle)}</div>
                 </div>
               </div>
               <div class="hall-thread-head-actions">
                 <details class="hall-action-menu hall-action-menu--thread" data-hall-thread-menu hidden>
-                  <summary class="hall-secondary-button hall-secondary-button--icon" title="${escapeHtml(t("Thread actions", "线程操作"))}" aria-label="${escapeHtml(t("Thread actions", "线程操作"))}">⋯</summary>
+                  <summary class="hall-secondary-button hall-secondary-button--icon" title="${escapeHtml(t("Thread actions", "執行緒操作"))}" aria-label="${escapeHtml(t("Thread actions", "執行緒操作"))}">⋯</summary>
                   <div class="hall-action-menu-panel hall-action-menu-panel--thread">
-                    <button type="button" class="hall-menu-button" data-hall-archive-thread>${escapeHtml(t("Archive thread", "归档线程"))}</button>
-                    <button type="button" class="hall-menu-button hall-menu-button--danger" data-hall-delete-thread>${escapeHtml(t("Delete thread", "删除线程"))}</button>
+                    <button type="button" class="hall-menu-button" data-hall-archive-thread>${escapeHtml(t("Archive thread", "歸檔執行緒"))}</button>
+                    <button type="button" class="hall-menu-button hall-menu-button--danger" data-hall-delete-thread>${escapeHtml(t("Delete thread", "刪除執行緒"))}</button>
                   </div>
                 </details>
-                <button type="button" class="hall-context-toggle" data-hall-toggle-context aria-pressed="false">${escapeHtml(t("Show context", "展开上下文"))}</button>
+                <button type="button" class="hall-context-toggle" data-hall-toggle-context aria-pressed="false">${escapeHtml(t("Show context", "展開上下文"))}</button>
               </div>
             </div>
             <div class="hall-thread" data-hall-thread>${renderHallMessages(input.messages, input.language)}</div>
@@ -169,7 +169,7 @@ export function renderCollaborationHall(input: RenderCollaborationHallInput): st
                   ></textarea>
                   <div class="hall-composer-actions">
                     <details class="hall-action-menu">
-                      <summary class="hall-secondary-button hall-secondary-button--icon" title="${escapeHtml(t("Task actions", "任务动作"))}" aria-label="${escapeHtml(t("Task actions", "任务动作"))}">＋</summary>
+                      <summary class="hall-secondary-button hall-secondary-button--icon" title="${escapeHtml(t("Task actions", "任務動作"))}" aria-label="${escapeHtml(t("Task actions", "任務動作"))}">＋</summary>
                       <div class="hall-action-menu-panel">
                         <button type="button" class="hall-menu-button" data-hall-create-task>${escapeHtml(bootstrap.labels.sendTask)}</button>
                         <button type="button" class="hall-menu-button" data-hall-approve>${escapeHtml(bootstrap.labels.approve)}</button>
@@ -177,7 +177,7 @@ export function renderCollaborationHall(input: RenderCollaborationHallInput): st
                         <button type="button" class="hall-menu-button" data-hall-handoff>${escapeHtml(bootstrap.labels.handoff)}</button>
                       </div>
                     </details>
-                    <button type="button" class="hall-secondary-button hall-secondary-button--icon" data-hall-stop-task title="${escapeHtml(t("Stop current task", "停止当前任务"))}" aria-label="${escapeHtml(t("Stop current task", "停止当前任务"))}" hidden>■</button>
+                    <button type="button" class="hall-secondary-button hall-secondary-button--icon" data-hall-stop-task title="${escapeHtml(t("Stop current task", "停止當前任務"))}" aria-label="${escapeHtml(t("Stop current task", "停止當前任務"))}" hidden>■</button>
                     <button type="submit" class="hall-button hall-button--send" data-hall-send-reply onclick="return window.__openclawHallSendReply ? window.__openclawHallSendReply(event) : true">${escapeHtml(bootstrap.labels.reply)}</button>
                   </div>
                 </div>
@@ -192,12 +192,12 @@ export function renderCollaborationHall(input: RenderCollaborationHallInput): st
             <div class="hall-pane-head">
               <div class="hall-pane-head-copy">
                 <h3>${escapeHtml(t("Context", "上下文"))}</h3>
-                <div class="meta">${escapeHtml(t("Support the chat with owner, decision, evidence, and review state.", "这里只做群聊的辅助上下文：owner、决策、证据和审核状态。"))}</div>
+                <div class="meta">${escapeHtml(t("Support the chat with owner, decision, evidence, and review state.", "這裡只做群聊的輔助上下文：owner、決策、證據和稽核狀態。"))}</div>
               </div>
               <button type="button" class="hall-context-toggle hall-context-toggle--inline" data-hall-toggle-context aria-pressed="false">${escapeHtml(t("Hide context", "收起上下文"))}</button>
             </div>
             <div class="hall-detail-group">
-              <h4>${escapeHtml(t("Team", "成员"))}</h4>
+              <h4>${escapeHtml(t("Team", "成員"))}</h4>
               <div class="hall-roster">${renderParticipantRoster(input.hall.participants, input.language)}</div>
             </div>
             <div data-hall-detail>${renderHallDetail(input.selectedTaskCard, input.selectedTaskSummary, input.selectedTask, input.hall.participants, input.language)}</div>
@@ -316,11 +316,11 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   const textLinkedRoom = ${JSON.stringify(pickUiText(language, "Linked room", "關聯執行緒"))};
   const textSummary = ${JSON.stringify(pickUiText(language, "Summary", "摘要"))};
   const textTypingMore = (count) => ${language === "zh"
-    ? JSON.stringify("等 ") + " + count + " + JSON.stringify(" 位 agent 正在输入…")
+    ? JSON.stringify("等 ") + " + count + " + JSON.stringify(" 位 agent 正在輸入…")
     : JSON.stringify("and ") + " + count + " + JSON.stringify(" more are typing…")};
-  const draftTaskPrompt = ${JSON.stringify("请帮我拆一下这个任务，先讨论方案，再指定执行者。")};
-  const askImplementationPrompt = ${JSON.stringify("请先评估实现路径。")};
-  const askDecisionPrompt = ${JSON.stringify("请先收口并指定执行者。")};
+  const draftTaskPrompt = ${JSON.stringify("請幫我拆一下這個任務，先討論方案，再指定執行者。")};
+  const askImplementationPrompt = ${JSON.stringify("請先評估實現路徑。")};
+  const askDecisionPrompt = ${JSON.stringify("請先收口並指定執行者。")};
   const taskList = root.querySelector('[data-hall-task-list]');
   const thread = root.querySelector('[data-hall-thread]');
   const decisionPanel = root.querySelector('[data-hall-decision-panel]');
@@ -1060,7 +1060,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     const title = String(taskCard?.title || '').trim();
     const stripped = sentence
       .replace(new RegExp('^' + title.replace(/[.*+?^$()|[\]\\]/g, '\\$&') + '[:：,，\\s-]*', 'i'), '')
-      .replace(/^(关于|针对|For|About)\\s*/i, '')
+      .replace(/^(關於|針對|For|About)\\s*/i, '')
       .trim();
     if (!stripped) return '';
     return stripped.length > 34 ? stripped.slice(0, 34).trim() + '…' : stripped;
@@ -1073,22 +1073,22 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     if (!participant) return index === 0 ? ('Take the first concrete pass' + (focus ? ' around ' + focus + '.' : '.')) : ('Pick up the next step' + (focus ? ' around ' + focus + '.' : '.'));
     if (participant.semanticRole === 'planner') {
       return /video|story|narrative|motion|animation/.test(lower)
-        ? ('先把 brief 钉住：目标受众、核心信息、故事线和第一版样片范围' + (focus ? '，重点围绕：' + focus + '。' : '。'))
-        : ('先把需求收成一版明确 brief：范围、约束、成功标准' + (focus ? '，重点围绕：' + focus + '。' : '。'));
+        ? ('先把 brief 釘住：目標受眾、核心資訊、故事線和第一版樣片範圍' + (focus ? '，重點圍繞：' + focus + '。' : '。'))
+        : ('先把需求收成一版明確 brief：範圍、約束、成功標準' + (focus ? '，重點圍繞：' + focus + '。' : '。'));
     }
     if (participant.semanticRole === 'coder') {
       return /video|story|narrative|motion|animation/.test(lower)
-        ? ('做第一版可评审样片 / storyboard / motion sample，不直接做满' + (focus ? '，重点落实：' + focus + '。' : '。'))
-        : ('完成第一版可运行/可评审结果，并把产物贴回群里' + (focus ? '，重点落实：' + focus + '。' : '。'));
+        ? ('做第一版可評審樣片 / storyboard / motion sample，不直接做滿' + (focus ? '，重點落實：' + focus + '。' : '。'))
+        : ('完成第一版可執行/可評審結果，並把產物貼回群裡' + (focus ? '，重點落實：' + focus + '。' : '。'));
     }
-    if (participant.semanticRole === 'reviewer') return '检查上一位的结果，指出必须改的点；如果没有硬阻塞，就直接把可继续版本交给下一位。';
-    if (participant.semanticRole === 'manager') return '收口这轮结果，锁定一句结论和下一步；如果后面还有 owner，就直接把明确动作交给下一位。';
-    return index === 0 ? ('先做第一版可评审结果' + (focus ? '，重点是：' + focus + '。' : '。')) : ('承接上一步继续推进' + (focus ? '，重点延续：' + focus + '。' : '。'));
+    if (participant.semanticRole === 'reviewer') return '檢查上一位的結果，指出必須改的點；如果沒有硬阻塞，就直接把可繼續版本交給下一位。';
+    if (participant.semanticRole === 'manager') return '收口這輪結果，鎖定一句結論和下一步；如果後面還有 owner，就直接把明確動作交給下一位。';
+    return index === 0 ? ('先做第一版可評審結果' + (focus ? '，重點是：' + focus + '。' : '。')) : ('承接上一步繼續推進' + (focus ? '，重點延續：' + focus + '。' : '。'));
   };
   const defaultExecutionItemHandoff = (taskCard, participantId, index, order) => {
     const nextParticipantId = order[index + 1];
     const nextLabel = nextParticipantId ? participantLabel(nextParticipantId) : '';
-    if (nextLabel) return '完成后在群里贴结果，并 @' + nextLabel + ' 接着做。';
+    if (nextLabel) return '完成後在群裡貼結果，並 @' + nextLabel + ' 接著做。';
     return String(taskCard?.doneWhen || '');
   };
   const buildExecutionItemsDraft = (taskCard, order, existingItems = []) => {
@@ -1558,12 +1558,12 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
       const content = String(message.content || '').trim();
       if (!content) return false;
       return /Execution order updated:/i.test(content)
-        || /顺序已更新/.test(content)
+        || /順序已更新/.test(content)
         || /Handoff moved to .*planned next owner/i.test(content)
         || /Manager handed the room to Reviewer\./i.test(content)
-        || /现在请老板评审/.test(content)
-        || /推进到可评审状态/.test(content)
-        || /已经可评审了/.test(content);
+        || /現在請老闆評審/.test(content)
+        || /推進到可評審狀態/.test(content)
+        || /已經可評審了/.test(content);
     };
     const comparableMessageText = (content) => String(content || '')
       .replace(/<br\\s*\\/?>/gi, '\\n')
@@ -2196,7 +2196,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     const plannedOwnerLabel = plannedOwnerId ? participantLabel(plannedOwnerId) : '';
     setFlash(
       refreshedTaskCard?.stage !== 'execution' && plannedOwnerLabel
-        ? ('顺序排好了。下一步点“开始执行（' + plannedOwnerLabel + '）”。')
+        ? ('順序排好了。下一步點“開始執行（' + plannedOwnerLabel + '）”。')
         : ${JSON.stringify(pickUiText(language, "The queue is updated. Let the current owner finish this pass first.", "後續順序已更新，先讓當前 owner 把這一棒走完。"))},
     );
   };
@@ -2319,7 +2319,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
       textarea.value = '';
       autoResizeComposer();
       focusComposer();
-      setFlash('已切回讨论，可以继续追问。');
+      setFlash('已切回討論，可以繼續追問。');
     };
     void reopen().catch((error) => setFlash(error instanceof Error ? error.message : String(error)));
     return false;
@@ -2467,7 +2467,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     if (addId) {
       executionPlannerFocusParticipantId = addId;
       replaceExecutionOrderDraft([...executionOrderDraft, addId]);
-      setFlash('已加入执行顺序：' + participantLabel(addId));
+      setFlash('已加入執行順序：' + participantLabel(addId));
       return;
     }
     const removeId = target.closest('[data-hall-order-remove]')?.getAttribute('data-hall-order-remove');
@@ -2803,9 +2803,9 @@ function renderHallMessages(messages: HallMessage[], language: UiLanguage): stri
       <strong>${escapeHtml(pickUiText(language, "The hall is quiet", "大廳現在很安靜"))}</strong>
       <span>${escapeHtml(pickUiText(language, "Start with one task, or @ a real agent by name. Discussion, execution, and review will all show up here.", "從一個任務開始，或者直接 @ 一個真實 agent。討論、執行和稽核都會繼續寫回這裡。"))}</span>
       <div class="hall-empty-actions">
-        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请帮我拆一下这个任务，先讨论方案，再指定执行者。') : false">${escapeHtml(pickUiText(language, "Draft a first task", "起草第一個任務"))}</button>
-        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请先评估实现路径。') : false">${escapeHtml(pickUiText(language, "Ask for an implementation take", "先評估實現路徑"))}</button>
-        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请先收口并指定执行者。') : false">${escapeHtml(pickUiText(language, "Ask for a close and owner", "先收口並指定執行者"))}</button>
+        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('請幫我拆一下這個任務，先討論方案，再指定執行者。') : false">${escapeHtml(pickUiText(language, "Draft a first task", "起草第一個任務"))}</button>
+        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('請先評估實現路徑。') : false">${escapeHtml(pickUiText(language, "Ask for an implementation take", "先評估實現路徑"))}</button>
+        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('請先收口並指定執行者。') : false">${escapeHtml(pickUiText(language, "Ask for a close and owner", "先收口並指定執行者"))}</button>
       </div>
     </div>`;
   }
@@ -2827,12 +2827,12 @@ function renderHallMessages(messages: HallMessage[], language: UiLanguage): stri
     const content = String(message.content || "").trim();
     if (!content) return false;
     return /Execution order updated:/i.test(content) ||
-      /顺序已更新/.test(content) ||
+      /順序已更新/.test(content) ||
       /Handoff moved to .*planned next owner/i.test(content) ||
       /Manager handed the room to Reviewer\./i.test(content) ||
-      /现在请老板评审/.test(content) ||
-      /推进到可评审状态/.test(content) ||
-      /已经可评审了/.test(content);
+      /現在請老闆評審/.test(content) ||
+      /推進到可評審狀態/.test(content) ||
+      /已經可評審了/.test(content);
   };
   const comparableMessageText = (content: string | undefined): string => String(content || "")
     .replace(/<br\s*\/?>/gi, "\n")
@@ -2995,7 +2995,7 @@ function renderHallDetail(
         <div class="hall-detail-meta">${escapeHtml(decisionState.hasPendingStartablePlan ? pickUiText(language, "Next action", "下一步") : pickUiText(language, "Execution feed", "執行日誌"))}: ${escapeHtml(decisionState.hasPendingStartablePlan ? (firstPlannedHallOwnerId(selectedTaskCard) ? pickUiText(language, "Click start execution to let the first owner begin. Progress, results, and handoffs will continue in the hall timeline.", "點選“開始執行”後，第一位執行者會正式開始；過程、結果和交接會持續寫回大廳時間線。") : pickUiText(language, "Plan the execution order first. Then you can start the first owner from the same card.", "先安排執行順序，再從同一張卡里開始執行第一位。")) : pickUiText(language, "Stay in this thread to watch status updates, results, handoffs, and review.", "留在這條執行緒裡就能持續看到狀態、結果、交接和稽核。"))}</div>
         <div class="hall-detail-actions hall-decision-actions">
           ${showPrimaryAction ? `<button type="button" class="hall-button" data-hall-start-execution onclick="return window.__openclawHallAssignOwner ? window.__openclawHallAssignOwner() : false">${escapeHtml(detailPrimaryLabel)}</button>` : ""}
-          <button type="button" class="hall-secondary-button hall-secondary-button--accent" data-hall-plan-order onclick="return window.__openclawHallSetExecutionOrder ? window.__openclawHallSetExecutionOrder() : false">${escapeHtml(pickUiText(language, selectedTaskCard.stage === "discussion" ? "Plan execution order" : "Adjust execution order", selectedTaskCard.stage === "discussion" ? "安排后续顺序" : "调整执行顺序"))}</button>
+          <button type="button" class="hall-secondary-button hall-secondary-button--accent" data-hall-plan-order onclick="return window.__openclawHallSetExecutionOrder ? window.__openclawHallSetExecutionOrder() : false">${escapeHtml(pickUiText(language, selectedTaskCard.stage === "discussion" ? "Plan execution order" : "Adjust execution order", selectedTaskCard.stage === "discussion" ? "安排後續順序" : "調整執行順序"))}</button>
           <button type="button" class="hall-secondary-button" data-hall-continue-discussion onclick="return window.__openclawHallContinueDiscussion ? window.__openclawHallContinueDiscussion() : false">${escapeHtml(pickUiText(language, "Continue discussion", "繼續討論"))}</button>
         </div>
       </div>
@@ -3067,7 +3067,7 @@ function renderInitialDecisionPanel(
   const orderButtonLabel = pickUiText(
     language,
     selectedTaskCard.stage === "discussion" ? "Plan execution order" : "Adjust execution order",
-    selectedTaskCard.stage === "discussion" ? "安排后续顺序" : "调整执行顺序",
+    selectedTaskCard.stage === "discussion" ? "安排後續順序" : "調整執行順序",
   );
   const summaryStats = [
     `${pickUiText(language, "Stage", "階段")}：${decisionState.stageText}`,

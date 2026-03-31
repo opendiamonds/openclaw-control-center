@@ -216,8 +216,8 @@ const LONG_TERM_MEMORY_FILE_CANDIDATES = [
   join(OPENCLAW_HOME_DIR, "memory", "MEMORY.md"),
 ];
 const DOC_HUB_DIR_CANDIDATES = [
-  { dir: DOCS_DIR, category: "專案文件" },
-  { dir: join(process.cwd(), "runtime", "digests"), category: "日報文件" },
+  { dir: DOCS_DIR, category: "專案檔案" },
+  { dir: join(process.cwd(), "runtime", "digests"), category: "日報檔案" },
   { dir: join(process.cwd(), "runtime", "evidence"), category: "證據報告" },
 ];
 const DOC_HUB_CHAT_INDEX_PATH = join(process.cwd(), "runtime", "doc-hub-chat.json");
@@ -1147,7 +1147,7 @@ export function startUiServer(port: number, toolClient: ToolClient, options: Sta
         ).join("");
         const docsHref = buildHomeHref({ quick: "all" }, true, "docs", language);
         const homeHref = buildHomeHref({ quick: "all" }, true, "overview", language);
-        const html = `<!doctype html><html><head><meta charset="utf-8" /><title>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 文件"))}</title></head><body><h1>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 文件"))}</h1><ul>${links}</ul><p><a href="${escapeHtml(docsHref)}">${escapeHtml(t("Open document workbench", "開啟文件工作臺"))}</a> · <a href="${escapeHtml(homeHref)}">${escapeHtml(t("Back to control center", "返回控制中心"))}</a></p></body></html>`;
+        const html = `<!doctype html><html><head><meta charset="utf-8" /><title>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 檔案"))}</title></head><body><h1>${escapeHtml(t("OpenClaw Control Center Docs", "OpenClaw Control Center 檔案"))}</h1><ul>${links}</ul><p><a href="${escapeHtml(docsHref)}">${escapeHtml(t("Open document workbench", "開啟檔案工作臺"))}</a> · <a href="${escapeHtml(homeHref)}">${escapeHtml(t("Back to control center", "返回控制中心"))}</a></p></body></html>`;
         return writeText(res, 200, html, "text/html; charset=utf-8");
       }
 
@@ -3709,13 +3709,13 @@ function dashboardSectionLinks(language: UiLanguage): DashboardSectionLink[] {
       return { ...item, label: "協作", blurb: "智慧體交接與協同" };
     }
     if (item.key === "hall-chat") {
-      return { ...item, label: "群聊", blurb: "共享大厅群聊" };
+      return { ...item, label: "群聊", blurb: "共享大廳群聊" };
     }
     if (item.key === "memory") {
       return { ...item, label: "記憶", blurb: "每日與長期記憶" };
     }
     if (item.key === "docs") {
-      return { ...item, label: "文件", blurb: "Main 與當前啟用智慧體核心文件" };
+      return { ...item, label: "檔案", blurb: "Main 與當前啟用智慧體核心檔案" };
     }
     if (item.key === "usage-cost") {
       return { ...item, label: "用量", blurb: "預算與額度" };
@@ -4098,7 +4098,7 @@ function localizeConnectionInsightDetail(
       return pickUiText(
         language,
         "Runtime data is flowing, but the direct Gateway probe is unavailable on this host.",
-        "運行時數據已在流動，但當前機器還拿不到 Gateway 的直接探測結果。",
+        "執行時資料已在流動，但當前機器還拿不到 Gateway 的直接探測結果。",
       );
     }
     return pickUiText(language, "Gateway is not reachable.", "當前還無法連到 Gateway。");
@@ -4120,7 +4120,7 @@ function localizeConnectionInsightDetail(
       return pickUiText(
         language,
         "Runtime data is visible, but config validation is unavailable on this host.",
-        "運行時數據已可見，但當前機器還拿不到配置校驗結果。",
+        "執行時資料已可見，但當前機器還拿不到配置校驗結果。",
       );
     }
     if (item.detail === "openclaw.json probe is unavailable") {
@@ -5833,12 +5833,12 @@ async function renderHtml(
       : activeSection === "hall-chat"
         ? t(
             "Use one shared chat to assign work, watch discussion, and track handoffs between agents.",
-            "在一條共享群聊裡布置任務、觀看討論，並追蹤 Agent 之間的交接。",
+            "在一條共享群聊裡佈置任務、觀看討論，並追蹤 Agent 之間的交接。",
           )
         : activeSection === "collaboration"
           ? t(
               "Follow how work moves between agents: who accepted it, who received the handoff, and where collaboration is currently waiting.",
-              "直接看任务是怎么在智能体之间流转的：谁先接单、后来交给了谁、当前卡在哪一段协作里。",
+              "直接看任務是怎麼在智慧體之間流轉的：誰先接單、後來交給了誰、當前卡在哪一段協作裡。",
             )
         : activeSection === "projects-tasks"
         ? t(
@@ -7436,10 +7436,10 @@ async function renderHtml(
     ? await renderEditableFileWorkbench({
         scope: "workspace",
         language: options.language,
-        title: t("Document workbench", "文件工作臺"),
-        description: t("Keep only Main documents and each active agent's most useful core Markdown files. Saving writes back to the source files.", "只保留 Main 文件，以及當前啟用智慧體最有用、最應該調整的核心 Markdown。儲存後會直接寫回原始檔。"),
+        title: t("Document workbench", "檔案工作臺"),
+        description: t("Keep only Main documents and each active agent's most useful core Markdown files. Saving writes back to the source files.", "只保留 Main 檔案，以及當前啟用智慧體最有用、最應該調整的核心 Markdown。儲存後會直接寫回原始檔。"),
         entries: workspaceFiles,
-        emptyMessage: t("No editable Main documents or core agent documents were found.", "當前沒有發現可編輯的 Main 文件或智慧體核心文件。"),
+        emptyMessage: t("No editable Main documents or core agent documents were found.", "當前沒有發現可編輯的 Main 檔案或智慧體核心檔案。"),
         defaultFacetKey: "main",
         includeAllFacet: false,
         facetOptions: workspaceFacetOptions,
@@ -7448,11 +7448,11 @@ async function renderHtml(
   const documentViewsLabel = joinDisplayList(["Main", ...workspaceFacetOptions.filter((item) => item.key !== "main").map((item) => item.label)], options.language);
   const docsSection = activeSection === "docs" ? `
     <section class="card">
-      <h2>${escapeHtml(t("Document overview", "文件概覽"))}</h2>
-      <div class="meta">${escapeHtml(t("Main documents", "Main 文件"))} ${mainDocumentCount} ${escapeHtml(t("files", "份"))} · ${escapeHtml(t("Agents found", "已發現智慧體"))} ${Math.max(0, workspaceFacetOptions.filter((item) => item.key !== "main").length)} ${escapeHtml(t("items", "個"))}</div>
+      <h2>${escapeHtml(t("Document overview", "檔案概覽"))}</h2>
+      <div class="meta">${escapeHtml(t("Main documents", "Main 檔案"))} ${mainDocumentCount} ${escapeHtml(t("files", "份"))} · ${escapeHtml(t("Agents found", "已發現智慧體"))} ${Math.max(0, workspaceFacetOptions.filter((item) => item.key !== "main").length)} ${escapeHtml(t("items", "個"))}</div>
       <div class="meta">${escapeHtml(t("Available views", "可切換檢視"))}${escapeHtml(options.language === "en" ? ": " : "：")}${escapeHtml(documentViewsLabel)}</div>
-      <div class="meta">${escapeHtml(t("This keeps only Main documents plus the small set of Markdown files that matter most for each active agent.", "這裡只保留 Main 文件，以及當前啟用智慧體最常用、最值得調整的那幾份 Markdown。"))}</div>
-      <div class="meta">${escapeHtml(t("Documents are no longer shown by chat history. They are archived by Main or by active agent.", "不再按會話歷史展示文件，統一按 Main / 當前啟用智慧體歸檔。"))}</div>
+      <div class="meta">${escapeHtml(t("This keeps only Main documents plus the small set of Markdown files that matter most for each active agent.", "這裡只保留 Main 檔案，以及當前啟用智慧體最常用、最值得調整的那幾份 Markdown。"))}</div>
+      <div class="meta">${escapeHtml(t("Documents are no longer shown by chat history. They are archived by Main or by active agent.", "不再按會話歷史展示檔案，統一按 Main / 當前啟用智慧體歸檔。"))}</div>
     </section>
     ${workspaceWorkbench}
   ` : "";
@@ -7781,17 +7781,17 @@ async function renderHtml(
   ` : "";
   const diagnosticsSection = `
     <section class="card" id="diagnostics-card">
-      <h2>${escapeHtml(t("Diagnostics bundle", "诊断包"))}</h2>
+      <h2>${escapeHtml(t("Diagnostics bundle", "診斷包"))}</h2>
       <div class="meta">${escapeHtml(
         t(
           "Collect app/runtime versions, Gateway connectivity, redacted token presence, and recent failed operation IDs in one report.",
-          "一键收集應用与运行时版本、Gateway 接线、已脱敏 token 存在性，以及最近失败操作的 requestId。",
+          "一鍵收集應用與執行時版本、Gateway 接線、已脫敏 token 存在性，以及最近失敗操作的 requestId。",
         ),
       )}</div>
       <div class="toolbar">
-        <a class="btn" href="/api/diagnostics">${escapeHtml(t("Download JSON", "下载 JSON"))}</a>
+        <a class="btn" href="/api/diagnostics">${escapeHtml(t("Download JSON", "下載 JSON"))}</a>
         <a class="btn" href="/api/diagnostics?format=text" target="_blank" rel="noreferrer">${escapeHtml(
-          t("View text report", "查看文本报告"),
+          t("View text report", "檢視文字報告"),
         )}</a>
       </div>
     </section>
@@ -12476,7 +12476,7 @@ async function listEditableWorkspaceFiles(): Promise<EditableFileEntry[]> {
     await append(
       await buildEditableFileEntry({
         scope: "workspace",
-        category: "Main 核心文件",
+        category: "Main 核心檔案",
         sourcePath: join(OPENCLAW_WORKSPACE_ROOT, relativePath),
         relativeBase: OPENCLAW_WORKSPACE_ROOT,
         facetKey: "main",
@@ -12491,7 +12491,7 @@ async function listEditableWorkspaceFiles(): Promise<EditableFileEntry[]> {
       await append(
         await buildEditableFileEntry({
           scope: "workspace",
-          category: `${scope.facetLabel} 核心文件`,
+          category: `${scope.facetLabel} 核心檔案`,
           sourcePath: join(scope.workspaceRoot, fileName),
           relativeBase: OPENCLAW_WORKSPACE_ROOT,
           facetKey: scope.facetKey,
@@ -12815,7 +12815,7 @@ async function writeEditableFileContent(
       scope,
       title: fileName,
       excerpt: "",
-      category: `${matchedScope?.facetLabel ?? "Main"} 核心文件`,
+      category: `${matchedScope?.facetLabel ?? "Main"} 核心檔案`,
       sourcePath,
       relativePath: fileName,
       updatedAt: new Date().toISOString(),
@@ -12939,12 +12939,12 @@ async function renderEditableFileWorkbench(input: {
   const localizeCategoryLabel = (value: string): string => {
     const trimmed = value.trim();
     if (!trimmed) return value;
-    if (trimmed === "共享文件") return t("Shared docs", "共享文件");
+    if (trimmed === "共享檔案") return t("Shared docs", "共享檔案");
     if (trimmed === "Main 長期記憶") return t("Main long-term memory", "Main 長期記憶");
     if (trimmed === "Main 記憶記錄") return t("Main memory log", "Main 記憶記錄");
     if (trimmed.endsWith(" 長期記憶")) return `${trimmed.slice(0, -5)} ${t("long-term memory", "長期記憶")}`;
     if (trimmed.endsWith(" 記憶記錄")) return `${trimmed.slice(0, -5)} ${t("memory log", "記憶記錄")}`;
-    if (trimmed.endsWith(" 核心文件")) return `${trimmed.slice(0, -5)} ${t("core docs", "核心文件")}`;
+    if (trimmed.endsWith(" 核心檔案")) return `${trimmed.slice(0, -5)} ${t("core docs", "核心檔案")}`;
     return trimmed;
   };
   if (input.entries.length === 0) {
