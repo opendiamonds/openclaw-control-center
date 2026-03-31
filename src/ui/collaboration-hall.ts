@@ -226,94 +226,94 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
 
   const labels = bootstrap.labels || {};
   const pickUiText = (currentLanguage, en, zh) => currentLanguage === 'zh' ? zh : en;
-  const textNoThreads = ${JSON.stringify(pickUiText(language, "No threads yet", "还没有线程"))};
+  const textNoThreads = ${JSON.stringify(pickUiText(language, "No threads yet", "還沒有執行緒"))};
   const textWaitingOwner = ${JSON.stringify(pickUiText(language, "Waiting for owner", "等待 owner"))};
-  const textHallQuiet = ${JSON.stringify(pickUiText(language, "The hall is quiet", "大厅现在很安静"))};
-  const textDraftFirstTask = ${JSON.stringify(pickUiText(language, "Draft a first task", "起草第一个任务"))};
-  const textAskImplementationFirst = ${JSON.stringify(pickUiText(language, "Ask for an implementation take", "先评估实现路径"))};
-  const textAskManagerToDecide = ${JSON.stringify(pickUiText(language, "Ask for a close and owner", "先收口并指定执行者"))};
+  const textHallQuiet = ${JSON.stringify(pickUiText(language, "The hall is quiet", "大廳現在很安靜"))};
+  const textDraftFirstTask = ${JSON.stringify(pickUiText(language, "Draft a first task", "起草第一個任務"))};
+  const textAskImplementationFirst = ${JSON.stringify(pickUiText(language, "Ask for an implementation take", "先評估實現路徑"))};
+  const textAskManagerToDecide = ${JSON.stringify(pickUiText(language, "Ask for a close and owner", "先收口並指定執行者"))};
   const textStreaming = ${JSON.stringify(pickUiText(language, "Streaming", "流式中"))};
-  const textSingleTyping = ${JSON.stringify(pickUiText(language, "is typing…", "正在输入…"))};
-  const textMultiTyping = ${JSON.stringify(pickUiText(language, "are typing…", "正在输入…"))};
-  const textTypingNow = ${JSON.stringify(pickUiText(language, "Typing now", "正在输入"))};
-  const textExecutingNow = ${JSON.stringify(pickUiText(language, "Executing", "执行中"))};
-  const textReviewingNow = ${JSON.stringify(pickUiText(language, "Reviewing", "审核中"))};
-  const textQueuedNow = ${JSON.stringify(pickUiText(language, "Queued next", "排队中"))};
+  const textSingleTyping = ${JSON.stringify(pickUiText(language, "is typing…", "正在輸入…"))};
+  const textMultiTyping = ${JSON.stringify(pickUiText(language, "are typing…", "正在輸入…"))};
+  const textTypingNow = ${JSON.stringify(pickUiText(language, "Typing now", "正在輸入"))};
+  const textExecutingNow = ${JSON.stringify(pickUiText(language, "Executing", "執行中"))};
+  const textReviewingNow = ${JSON.stringify(pickUiText(language, "Reviewing", "稽核中"))};
+  const textQueuedNow = ${JSON.stringify(pickUiText(language, "Queued next", "排隊中"))};
   const textIdleNow = ${JSON.stringify(pickUiText(language, "Ready", "待命"))};
-  const textDiscussionResult = ${JSON.stringify(pickUiText(language, "Discussion result", "讨论结论"))};
+  const textDiscussionResult = ${JSON.stringify(pickUiText(language, "Discussion result", "討論結論"))};
   const textProposal = ${JSON.stringify(pickUiText(language, "Proposal", "方案"))};
-  const textDecision = ${JSON.stringify(pickUiText(language, "Decision", "决策"))};
-  const textDoneWhen = ${JSON.stringify(pickUiText(language, "Done when", "完成标准"))};
-  const textSuggestedOrder = ${JSON.stringify(pickUiText(language, "Suggested order", "建议顺序"))};
-  const textSuggestedFirstOwner = ${JSON.stringify(pickUiText(language, "Suggested first owner", "建议第一位执行者"))};
-  const textCurrentOwner = ${JSON.stringify(pickUiText(language, "Current owner", "当前 owner"))};
-  const textStage = ${JSON.stringify(pickUiText(language, "Stage", "阶段"))};
-  const textReadyToStart = ${JSON.stringify(pickUiText(language, "Ready to start", "待开始"))};
-  const textStartExecutionPrefix = ${JSON.stringify(pickUiText(language, "Start execution with", "开始执行（"))};
+  const textDecision = ${JSON.stringify(pickUiText(language, "Decision", "決策"))};
+  const textDoneWhen = ${JSON.stringify(pickUiText(language, "Done when", "完成標準"))};
+  const textSuggestedOrder = ${JSON.stringify(pickUiText(language, "Suggested order", "建議順序"))};
+  const textSuggestedFirstOwner = ${JSON.stringify(pickUiText(language, "Suggested first owner", "建議第一位執行者"))};
+  const textCurrentOwner = ${JSON.stringify(pickUiText(language, "Current owner", "當前 owner"))};
+  const textStage = ${JSON.stringify(pickUiText(language, "Stage", "階段"))};
+  const textReadyToStart = ${JSON.stringify(pickUiText(language, "Ready to start", "待開始"))};
+  const textStartExecutionPrefix = ${JSON.stringify(pickUiText(language, "Start execution with", "開始執行（"))};
   const textStartExecutionSuffix = ${JSON.stringify(pickUiText(language, ")", "）"))};
-  const textPlanExecutionOrder = ${JSON.stringify(pickUiText(language, "Plan execution order", "安排后续顺序"))};
-  const textAdjustExecutionOrder = ${JSON.stringify(pickUiText(language, "Adjust execution order", "调整执行顺序"))};
-  const textContinueDiscussion = ${JSON.stringify(pickUiText(language, "Continue discussion", "继续讨论"))};
-  const textContinueDiscussionSeed = ${JSON.stringify(pickUiText(language, "Let's keep this in discussion for a moment.", "我们先继续讨论这一步，不急着收口。"))};
-  const textNeedToken = ${JSON.stringify(pickUiText(language, "This action requires LOCAL_API_TOKEN.", "这个动作需要 LOCAL_API_TOKEN。"))};
-  const textTokenPrompt = ${JSON.stringify(pickUiText(language, "Enter LOCAL_API_TOKEN to continue.", "请输入 LOCAL_API_TOKEN 以继续。"))};
-  const textTokenRetryPrompt = ${JSON.stringify(pickUiText(language, "The local token was rejected. Enter LOCAL_API_TOKEN again to retry.", "本地令牌验证失败，请重新输入 LOCAL_API_TOKEN 以重试。"))};
-  const textQueuedOwners = ${JSON.stringify(pickUiText(language, "Queued owners", "后续顺序"))};
-  const textPlanningOrder = ${JSON.stringify(pickUiText(language, "Execution order", "执行顺序"))};
-  const textPlannerHint = ${JSON.stringify(pickUiText(language, "Set who should work, what they should do, and when they should hand off.", "设置谁来做、做什么、什么时候交接。"))};
-  const textNoQueuedOwners = ${JSON.stringify(pickUiText(language, "No queued owners yet.", "还没有排好后续顺序。"))};
-  const textAvailableAgents = ${JSON.stringify(pickUiText(language, "Available agents", "可选 agent"))};
-  const textSaveOrder = ${JSON.stringify(pickUiText(language, "Save order", "保存顺序"))};
+  const textPlanExecutionOrder = ${JSON.stringify(pickUiText(language, "Plan execution order", "安排後續順序"))};
+  const textAdjustExecutionOrder = ${JSON.stringify(pickUiText(language, "Adjust execution order", "調整執行順序"))};
+  const textContinueDiscussion = ${JSON.stringify(pickUiText(language, "Continue discussion", "繼續討論"))};
+  const textContinueDiscussionSeed = ${JSON.stringify(pickUiText(language, "Let's keep this in discussion for a moment.", "我們先繼續討論這一步，不急著收口。"))};
+  const textNeedToken = ${JSON.stringify(pickUiText(language, "This action requires LOCAL_API_TOKEN.", "這個動作需要 LOCAL_API_TOKEN。"))};
+  const textTokenPrompt = ${JSON.stringify(pickUiText(language, "Enter LOCAL_API_TOKEN to continue.", "請輸入 LOCAL_API_TOKEN 以繼續。"))};
+  const textTokenRetryPrompt = ${JSON.stringify(pickUiText(language, "The local token was rejected. Enter LOCAL_API_TOKEN again to retry.", "本地令牌驗證失敗，請重新輸入 LOCAL_API_TOKEN 以重試。"))};
+  const textQueuedOwners = ${JSON.stringify(pickUiText(language, "Queued owners", "後續順序"))};
+  const textPlanningOrder = ${JSON.stringify(pickUiText(language, "Execution order", "執行順序"))};
+  const textPlannerHint = ${JSON.stringify(pickUiText(language, "Set who should work, what they should do, and when they should hand off.", "設定誰來做、做什麼、什麼時候交接。"))};
+  const textNoQueuedOwners = ${JSON.stringify(pickUiText(language, "No queued owners yet.", "還沒有排好後續順序。"))};
+  const textAvailableAgents = ${JSON.stringify(pickUiText(language, "Available agents", "可選 agent"))};
+  const textSaveOrder = ${JSON.stringify(pickUiText(language, "Save order", "儲存順序"))};
   const textCancelOrder = ${JSON.stringify(pickUiText(language, "Cancel", "取消"))};
-  const textAddToOrder = ${JSON.stringify(pickUiText(language, "Add to execution order", "加入执行顺序"))};
+  const textAddToOrder = ${JSON.stringify(pickUiText(language, "Add to execution order", "加入執行順序"))};
   const textMoveUp = ${JSON.stringify(pickUiText(language, "Move up", "上移"))};
   const textMoveDown = ${JSON.stringify(pickUiText(language, "Move down", "下移"))};
   const textRemove = ${JSON.stringify(pickUiText(language, "Remove", "移除"))};
-  const textActionItems = ${JSON.stringify(pickUiText(language, "Action items", "行动项"))};
-  const textActionTask = ${JSON.stringify(pickUiText(language, "Task", "任务"))};
-  const textActionHandoffTo = ${JSON.stringify(pickUiText(language, "Hand off to", "交给谁"))};
-  const textActionHandoffWhen = ${JSON.stringify(pickUiText(language, "Handoff when", "交接条件"))};
+  const textActionItems = ${JSON.stringify(pickUiText(language, "Action items", "行動項"))};
+  const textActionTask = ${JSON.stringify(pickUiText(language, "Task", "任務"))};
+  const textActionHandoffTo = ${JSON.stringify(pickUiText(language, "Hand off to", "交給誰"))};
+  const textActionHandoffWhen = ${JSON.stringify(pickUiText(language, "Handoff when", "交接條件"))};
   const textNoHandoff = ${JSON.stringify(pickUiText(language, "No handoff", "不交接"))};
-  const textActionThen = ${JSON.stringify(pickUiText(language, "Then", "然后"))};
-  const textActionThenInline = ${JSON.stringify(pickUiText(language, "; then: ", "；然后："))};
-  const textActionThenTo = ${JSON.stringify(pickUiText(language, "Then hand off to", "然后交给"))};
-  const textNoActionItems = ${JSON.stringify(pickUiText(language, "No selected executors yet.", "还没有已选执行者。"))};
-  const textTaskArtifacts = ${JSON.stringify(pickUiText(language, "Artifacts", "产物"))};
-  const textNoArtifactsYet = ${JSON.stringify(pickUiText(language, "No artifacts yet.", "还没有产物。"))};
-  const textHandoffPanelTitle = ${JSON.stringify(pickUiText(language, "Prepare handoff", "准备交接"))};
-  const textHandoffPanelHint = ${JSON.stringify(pickUiText(language, "Tell the next owner what is done, what remains, and what they should finish.", "把已经完成了什么、还剩什么、下一步该完成什么交代给下一个人。"))};
-  const textHandoffTo = ${JSON.stringify(pickUiText(language, "Next owner", "下一个执行者"))};
-  const textHandoffNextTask = ${JSON.stringify(pickUiText(language, "Their default next step", "对方默认接手的下一步"))};
-  const textHandoffSubmit = ${JSON.stringify(pickUiText(language, "Send handoff", "发送交接"))};
+  const textActionThen = ${JSON.stringify(pickUiText(language, "Then", "然後"))};
+  const textActionThenInline = ${JSON.stringify(pickUiText(language, "; then: ", "；然後："))};
+  const textActionThenTo = ${JSON.stringify(pickUiText(language, "Then hand off to", "然後交給"))};
+  const textNoActionItems = ${JSON.stringify(pickUiText(language, "No selected executors yet.", "還沒有已選執行者。"))};
+  const textTaskArtifacts = ${JSON.stringify(pickUiText(language, "Artifacts", "產物"))};
+  const textNoArtifactsYet = ${JSON.stringify(pickUiText(language, "No artifacts yet.", "還沒有產物。"))};
+  const textHandoffPanelTitle = ${JSON.stringify(pickUiText(language, "Prepare handoff", "準備交接"))};
+  const textHandoffPanelHint = ${JSON.stringify(pickUiText(language, "Tell the next owner what is done, what remains, and what they should finish.", "把已經完成了什麼、還剩什麼、下一步該完成什麼交代給下一個人。"))};
+  const textHandoffTo = ${JSON.stringify(pickUiText(language, "Next owner", "下一個執行者"))};
+  const textHandoffNextTask = ${JSON.stringify(pickUiText(language, "Their default next step", "對方預設接手的下一步"))};
+  const textHandoffSubmit = ${JSON.stringify(pickUiText(language, "Send handoff", "傳送交接"))};
   const textHandoffCancel = ${JSON.stringify(pickUiText(language, "Cancel handoff", "取消交接"))};
-  const textShowDetails = ${JSON.stringify(pickUiText(language, "Show details", "展开详情"))};
-  const textHideDetails = ${JSON.stringify(pickUiText(language, "Hide details", "收起详情"))};
-  const textStopCurrent = ${JSON.stringify(pickUiText(language, "Stop current", "停止当前"))};
-  const textArchiveThread = ${JSON.stringify(pickUiText(language, "Archive thread", "归档线程"))};
-  const textDeleteThread = ${JSON.stringify(pickUiText(language, "Delete thread", "删除线程"))};
-  const textArchiveConfirm = ${JSON.stringify(pickUiText(language, "Archive this thread and hide it from the left list?", "归档这个线程，并把它从左侧列表隐藏？"))};
-  const textDeleteConfirm = ${JSON.stringify(pickUiText(language, "Delete this thread permanently? This will remove its hall history and linked room evidence.", "永久删除这个线程？这会移除它的大厅历史和关联房间证据。"))};
-  const textArchived = ${JSON.stringify(pickUiText(language, "Thread archived.", "线程已归档。"))};
-  const textDeleted = ${JSON.stringify(pickUiText(language, "Thread deleted.", "线程已删除。"))};
-  const textContinueDiscussionHint = ${JSON.stringify(pickUiText(language, "Continue the discussion in the composer below.", "继续在下方输入框里补充讨论。"))};
-  const textStopped = ${JSON.stringify(pickUiText(language, "Stopped the current chain and returned the thread to discussion.", "已停止当前链路，并把线程拉回讨论。"))};
-  const textNewTaskDraft = ${JSON.stringify(pickUiText(language, "New task draft", "新任务草稿"))};
-  const textNewTaskDraftHint = ${JSON.stringify(pickUiText(language, "Describe the request once here. When you press Enter, the hall will create a new thread and immediately start the discussion.", "把需求一次写在这里。你按 Enter 后，大厅会新建线程，并立即开始讨论。"))};
-  const textThreadSwitched = ${JSON.stringify(pickUiText(language, "Switched to thread:", "已切换到线程："))};
-  const textThread = ${JSON.stringify(pickUiText(language, "Thread", "线程"))};
-  const textExecutionPlan = ${JSON.stringify(pickUiText(language, "Execution plan", "执行计划"))};
+  const textShowDetails = ${JSON.stringify(pickUiText(language, "Show details", "展開詳情"))};
+  const textHideDetails = ${JSON.stringify(pickUiText(language, "Hide details", "收起詳情"))};
+  const textStopCurrent = ${JSON.stringify(pickUiText(language, "Stop current", "停止當前"))};
+  const textArchiveThread = ${JSON.stringify(pickUiText(language, "Archive thread", "歸檔執行緒"))};
+  const textDeleteThread = ${JSON.stringify(pickUiText(language, "Delete thread", "刪除執行緒"))};
+  const textArchiveConfirm = ${JSON.stringify(pickUiText(language, "Archive this thread and hide it from the left list?", "歸檔這個執行緒，並把它從左側列表隱藏？"))};
+  const textDeleteConfirm = ${JSON.stringify(pickUiText(language, "Delete this thread permanently? This will remove its hall history and linked room evidence.", "永久刪除這個執行緒？這會移除它的大廳歷史和關聯房間證據。"))};
+  const textArchived = ${JSON.stringify(pickUiText(language, "Thread archived.", "執行緒已歸檔。"))};
+  const textDeleted = ${JSON.stringify(pickUiText(language, "Thread deleted.", "執行緒已刪除。"))};
+  const textContinueDiscussionHint = ${JSON.stringify(pickUiText(language, "Continue the discussion in the composer below.", "繼續在下方輸入框裡補充討論。"))};
+  const textStopped = ${JSON.stringify(pickUiText(language, "Stopped the current chain and returned the thread to discussion.", "已停止當前鏈路，並把執行緒拉回討論。"))};
+  const textNewTaskDraft = ${JSON.stringify(pickUiText(language, "New task draft", "新任務草稿"))};
+  const textNewTaskDraftHint = ${JSON.stringify(pickUiText(language, "Describe the request once here. When you press Enter, the hall will create a new thread and immediately start the discussion.", "把需求一次寫在這裡。你按 Enter 後，大廳會新建執行緒，並立即開始討論。"))};
+  const textThreadSwitched = ${JSON.stringify(pickUiText(language, "Switched to thread:", "已切換到執行緒："))};
+  const textThread = ${JSON.stringify(pickUiText(language, "Thread", "執行緒"))};
+  const textExecutionPlan = ${JSON.stringify(pickUiText(language, "Execution plan", "執行計劃"))};
   const textNextAction = ${JSON.stringify(pickUiText(language, "Next action", "下一步"))};
-  const textExecutionFeed = ${JSON.stringify(pickUiText(language, "Execution feed", "执行日志"))};
-  const textSelectTaskToInspect = ${JSON.stringify(pickUiText(language, "Select a task card to inspect ownership, decision, and evidence.", "选中一张任务卡后，这里会显示 owner、决策和证据信息。"))};
-  const textOpenDetailThread = ${JSON.stringify(pickUiText(language, "Open detail thread", "打开详情线程"))};
-  const textOwnerLabel = ${JSON.stringify(pickUiText(language, "Owner", "当前 owner"))};
-  const textCurrentTaskLabel = ${JSON.stringify(pickUiText(language, "Current step", "当前步骤"))};
-  const textSuggestedFirstTask = ${JSON.stringify(pickUiText(language, "Suggested first step", "建议第一步"))};
-  const textExecutionStartHint = ${JSON.stringify(pickUiText(language, "After the order is ready, click start execution. Progress, results, and handoffs will continue in this thread.", "顺序排好后，点击“开始执行”就会正式进入执行；过程、结果和交接会持续写回这条线程。"))};
-  const textExecutionThreadHint = ${JSON.stringify(pickUiText(language, "Execution updates, results, and handoffs will keep appending to this same thread.", "执行中的过程、结果和交接都会继续写回这条线程。"))};
-  const textEvidence = ${JSON.stringify(pickUiText(language, "Evidence", "证据"))};
-  const textLinkedTask = ${JSON.stringify(pickUiText(language, "Linked task", "关联任务"))};
-  const textLinkedRoom = ${JSON.stringify(pickUiText(language, "Linked room", "关联线程"))};
+  const textExecutionFeed = ${JSON.stringify(pickUiText(language, "Execution feed", "執行日誌"))};
+  const textSelectTaskToInspect = ${JSON.stringify(pickUiText(language, "Select a task card to inspect ownership, decision, and evidence.", "選中一張任務卡後，這裡會顯示 owner、決策和證據資訊。"))};
+  const textOpenDetailThread = ${JSON.stringify(pickUiText(language, "Open detail thread", "開啟詳情執行緒"))};
+  const textOwnerLabel = ${JSON.stringify(pickUiText(language, "Owner", "當前 owner"))};
+  const textCurrentTaskLabel = ${JSON.stringify(pickUiText(language, "Current step", "當前步驟"))};
+  const textSuggestedFirstTask = ${JSON.stringify(pickUiText(language, "Suggested first step", "建議第一步"))};
+  const textExecutionStartHint = ${JSON.stringify(pickUiText(language, "After the order is ready, click start execution. Progress, results, and handoffs will continue in this thread.", "順序排好後，點選“開始執行”就會正式進入執行；過程、結果和交接會持續寫回這條執行緒。"))};
+  const textExecutionThreadHint = ${JSON.stringify(pickUiText(language, "Execution updates, results, and handoffs will keep appending to this same thread.", "執行中的過程、結果和交接都會繼續寫回這條執行緒。"))};
+  const textEvidence = ${JSON.stringify(pickUiText(language, "Evidence", "證據"))};
+  const textLinkedTask = ${JSON.stringify(pickUiText(language, "Linked task", "關聯任務"))};
+  const textLinkedRoom = ${JSON.stringify(pickUiText(language, "Linked room", "關聯執行緒"))};
   const textSummary = ${JSON.stringify(pickUiText(language, "Summary", "摘要"))};
   const textTypingMore = (count) => ${language === "zh"
     ? JSON.stringify("等 ") + " + count + " + JSON.stringify(" 位 agent 正在输入…")
@@ -560,22 +560,22 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   };
   const renderArtifactChips = (artifactRefs) => renderArtifactFooterHtml(artifactRefs);
   const stageLabel = (stage) => ({
-    discussion: ${JSON.stringify(pickUiText(language, "Discussion", "讨论中"))},
-    execution: ${JSON.stringify(pickUiText(language, "Execution", "执行中"))},
-    review: ${JSON.stringify(pickUiText(language, "Review", "审核中"))},
+    discussion: ${JSON.stringify(pickUiText(language, "Discussion", "討論中"))},
+    execution: ${JSON.stringify(pickUiText(language, "Execution", "執行中"))},
+    review: ${JSON.stringify(pickUiText(language, "Review", "稽核中"))},
     blocked: ${JSON.stringify(pickUiText(language, "Blocked", "卡住"))},
     completed: ${JSON.stringify(pickUiText(language, "Completed", "已完成"))},
   }[stage] || stage || '');
   const kindLabel = (kind) => ({
-    task: ${JSON.stringify(pickUiText(language, "Task", "任务"))},
+    task: ${JSON.stringify(pickUiText(language, "Task", "任務"))},
     proposal: ${JSON.stringify(pickUiText(language, "Proposal", "方案"))},
-    decision: ${JSON.stringify(pickUiText(language, "Decision", "决策"))},
+    decision: ${JSON.stringify(pickUiText(language, "Decision", "決策"))},
     handoff: ${JSON.stringify(pickUiText(language, "Handoff", "交接"))},
-    status: ${JSON.stringify(pickUiText(language, "Status", "状态"))},
-    review: ${JSON.stringify(pickUiText(language, "Review", "审核"))},
-    result: ${JSON.stringify(pickUiText(language, "Result", "结果"))},
-    system: ${JSON.stringify(pickUiText(language, "System", "系统"))},
-    chat: ${JSON.stringify(pickUiText(language, "Chat", "对话"))},
+    status: ${JSON.stringify(pickUiText(language, "Status", "狀態"))},
+    review: ${JSON.stringify(pickUiText(language, "Review", "稽核"))},
+    result: ${JSON.stringify(pickUiText(language, "Result", "結果"))},
+    system: ${JSON.stringify(pickUiText(language, "System", "系統"))},
+    chat: ${JSON.stringify(pickUiText(language, "Chat", "對話"))},
   }[kind] || kind || '');
   const roleLabel = (role) => ({
     planner: 'Planner',
@@ -714,7 +714,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     }
     root.classList.toggle('is-composing-task', composerMode === 'task');
     textarea.placeholder = composerMode === 'task'
-      ? ${JSON.stringify(pickUiText(language, "Describe the new task you want the hall to discuss…", "描述你想让大厅先讨论的新任务…"))}
+      ? ${JSON.stringify(pickUiText(language, "Describe the new task you want the hall to discuss…", "描述你想讓大廳先討論的新任務…"))}
       : String(labels.composerPlaceholder || '');
     syncStopButton();
   };
@@ -747,7 +747,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     syncComposerMode();
     setComposerValue('');
     if (thread instanceof HTMLElement) thread.scrollTop = 0;
-    setFlash(${JSON.stringify(pickUiText(language, "Write the new task and press Enter to create it.", "写下新任务后直接按 Enter 创建。"))});
+    setFlash(${JSON.stringify(pickUiText(language, "Write the new task and press Enter to create it.", "寫下新任務後直接按 Enter 建立。"))});
     return false;
   };
   const autoResizeComposer = () => {
@@ -759,8 +759,8 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   };
   const hallHeadlineText = (headline) => {
     return selectedTaskCardId
-      ? ${JSON.stringify(pickUiText(language, "Stay in one thread to discuss, assign, hand off, and review.", "围绕同一条线程讨论、分工、交接和评审。"))}
-      : ${JSON.stringify(pickUiText(language, "Start a task or @ a real agent to begin.", "从一个任务开始，或者直接 @ 一个真实 agent。"))};
+      ? ${JSON.stringify(pickUiText(language, "Stay in one thread to discuss, assign, hand off, and review.", "圍繞同一條執行緒討論、分工、交接和評審。"))}
+      : ${JSON.stringify(pickUiText(language, "Start a task or @ a real agent to begin.", "從一個任務開始，或者直接 @ 一個真實 agent。"))};
   };
   const participantIndex = new Map((Array.isArray(bootstrap.participants) ? bootstrap.participants : []).map((participant) => [participant.participantId, participant]));
   const participantLabel = (participantId) => participantIndex.get(participantId)?.displayName || participantId || 'Agent';
@@ -845,15 +845,15 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     const isNewTaskMode = composerMode === 'task' && !selectedTaskCardId;
     if (threadLabelNode instanceof HTMLElement) {
       threadLabelNode.textContent = isNewTaskMode
-        ? ${JSON.stringify(pickUiText(language, "New task draft", "新任务草稿"))}
+        ? ${JSON.stringify(pickUiText(language, "New task draft", "新任務草稿"))}
         : taskCard
-          ? ${JSON.stringify(pickUiText(language, "Task thread", "任务线程"))}
+          ? ${JSON.stringify(pickUiText(language, "Task thread", "任務執行緒"))}
           : ${JSON.stringify(pickUiText(language, "Shared group chat", "共享群聊"))};
     }
     if (threadTitleNode instanceof HTMLElement) {
       threadTitleNode.textContent = isNewTaskMode
-        ? ${JSON.stringify(pickUiText(language, "Create a new hall task", "创建一个新任务"))}
-        : (taskCard?.title || ${JSON.stringify(pickUiText(language, "Collaboration Hall", "协作大厅"))});
+        ? ${JSON.stringify(pickUiText(language, "Create a new hall task", "建立一個新任務"))}
+        : (taskCard?.title || ${JSON.stringify(pickUiText(language, "Collaboration Hall", "協作大廳"))});
     }
     if (threadSubtitleNode instanceof HTMLElement) {
       const decisionMeta = taskCard ? decisionCardOwnerMeta(taskCard) : null;
@@ -865,7 +865,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
           ].filter(Boolean).join(' · ')
         : '';
       threadSubtitleNode.textContent = isNewTaskMode
-        ? ${JSON.stringify(pickUiText(language, "Write the request here and press Enter to create it.", "在这里写下需求，按 Enter 直接创建。"))}
+        ? ${JSON.stringify(pickUiText(language, "Write the request here and press Enter to create it.", "在這裡寫下需求，按 Enter 直接建立。"))}
         : (taskCard
             ? taskMeta
             : hallHeadlineText(bootstrap?.hallSummary?.headline || ''));
@@ -1047,7 +1047,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
         : (taskCard.currentOwnerLabel + ' ' + (taskCard.stage === 'review' ? textReviewingNow : textExecutingNow));
       return;
     }
-    toolbarMetaNote.textContent = (bootstrap.participants || []).length + ' ' + ${JSON.stringify(pickUiText(language, "agents live in this hall.", "个 agent 正在大厅里。"))};
+    toolbarMetaNote.textContent = (bootstrap.participants || []).length + ' ' + ${JSON.stringify(pickUiText(language, "agents live in this hall.", "個 agent 正在大廳裡。"))};
   };
   const summarizeExecutionFocusDraft = (taskCard) => {
     const raw = [taskCard?.decision, taskCard?.proposal, taskCard?.latestSummary, taskCard?.description]
@@ -2111,7 +2111,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   const assignOwner = async (participantIdOverride) => {
     syncSelectedTaskRefs();
     if (!selectedTaskId) {
-      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先选中一个任务线程。"))});
+      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先選中一個任務執行緒。"))});
       return;
     }
     const taskCard = selectedTaskDetailPayload?.taskCard;
@@ -2152,7 +2152,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   const setExecutionOrder = async (participantIdsOverride) => {
     syncSelectedTaskRefs();
     if (!selectedTaskId) {
-      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先选中一个任务线程。"))});
+      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先選中一個任務執行緒。"))});
       return;
     }
     const participantIds = Array.isArray(participantIdsOverride)
@@ -2197,14 +2197,14 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
     setFlash(
       refreshedTaskCard?.stage !== 'execution' && plannedOwnerLabel
         ? ('顺序排好了。下一步点“开始执行（' + plannedOwnerLabel + '）”。')
-        : ${JSON.stringify(pickUiText(language, "The queue is updated. Let the current owner finish this pass first.", "后续顺序已更新，先让当前 owner 把这一棒走完。"))},
+        : ${JSON.stringify(pickUiText(language, "The queue is updated. Let the current owner finish this pass first.", "後續順序已更新，先讓當前 owner 把這一棒走完。"))},
     );
   };
 
   const reviewTask = async (outcome) => {
     syncSelectedTaskRefs();
     if (!selectedTaskId) {
-      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先选中一个任务线程。"))});
+      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先選中一個任務執行緒。"))});
       return;
     }
     const note = '';
@@ -2224,7 +2224,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   const handoffTask = async () => {
     syncSelectedTaskRefs();
     if (!selectedTaskId) {
-      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先选中一个任务线程。"))});
+      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先選中一個任務執行緒。"))});
       return;
     }
     const participant = (bootstrap.participants || []).find((item) => item.participantId === handoffDraft.toParticipantId);
@@ -2357,7 +2357,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   const stopTask = async () => {
     syncSelectedTaskRefs();
     if (!selectedTaskId) {
-      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先选中一个任务线程。"))});
+      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先選中一個任務執行緒。"))});
       return;
     }
     await callMutationJson('/api/hall/tasks/' + encodeURIComponent(selectedTaskId) + '/stop', {
@@ -2372,7 +2372,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   const archiveCurrentThread = async () => {
     syncSelectedTaskRefs();
     if (!selectedTaskId || !selectedTaskCardId) {
-      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先选中一个任务线程。"))});
+      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先選中一個任務執行緒。"))});
       return;
     }
     if (!window.confirm(textArchiveConfirm)) return;
@@ -2398,7 +2398,7 @@ export function renderCollaborationHallClientScript(language: UiLanguage): strin
   const deleteCurrentThread = async () => {
     syncSelectedTaskRefs();
     if (!selectedTaskId || !selectedTaskCardId) {
-      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先选中一个任务线程。"))});
+      setFlash(${JSON.stringify(pickUiText(language, "Select a task thread first.", "先選中一個任務執行緒。"))});
       return;
     }
     if (!window.confirm(textDeleteConfirm)) return;
@@ -2762,7 +2762,7 @@ function renderTaskCards(
   language: UiLanguage,
 ): string {
   if (taskCards.length === 0) {
-    return `<div class="hall-empty hall-empty--sidebar"><strong>${escapeHtml(pickUiText(language, "No threads yet", "还没有线程"))}</strong><span>${escapeHtml(pickUiText(language, "Post the first task in the hall and it will appear here like a chat thread.", "先在大厅里发出第一个任务，它会像群聊线程一样出现在这里。"))}</span></div>`;
+    return `<div class="hall-empty hall-empty--sidebar"><strong>${escapeHtml(pickUiText(language, "No threads yet", "還沒有執行緒"))}</strong><span>${escapeHtml(pickUiText(language, "Post the first task in the hall and it will appear here like a chat thread.", "先在大廳裡發出第一個任務，它會像群聊執行緒一樣出現在這裡。"))}</span></div>`;
   }
   return taskCards
     .map((item) => {
@@ -2800,12 +2800,12 @@ function renderHallMessages(messages: HallMessage[], language: UiLanguage): stri
   if (messages.length === 0) {
     return `<div class="hall-empty hall-empty--chat">
       <div class="hall-empty-hero">${renderHallPixelAvatar("Collaboration Hall", "hall-empty-avatar")}</div>
-      <strong>${escapeHtml(pickUiText(language, "The hall is quiet", "大厅现在很安静"))}</strong>
-      <span>${escapeHtml(pickUiText(language, "Start with one task, or @ a real agent by name. Discussion, execution, and review will all show up here.", "从一个任务开始，或者直接 @ 一个真实 agent。讨论、执行和审核都会继续写回这里。"))}</span>
+      <strong>${escapeHtml(pickUiText(language, "The hall is quiet", "大廳現在很安靜"))}</strong>
+      <span>${escapeHtml(pickUiText(language, "Start with one task, or @ a real agent by name. Discussion, execution, and review will all show up here.", "從一個任務開始，或者直接 @ 一個真實 agent。討論、執行和稽核都會繼續寫回這裡。"))}</span>
       <div class="hall-empty-actions">
-        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请帮我拆一下这个任务，先讨论方案，再指定执行者。') : false">${escapeHtml(pickUiText(language, "Draft a first task", "起草第一个任务"))}</button>
-        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请先评估实现路径。') : false">${escapeHtml(pickUiText(language, "Ask for an implementation take", "先评估实现路径"))}</button>
-        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请先收口并指定执行者。') : false">${escapeHtml(pickUiText(language, "Ask for a close and owner", "先收口并指定执行者"))}</button>
+        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请帮我拆一下这个任务，先讨论方案，再指定执行者。') : false">${escapeHtml(pickUiText(language, "Draft a first task", "起草第一個任務"))}</button>
+        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请先评估实现路径。') : false">${escapeHtml(pickUiText(language, "Ask for an implementation take", "先評估實現路徑"))}</button>
+        <button type="button" class="hall-empty-action" onclick="return window.__openclawHallSetComposerValue ? window.__openclawHallSetComposerValue('请先收口并指定执行者。') : false">${escapeHtml(pickUiText(language, "Ask for a close and owner", "先收口並指定執行者"))}</button>
       </div>
     </div>`;
   }
@@ -2942,10 +2942,10 @@ function describeHallDecisionCardState(
   if (hasPendingStartablePlan) {
     return {
       hasPendingStartablePlan,
-      stageText: pickUiText(language, "Ready to start", "待开始"),
-      ownerHeading: pickUiText(language, "Suggested first owner", "建议第一位执行者"),
+      stageText: pickUiText(language, "Ready to start", "待開始"),
+      ownerHeading: pickUiText(language, "Suggested first owner", "建議第一位執行者"),
       ownerLabel: participantLabel(firstPlannedHallOwnerId(taskCard) || ""),
-      stepHeading: pickUiText(language, "Suggested first step", "建议第一步"),
+      stepHeading: pickUiText(language, "Suggested first step", "建議第一步"),
       stepText: String(firstPlannedHallExecutionItem(taskCard)?.task || "").trim(),
     };
   }
@@ -2953,9 +2953,9 @@ function describeHallDecisionCardState(
   return {
     hasPendingStartablePlan,
     stageText: stageLabel(taskCard.stage, language),
-    ownerHeading: pickUiText(language, "Current owner", "当前 OWNER"),
+    ownerHeading: pickUiText(language, "Current owner", "當前 OWNER"),
     ownerLabel: taskCard.currentOwnerLabel || (currentOwnerId ? participantLabel(currentOwnerId) : ""),
-    stepHeading: pickUiText(language, "Current step", "当前步骤"),
+    stepHeading: pickUiText(language, "Current step", "當前步驟"),
     stepText: String(taskCard.currentExecutionItem?.task || "").trim(),
   };
 }
@@ -2968,7 +2968,7 @@ function renderHallDetail(
   language: UiLanguage,
 ): string {
   if (!selectedTaskCard) {
-    return `<div class="hall-empty">${escapeHtml(pickUiText(language, "Select a task card to inspect ownership, decision, and evidence.", "选中一张任务卡后，这里会显示 owner、决策和证据信息。"))}</div>`;
+    return `<div class="hall-empty">${escapeHtml(pickUiText(language, "Select a task card to inspect ownership, decision, and evidence.", "選中一張任務卡後，這裡會顯示 owner、決策和證據資訊。"))}</div>`;
   }
   const participantMap = new Map(participants.map((participant) => [participant.participantId, participant.displayName]));
   const decisionState = describeHallDecisionCardState(selectedTaskCard, participants, language);
@@ -2981,38 +2981,38 @@ function renderHallDetail(
   const taskArtifacts = selectedTask?.artifacts ?? [];
   const detailPrimaryLabel = decisionState.ownerLabel
     ? (language === "zh"
-      ? `${pickUiText(language, "Start execution with", "开始执行（")}${decisionState.ownerLabel}${pickUiText(language, ")", "）")}`
-      : `${pickUiText(language, "Start execution", "开始执行当前计划")} · ${decisionState.ownerLabel}`)
+      ? `${pickUiText(language, "Start execution with", "開始執行（")}${decisionState.ownerLabel}${pickUiText(language, ")", "）")}`
+      : `${pickUiText(language, "Start execution", "開始執行當前計劃")} · ${decisionState.ownerLabel}`)
     : "";
   return `
     <div class="hall-detail-list">
       <div class="hall-detail-group">
-        <h4>${escapeHtml(pickUiText(language, "Execution plan", "执行计划"))}</h4>
+        <h4>${escapeHtml(pickUiText(language, "Execution plan", "執行計劃"))}</h4>
         <div class="hall-detail-meta"><span class="hall-stage-pill">${escapeHtml(decisionState.stageText)}</span> <span class="hall-stage-pill">${escapeHtml(selectedTaskCard.status)}</span></div>
         <div class="hall-detail-meta" style="margin-top:8px;">${escapeHtml(decisionState.ownerHeading)}: ${escapeHtml(decisionState.ownerLabel || pickUiText(language, "Unassigned", "未指派"))}</div>
         <div class="hall-detail-meta">${escapeHtml(decisionState.stepHeading)}: ${escapeHtml(currentExecutionTask)}</div>
-        <div class="hall-detail-meta">${escapeHtml(pickUiText(language, "Queued owners", "后续顺序"))}: ${escapeHtml(queueLabels || "-")}</div>
-        <div class="hall-detail-meta">${escapeHtml(decisionState.hasPendingStartablePlan ? pickUiText(language, "Next action", "下一步") : pickUiText(language, "Execution feed", "执行日志"))}: ${escapeHtml(decisionState.hasPendingStartablePlan ? (firstPlannedHallOwnerId(selectedTaskCard) ? pickUiText(language, "Click start execution to let the first owner begin. Progress, results, and handoffs will continue in the hall timeline.", "点击“开始执行”后，第一位执行者会正式开始；过程、结果和交接会持续写回大厅时间线。") : pickUiText(language, "Plan the execution order first. Then you can start the first owner from the same card.", "先安排执行顺序，再从同一张卡里开始执行第一位。")) : pickUiText(language, "Stay in this thread to watch status updates, results, handoffs, and review.", "留在这条线程里就能持续看到状态、结果、交接和审核。"))}</div>
+        <div class="hall-detail-meta">${escapeHtml(pickUiText(language, "Queued owners", "後續順序"))}: ${escapeHtml(queueLabels || "-")}</div>
+        <div class="hall-detail-meta">${escapeHtml(decisionState.hasPendingStartablePlan ? pickUiText(language, "Next action", "下一步") : pickUiText(language, "Execution feed", "執行日誌"))}: ${escapeHtml(decisionState.hasPendingStartablePlan ? (firstPlannedHallOwnerId(selectedTaskCard) ? pickUiText(language, "Click start execution to let the first owner begin. Progress, results, and handoffs will continue in the hall timeline.", "點選“開始執行”後，第一位執行者會正式開始；過程、結果和交接會持續寫回大廳時間線。") : pickUiText(language, "Plan the execution order first. Then you can start the first owner from the same card.", "先安排執行順序，再從同一張卡里開始執行第一位。")) : pickUiText(language, "Stay in this thread to watch status updates, results, handoffs, and review.", "留在這條執行緒裡就能持續看到狀態、結果、交接和稽核。"))}</div>
         <div class="hall-detail-actions hall-decision-actions">
           ${showPrimaryAction ? `<button type="button" class="hall-button" data-hall-start-execution onclick="return window.__openclawHallAssignOwner ? window.__openclawHallAssignOwner() : false">${escapeHtml(detailPrimaryLabel)}</button>` : ""}
           <button type="button" class="hall-secondary-button hall-secondary-button--accent" data-hall-plan-order onclick="return window.__openclawHallSetExecutionOrder ? window.__openclawHallSetExecutionOrder() : false">${escapeHtml(pickUiText(language, selectedTaskCard.stage === "discussion" ? "Plan execution order" : "Adjust execution order", selectedTaskCard.stage === "discussion" ? "安排后续顺序" : "调整执行顺序"))}</button>
-          <button type="button" class="hall-secondary-button" data-hall-continue-discussion onclick="return window.__openclawHallContinueDiscussion ? window.__openclawHallContinueDiscussion() : false">${escapeHtml(pickUiText(language, "Continue discussion", "继续讨论"))}</button>
+          <button type="button" class="hall-secondary-button" data-hall-continue-discussion onclick="return window.__openclawHallContinueDiscussion ? window.__openclawHallContinueDiscussion() : false">${escapeHtml(pickUiText(language, "Continue discussion", "繼續討論"))}</button>
         </div>
       </div>
       <div class="hall-detail-group">
-        <h4>${escapeHtml(pickUiText(language, "Linked evidence", "关联证据"))}</h4>
-        <div class="hall-detail-meta">${escapeHtml(pickUiText(language, "Task", "任务"))}: ${escapeHtml(selectedTask ? `${selectedTask.projectId}:${selectedTask.taskId}` : `${selectedTaskCard.projectId}:${selectedTaskCard.taskId}`)}</div>
-        <div class="hall-detail-meta">${escapeHtml(pickUiText(language, "Room", "详情线程"))}: ${escapeHtml(selectedTaskCard.roomId ?? "-")}</div>
-        ${selectedTaskCard.roomId ? `<div class="hall-detail-meta" style="margin-top:8px;"><a class="hall-thread-link" href="?section=collaboration&roomId=${encodeURIComponent(selectedTaskCard.roomId)}">${escapeHtml(pickUiText(language, "Open detail thread", "打开详情线程"))}</a></div>` : ""}
+        <h4>${escapeHtml(pickUiText(language, "Linked evidence", "關聯證據"))}</h4>
+        <div class="hall-detail-meta">${escapeHtml(pickUiText(language, "Task", "任務"))}: ${escapeHtml(selectedTask ? `${selectedTask.projectId}:${selectedTask.taskId}` : `${selectedTaskCard.projectId}:${selectedTaskCard.taskId}`)}</div>
+        <div class="hall-detail-meta">${escapeHtml(pickUiText(language, "Room", "詳情執行緒"))}: ${escapeHtml(selectedTaskCard.roomId ?? "-")}</div>
+        ${selectedTaskCard.roomId ? `<div class="hall-detail-meta" style="margin-top:8px;"><a class="hall-thread-link" href="?section=collaboration&roomId=${encodeURIComponent(selectedTaskCard.roomId)}">${escapeHtml(pickUiText(language, "Open detail thread", "開啟詳情執行緒"))}</a></div>` : ""}
       </div>
       <div class="hall-detail-group">
-        <h4>${escapeHtml(pickUiText(language, "Artifacts", "产物"))}</h4>
+        <h4>${escapeHtml(pickUiText(language, "Artifacts", "產物"))}</h4>
         ${taskArtifacts.length > 0
           ? `<div class="hall-artifact-list">${renderArtifactChips(taskArtifacts)}</div>`
-          : `<div class="hall-detail-meta">${escapeHtml(pickUiText(language, "No artifacts yet.", "还没有产物。"))}</div>`}
+          : `<div class="hall-detail-meta">${escapeHtml(pickUiText(language, "No artifacts yet.", "還沒有產物。"))}</div>`}
       </div>
       <div class="hall-detail-group">
-        <h4>${escapeHtml(pickUiText(language, "Participants", "参与者"))}</h4>
+        <h4>${escapeHtml(pickUiText(language, "Participants", "參與者"))}</h4>
         <div class="hall-detail-meta">${escapeHtml(participantNames)}</div>
       </div>
     </div>
@@ -3061,7 +3061,7 @@ function renderInitialDecisionPanel(
   const showPrimaryAction = decisionState.hasPendingStartablePlan && Boolean(decisionState.ownerLabel);
   const primaryButtonLabel = decisionState.ownerLabel
     ? (language === "zh"
-      ? `${pickUiText(language, "Start execution with", "开始执行（")}${decisionState.ownerLabel}${pickUiText(language, ")", "）")}`
+      ? `${pickUiText(language, "Start execution with", "開始執行（")}${decisionState.ownerLabel}${pickUiText(language, ")", "）")}`
       : `${pickUiText(language, "Start execution", "Start execution")} · ${decisionState.ownerLabel}`)
     : "";
   const orderButtonLabel = pickUiText(
@@ -3070,19 +3070,19 @@ function renderInitialDecisionPanel(
     selectedTaskCard.stage === "discussion" ? "安排后续顺序" : "调整执行顺序",
   );
   const summaryStats = [
-    `${pickUiText(language, "Stage", "阶段")}：${decisionState.stageText}`,
+    `${pickUiText(language, "Stage", "階段")}：${decisionState.stageText}`,
     decisionState.ownerLabel ? `${decisionState.ownerHeading}：${decisionState.ownerLabel}` : "",
     decisionState.stepText ? `${decisionState.stepHeading}：${decisionState.stepText}` : "",
   ].filter(Boolean);
   const actionItemMarkup = actionItems.length > 0
-    ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Action items", "行动项"))}</strong><span>${
+    ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Action items", "行動項"))}</strong><span>${
         actionItems.map((item, index) => {
           const nextParticipantLabel = item.handoffToParticipantId ? participantLabel(item.handoffToParticipantId) : "";
           const lines = [
-            `${index + 1}. ${participantLabel(item.participantId)}：${item.task || pickUiText(language, "Continue this execution step", "继续这一执行步骤")}`,
+            `${index + 1}. ${participantLabel(item.participantId)}：${item.task || pickUiText(language, "Continue this execution step", "繼續這一執行步驟")}`,
           ];
-          if (nextParticipantLabel) lines.push(`${pickUiText(language, "Then hand off to", "然后交给")} @${nextParticipantLabel}`);
-          if (item.handoffWhen) lines.push(`${pickUiText(language, "When", "交接条件")}：${item.handoffWhen}`);
+          if (nextParticipantLabel) lines.push(`${pickUiText(language, "Then hand off to", "然後交給")} @${nextParticipantLabel}`);
+          if (item.handoffWhen) lines.push(`${pickUiText(language, "When", "交接條件")}：${item.handoffWhen}`);
           return escapeHtml(lines.join(" · "));
         }).join("<br/>")
       }</span></div>`
@@ -3091,10 +3091,10 @@ function renderInitialDecisionPanel(
           `<section class="hall-decision-card ${isExpanded ? "is-expanded" : "is-collapsed"}" data-hall-current-console="initial">` +
             `<div class="hall-decision-top">` +
               `<div class="hall-decision-copy">` +
-                `<div class="hall-decision-label">${escapeHtml(pickUiText(language, "Discussion result", "讨论结论"))}</div>` +
+                `<div class="hall-decision-label">${escapeHtml(pickUiText(language, "Discussion result", "討論結論"))}</div>` +
                 `<div class="hall-decision-title-row">` +
                   `<div class="hall-decision-inline-summary" title="${escapeHtml(compactSummaryText || selectedTaskCard.title || "")}">${escapeHtml(compactSummaryText || selectedTaskCard.title || "")}</div>` +
-                  `<button type="button" class="hall-secondary-button hall-secondary-button--compact hall-decision-toggle" onclick="return window.__openclawHallToggleDecisionDetails ? window.__openclawHallToggleDecisionDetails() : false">${escapeHtml(isExpanded ? pickUiText(language, "Hide details", "收起详情") : pickUiText(language, "Show details", "展开详情"))}</button>` +
+                  `<button type="button" class="hall-secondary-button hall-secondary-button--compact hall-decision-toggle" onclick="return window.__openclawHallToggleDecisionDetails ? window.__openclawHallToggleDecisionDetails() : false">${escapeHtml(isExpanded ? pickUiText(language, "Hide details", "收起詳情") : pickUiText(language, "Show details", "展開詳情"))}</button>` +
                 `</div>` +
                 (summaryStats.length > 0
                   ? `<div class="hall-decision-summary hall-decision-summary--compact">${summaryStats
@@ -3105,24 +3105,24 @@ function renderInitialDecisionPanel(
             `</div>` +
             (isExpanded ? (
               `<div class="hall-decision-body">` +
-                `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Thread", "线程"))}</strong><span title="${escapeHtml(selectedTaskCard.title || "")}">${escapeHtml(selectedTaskCard.title || "-")}</span></div>` +
-                (selectedTaskCard.decision ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Decision", "决策"))}</strong><span title="${escapeHtml(selectedTaskCard.decision)}">${escapeHtml(selectedTaskCard.decision)}</span></div>` : "") +
-                (selectedTaskCard.doneWhen ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Done when", "完成标准"))}</strong><span title="${escapeHtml(selectedTaskCard.doneWhen)}">${escapeHtml(selectedTaskCard.doneWhen)}</span></div>` : "") +
-                (queueLabels.length > 0 ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Execution order", "执行顺序"))}</strong><span>${escapeHtml(queueLabels.join(" → "))}</span></div>` : "") +
+                `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Thread", "執行緒"))}</strong><span title="${escapeHtml(selectedTaskCard.title || "")}">${escapeHtml(selectedTaskCard.title || "-")}</span></div>` +
+                (selectedTaskCard.decision ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Decision", "決策"))}</strong><span title="${escapeHtml(selectedTaskCard.decision)}">${escapeHtml(selectedTaskCard.decision)}</span></div>` : "") +
+                (selectedTaskCard.doneWhen ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Done when", "完成標準"))}</strong><span title="${escapeHtml(selectedTaskCard.doneWhen)}">${escapeHtml(selectedTaskCard.doneWhen)}</span></div>` : "") +
+                (queueLabels.length > 0 ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Execution order", "執行順序"))}</strong><span>${escapeHtml(queueLabels.join(" → "))}</span></div>` : "") +
                 actionItemMarkup +
-                (taskArtifacts.length > 0 ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Artifacts", "产物"))}</strong><div class="hall-artifact-list">${renderArtifactChips(taskArtifacts)}</div></div>` : "") +
+                (taskArtifacts.length > 0 ? `<div class="hall-decision-row"><strong>${escapeHtml(pickUiText(language, "Artifacts", "產物"))}</strong><div class="hall-artifact-list">${renderArtifactChips(taskArtifacts)}</div></div>` : "") +
               `</div>`
             ) : "") +
             `<div class="hall-decision-actions">` +
               (showPrimaryAction ? `<button type="button" class="hall-button" data-hall-start-execution onclick="return window.__openclawHallAssignOwner ? window.__openclawHallAssignOwner() : false">${escapeHtml(primaryButtonLabel)}</button>` : "") +
               `<button type="button" class="hall-secondary-button hall-secondary-button--accent" data-hall-plan-order onclick="return window.__openclawHallSetExecutionOrder ? window.__openclawHallSetExecutionOrder() : false">${escapeHtml(orderButtonLabel)}</button>` +
-              `<button type="button" class="hall-secondary-button" data-hall-continue-discussion onclick="return window.__openclawHallContinueDiscussion ? window.__openclawHallContinueDiscussion() : false">${escapeHtml(pickUiText(language, "Continue discussion", "继续讨论"))}</button>` +
+              `<button type="button" class="hall-secondary-button" data-hall-continue-discussion onclick="return window.__openclawHallContinueDiscussion ? window.__openclawHallContinueDiscussion() : false">${escapeHtml(pickUiText(language, "Continue discussion", "繼續討論"))}</button>` +
             `</div>` +
             `<div class="hall-decision-helper">${escapeHtml(decisionState.hasPendingStartablePlan
               ? (decisionState.ownerLabel
-                ? pickUiText(language, "Order first, then start. Handoffs stay in this thread.", "先排顺序，再开始执行。交接会继续写回这条线程。")
-                : pickUiText(language, "Plan the order first, then start the first owner here.", "先安排顺序，再从这里开始第一位。"))
-              : pickUiText(language, "Stay in this thread for updates, handoffs, and review.", "留在这条线程里看更新、交接和审核。"))}</div>` +
+                ? pickUiText(language, "Order first, then start. Handoffs stay in this thread.", "先排順序，再開始執行。交接會繼續寫回這條執行緒。")
+                : pickUiText(language, "Plan the order first, then start the first owner here.", "先安排順序，再從這裡開始第一位。"))
+              : pickUiText(language, "Stay in this thread for updates, handoffs, and review.", "留在這條執行緒裡看更新、交接和稽核。"))}</div>` +
           `</section>`
   );
 }
@@ -3167,30 +3167,30 @@ function renderParticipantRoster(participants: HallParticipant[], language: UiLa
 
 
 function stageLabel(stage: HallTaskCard["stage"], language: UiLanguage): string {
-  if (stage === "discussion") return pickUiText(language, "Discussion", "讨论中");
-  if (stage === "execution") return pickUiText(language, "Execution", "执行中");
-  if (stage === "review") return pickUiText(language, "Review", "审核中");
+  if (stage === "discussion") return pickUiText(language, "Discussion", "討論中");
+  if (stage === "execution") return pickUiText(language, "Execution", "執行中");
+  if (stage === "review") return pickUiText(language, "Review", "稽核中");
   if (stage === "blocked") return pickUiText(language, "Blocked", "卡住");
   return pickUiText(language, "Completed", "已完成");
 }
 
 function messageKindLabel(kind: HallMessage["kind"], language: UiLanguage): string {
-  if (kind === "task") return pickUiText(language, "Task", "任务");
+  if (kind === "task") return pickUiText(language, "Task", "任務");
   if (kind === "proposal") return pickUiText(language, "Proposal", "方案");
-  if (kind === "decision") return pickUiText(language, "Decision", "决策");
+  if (kind === "decision") return pickUiText(language, "Decision", "決策");
   if (kind === "handoff") return pickUiText(language, "Handoff", "交接");
-  if (kind === "status") return pickUiText(language, "Status", "状态");
-  if (kind === "review") return pickUiText(language, "Review", "审核");
-  if (kind === "result") return pickUiText(language, "Result", "结果");
-  if (kind === "system") return pickUiText(language, "System", "系统");
-  return pickUiText(language, "Chat", "对话");
+  if (kind === "status") return pickUiText(language, "Status", "狀態");
+  if (kind === "review") return pickUiText(language, "Review", "稽核");
+  if (kind === "result") return pickUiText(language, "Result", "結果");
+  if (kind === "system") return pickUiText(language, "System", "系統");
+  return pickUiText(language, "Chat", "對話");
 }
 
 function roleLabel(role: HallParticipant["semanticRole"], language: UiLanguage): string {
-  if (role === "planner") return pickUiText(language, "Planner", "策划");
-  if (role === "coder") return pickUiText(language, "Coder", "执行");
-  if (role === "reviewer") return pickUiText(language, "Reviewer", "审核");
-  if (role === "manager") return pickUiText(language, "Manager", "经理");
+  if (role === "planner") return pickUiText(language, "Planner", "策劃");
+  if (role === "coder") return pickUiText(language, "Coder", "執行");
+  if (role === "reviewer") return pickUiText(language, "Reviewer", "稽核");
+  if (role === "manager") return pickUiText(language, "Manager", "經理");
   return pickUiText(language, "Generalist", "通用");
 }
 
@@ -3200,13 +3200,13 @@ function pickUiText(language: UiLanguage, en: string, zh: string): string {
 
 function hallHeadlineText(headline: string | null | undefined, language: UiLanguage, hasSelectedTask = false): string {
   if (hasSelectedTask) {
-    return pickUiText(language, "Stay in one thread to discuss, assign, hand off, and review.", "围绕同一条线程讨论、分工、交接和评审。");
+    return pickUiText(language, "Stay in one thread to discuss, assign, hand off, and review.", "圍繞同一條執行緒討論、分工、交接和評審。");
   }
   const normalized = String(headline || "").trim();
   if (!normalized || normalized === "The hall is ready for the next request.") {
-    return pickUiText(language, "Start a task or @ a real agent to begin.", "从一个任务开始，或者直接 @ 一个真实 agent。");
+    return pickUiText(language, "Start a task or @ a real agent to begin.", "從一個任務開始，或者直接 @ 一個真實 agent。");
   }
-  return pickUiText(language, "Start a task or @ a real agent to begin.", "从一个任务开始，或者直接 @ 一个真实 agent。");
+  return pickUiText(language, "Start a task or @ a real agent to begin.", "從一個任務開始，或者直接 @ 一個真實 agent。");
 }
 
 function initialsForName(value: string): string {

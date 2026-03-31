@@ -16123,14 +16123,14 @@ function renderAvatarEditorScript(language: UiLanguage = "zh", importMutationEna
     delete: pickUiText(language, "Delete", "刪除"),
     recrop: pickUiText(language, "Edit", "編輯"),
     loading: pickUiText(language, "Loading…", "載入中…"),
-    emptyUploads: pickUiText(language, "No uploaded avatars yet.", "还没有上傳頭像。"),
+    emptyUploads: pickUiText(language, "No uploaded avatars yet.", "還沒有上傳頭像。"),
     chooseFile: pickUiText(language, "Choose file", "選擇檔案"),
     saving: pickUiText(language, "Saving…", "儲存中…"),
     save: pickUiText(language, "Save", "儲存"),
     saveOk: pickUiText(language, "Saved successfully", "儲存成功"),
     failed: pickUiText(language, "Operation failed.", "操作失敗。"),
     needToken: pickUiText(language, "This action requires LOCAL_API_TOKEN.", "此操作需要 LOCAL_API_TOKEN。"),
-    tokenPrompt: pickUiText(language, "Enter LOCAL_API_TOKEN to save avatar changes.", "请输入 LOCAL_API_TOKEN 以儲存头像改动。"),
+    tokenPrompt: pickUiText(language, "Enter LOCAL_API_TOKEN to save avatar changes.", "請輸入 LOCAL_API_TOKEN 以儲存頭像改動。"),
     tokenRetryPrompt: pickUiText(language, "The local token was rejected. Enter LOCAL_API_TOKEN again to retry.", "本機令牌驗證失敗，請重新輸入 LOCAL_API_TOKEN 以重試。"),
   };
   const animalLabels: Record<string, string> = {
