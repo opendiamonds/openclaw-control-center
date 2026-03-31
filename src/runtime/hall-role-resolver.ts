@@ -64,10 +64,10 @@ export function pickPrimaryParticipantByRole(
 
 export function resolveSemanticRoleLabel(role: HallSemanticRole, language: "en" | "zh" = "en"): string {
   if (language === "zh") {
-    if (role === "planner") return "策划";
-    if (role === "coder") return "执行";
-    if (role === "reviewer") return "审核";
-    if (role === "manager") return "经理";
+    if (role === "planner") return "策劃";
+    if (role === "coder") return "執行";
+    if (role === "reviewer") return "稽核";
+    if (role === "manager") return "經理";
     return "通用";
   }
   if (role === "planner") return "Planner";
