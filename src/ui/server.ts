@@ -1429,13 +1429,11 @@ export function startUiServer(port: number, toolClient: ToolClient, options: Sta
       }
 
       if ((method === "GET" || method === "HEAD") && path.startsWith("/avatars/")) {
-        assertAllowedQueryParams(url.searchParams, [], true);
         const fileName = decodeURIComponent(path.slice("/avatars/".length));
         return await serveAvatarFile(res, fileName, method === "HEAD");
       }
 
       if ((method === "GET" || method === "HEAD") && path.startsWith("/hall-avatars/")) {
-        assertAllowedQueryParams(url.searchParams, [], true);
         const fileName = decodeURIComponent(path.slice("/hall-avatars/".length));
         return await serveHallAvatarFile(res, fileName, method === "HEAD");
       }
